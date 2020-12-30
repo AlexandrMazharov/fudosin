@@ -13,23 +13,23 @@ public class TrainingGroup {
 
     // домен. группа имеет домен
     @ManyToOne
-    @JoinColumn(name = "domen")
-    private DomenDictionary domen;
+    @JoinColumn
+    private Domain domain;
 
     // создаем таблицу многие ко многим
     // инструктор может вести много групп и у группы может быть много инструкторов
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "groupInstructors",
-            joinColumns = @JoinColumn(name = "TrainingGroupId"),
-            inverseJoinColumns = @JoinColumn(name = "personId"))
+    @JoinTable(name = "group_instructors",
+            joinColumns = @JoinColumn(name = "training_group_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id"))
     private Set<Person> instructors;
 
     // создаем таблицу многие ко многим
     // студент может состоять в  многих группах и группа состоит из многих студентов
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "groupStudents",
-            joinColumns = @JoinColumn(name = "TrainingGroupId"),
-            inverseJoinColumns = @JoinColumn(name = "studentsId"))
+    @JoinTable(name = "group_students",
+            joinColumns = @JoinColumn(name = "training_group_id"),
+            inverseJoinColumns = @JoinColumn(name = "students_id"))
     private Set<Person> students;
 
     // сейчас вот это надо сделать
@@ -65,12 +65,12 @@ public class TrainingGroup {
     public TrainingGroup() {
     }
 
-    public DomenDictionary getDomen() {
-        return domen;
+    public Domain getDomain() {
+        return domain;
     }
 
-    public void setDomen(DomenDictionary domen) {
-        this.domen = domen;
+    public void setDomain(Domain domen) {
+        this.domain = domen;
     }
 
     public Long getId() {
