@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table
+//@MappedSuperclass
 public class Person {
 
     @Id
@@ -20,13 +21,9 @@ public class Person {
     private String email;
     private String telephone;
 
-
-// у родителя может быть много детей
-//    @OneToMany
-//    private Set<Person> children;
-//    @ManyToOne
-//    @JoinColumn
-//    private Person parent;
+    @ManyToOne
+    @JoinColumn
+    private Person parent;
 
     public Person() {
     }
