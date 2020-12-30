@@ -7,7 +7,6 @@ import java.util.Set;
 @Entity
 @Table
 public class Domain {
-    // домен. карате айкидо, джиуджуцу
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,7 +15,13 @@ public class Domain {
 
     @OneToMany(mappedBy = "domain", fetch = FetchType.EAGER)
     private Set<TrainingGroup> domain;
-// OneToMany к материалам
+
+    @ManyToMany
+    @JoinTable(name = "content_domain",
+            joinColumns = @JoinColumn(name = "domain_id"),
+            inverseJoinColumns = @JoinColumn(name = "content_id"))
+    private Set<Content> contents;
+
     public Domain() {
     }
 

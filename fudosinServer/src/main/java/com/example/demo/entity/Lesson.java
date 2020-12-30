@@ -22,7 +22,7 @@ public class Lesson {
     @JoinColumn(name = "group_id")
     private TrainingGroup trainingGroup;
 
-    @OneToMany
+    @OneToMany(mappedBy="lesson")
     private Set<Visit> visits;
 
     public Lesson() {
@@ -76,4 +76,5 @@ public class Lesson {
     public void setVisits(Set<Visit> visits) {
         this.visits = visits;
     }
+
 }

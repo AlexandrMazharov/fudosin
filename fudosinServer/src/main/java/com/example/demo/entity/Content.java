@@ -4,10 +4,9 @@ import javax.persistence.*;
 import java.io.File;
 import java.util.Set;
 
-@Table(name = "content")
+@Table
 @Entity
 public class Content {
-//    многие ко многим с группами
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +16,18 @@ public class Content {
     private String description;
     private File file;
 
+    @ManyToMany(mappedBy = "contents")
+    private Set<Domain> damains;
+
     public Content() {
+    }
+
+    public Set<Domain> getDamains() {
+        return damains;
+    }
+
+    public void setDamains(Set<Domain> damains) {
+        this.damains = damains;
     }
 
     public Long getId() {

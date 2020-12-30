@@ -30,7 +30,7 @@ public class Person {
 
     public Person() {
     }
-//
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -125,4 +125,5 @@ public class Person {
     public void setVisits(Set<Visit> visits) {
         this.visits = visits;
     }
+
 }

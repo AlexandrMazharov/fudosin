@@ -62,4 +62,5 @@ public class Visit {
     public void setPresent(boolean present) {
         isPresent = present;
     }
+
 }
