@@ -20,6 +20,9 @@ public class Person {
     private Date birthday;
     private String email;
     private String telephone;
+    private String username;
+    private String password;
+
 
     @ManyToOne
     @JoinColumn
@@ -42,6 +45,12 @@ public class Person {
 
     @OneToMany
     private Set<Visit> visits;
+
+    public Person(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -123,4 +132,27 @@ public class Person {
         this.visits = visits;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Person getParent() {
+        return parent;
+    }
+
+    public void setParent(Person parent) {
+        this.parent = parent;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
