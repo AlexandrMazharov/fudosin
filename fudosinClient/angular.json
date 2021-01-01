@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "fudosinClient"
+  "defaultProject": "fudosinClient",
+  "cli": {
+    "analytics": false
+  }
 }
