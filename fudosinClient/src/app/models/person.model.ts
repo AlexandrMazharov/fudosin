@@ -1,4 +1,4 @@
-import {Role} from "./Role";
+import {Role} from "./role.model";
 
 export class Person {
   private _id: number | undefined;
