@@ -16,8 +16,6 @@ public class Visit {
     private boolean isPresent;
     private String paymentStatus;
 
-
-
     public Visit() {
     }
 
