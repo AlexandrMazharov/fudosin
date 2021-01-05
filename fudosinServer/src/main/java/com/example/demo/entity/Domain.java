@@ -16,12 +16,6 @@ public class Domain {
     @OneToMany(mappedBy = "domain", fetch = FetchType.EAGER)
     private Set<TrainingGroup> domain;
 
-    @ManyToMany
-    @JoinTable(name = "content_domain",
-            joinColumns = @JoinColumn(name = "domain_id"),
-            inverseJoinColumns = @JoinColumn(name = "content_id"))
-    private Set<Content> contents;
-
     public Domain() {
     }
 

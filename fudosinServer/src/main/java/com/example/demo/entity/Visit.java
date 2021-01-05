@@ -11,27 +11,14 @@ public class Visit {
 
     @ManyToOne
     @JoinColumn
-    private Person student;
-
-    @ManyToOne
-    @JoinColumn
     private Lesson lesson;
 
-    private boolean isPayed;
     private boolean isPresent;
     private String paymentStatus;
 
 
 
     public Visit() {
-    }
-
-    public Person getStudent() {
-        return student;
-    }
-
-    public void setStudent(Person student) {
-        this.student = student;
     }
 
     public Lesson getLesson() {
@@ -48,14 +35,6 @@ public class Visit {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean isPayed() {
-        return isPayed;
-    }
-
-    public void setPayed(boolean payed) {
-        isPayed = payed;
     }
 
     public boolean isPresent() {
