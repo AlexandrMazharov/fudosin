@@ -19,6 +19,9 @@ public class Visit {
 
     private boolean isPayed;
     private boolean isPresent;
+    private String paymentStatus;
+
+
 
     public Visit() {
     }
@@ -63,4 +66,11 @@ public class Visit {
         isPresent = present;
     }
 
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 }
