@@ -23,12 +23,12 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Person getNoteById(@PathVariable(value = "id") Long carId) throws Throwable {
-        return personRepository.findById(carId)
-                .orElseThrow(() -> new ItemNotFoundException(carId));
+    public Person getNoteById(@PathVariable(value = "id") Long id) throws Throwable {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    @PutMapping("/cars/upd/{id}")
+    @PutMapping("/person/upd/{id}")
     public Person updateNote(@PathVariable(value = "id") Long personId,
                              @Valid
                              @RequestBody Person personDetails) throws Throwable {
@@ -58,10 +58,10 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteNote(@PathVariable(value = "id") Long carId) throws Throwable {
+    public ResponseEntity deleteNote(@PathVariable(value = "id") Long id) throws Throwable {
 
-        Person person = personRepository.findById(carId)
-                .orElseThrow(() -> new ItemNotFoundException(carId));
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(id));
 
         personRepository.delete(person);
         return ResponseEntity.ok().build();
