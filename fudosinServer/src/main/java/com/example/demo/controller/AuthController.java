@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.entity.ERole;
-import com.example.demo.entity.Person;
-import com.example.demo.entity.Role;
+import com.example.demo.models.ERole;
+import com.example.demo.models.Person;
+import com.example.demo.models.Role;
 import com.example.demo.repos.PersonRepository;
 import com.example.demo.repos.RoleRepository;
 import com.example.demo.security.JwtUtils;

@@ -1,13 +1,14 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+//@Entity
+//@Table
 @Entity
-@Table
-//@MappedSuperclass
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Person {
 
     @Id
@@ -24,9 +25,9 @@ public class Person {
     private String password;
 
 
-    @ManyToOne
-    @JoinColumn
-    private Person parent;
+//    @ManyToOne
+//    @JoinColumn
+//    private Person parent;
 
     public Person() {
     }
@@ -37,14 +38,14 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> userRoles;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<TrainingGroup> userGroup;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "user_group",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "group_id"))
+//    private Set<TrainingGroup> userGroup;
 
-    @OneToMany
-    private Set<Visit> visits;
+//    @OneToMany
+//    private Set<Visit> visits;
 
     public Person(String username, String email, String password) {
         this.username = username;
@@ -116,36 +117,12 @@ public class Person {
         this.userRoles = userRoles;
     }
 
-    public Set<TrainingGroup> getUserGroup() {
-        return userGroup;
-    }
-
-    public void setUserGroup(Set<TrainingGroup> userGroup) {
-        this.userGroup = userGroup;
-    }
-
-    public Set<Visit> getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Set<Visit> visits) {
-        this.visits = visits;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Person getParent() {
-        return parent;
-    }
-
-    public void setParent(Person parent) {
-        this.parent = parent;
     }
 
     public String getPassword() {

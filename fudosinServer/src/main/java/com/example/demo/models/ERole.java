@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 public enum ERole {
     ROLE_STUDENT,

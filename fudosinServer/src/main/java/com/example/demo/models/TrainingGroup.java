@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,17 +14,13 @@ public class TrainingGroup {
     @JoinColumn
     private Domain domain;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "group_instructors",
-            joinColumns = @JoinColumn(name = "training_group_id"),
-            inverseJoinColumns = @JoinColumn(name = "person_id"))
-    private Set<Person> instructors;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_students",
-            joinColumns = @JoinColumn(name = "training_group_id"),
+            joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "students_id"))
-    private Set<Person> students;
+    private Set<Student> students;
 
     @OneToMany(mappedBy = "trainingGroup")
     private Set<Lesson> lessons;
@@ -38,22 +34,6 @@ public class TrainingGroup {
 
     public void setLessons(Set<Lesson> lessons) {
         this.lessons = lessons;
-    }
-
-    public Set<Person> getInstructors() {
-        return instructors;
-    }
-
-    public void setInstructors(Set<Person> instructors) {
-        this.instructors = instructors;
-    }
-
-    public Set<Person> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Set<Person> students) {
-        this.students = students;
     }
 
     public Domain getDomain() {
@@ -72,4 +52,11 @@ public class TrainingGroup {
         this.id = id;
     }
 
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
 }
