@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@DiscriminatorValue("3")
 public class Instructor extends Person {
 
 

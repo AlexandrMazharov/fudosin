@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import com.example.demo.models.ERole;
 import com.example.demo.models.Person;
 import com.example.demo.models.Role;
+import com.example.demo.models.Student;
 import com.example.demo.repos.PersonRepository;
 import com.example.demo.repos.RoleRepository;
 import com.example.demo.security.JwtUtils;
@@ -85,7 +86,6 @@ public class AuthController {
         // Create new user's account
         System.out.println(signUpRequest.getUsername());
         Person user = new Person(
-
                 signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
@@ -101,20 +101,20 @@ public class AuthController {
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
+                    case "ROLE_ADMIN":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
                         break;
-                    case "par":
+                    case "ROLE_PARENT":
                         Role parRole = roleRepository.findByName(ERole.ROLE_PARENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(parRole);
 
                         break;
 
-                    case "instr":
+                    case "ROLE_INSTRUCTOR":
                         Role instrRole = roleRepository.findByName(ERole.ROLE_INSTRUCTOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(instrRole);

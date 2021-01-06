@@ -10,4 +10,5 @@ public class FudosinServerApplication {
         SpringApplication.run(FudosinServerApplication.class, args);
     }
 
+
 }

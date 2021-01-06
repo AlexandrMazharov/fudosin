@@ -1,7 +1,8 @@
-import {Role} from "./role.model";
+import {Role} from './role.model';
 
 export class Person {
   private _id: number | undefined;
+
   private _firstName: string | undefined;
   private _secondName: string | undefined;
   private _LastName: string | undefined;
@@ -10,11 +11,13 @@ export class Person {
   private _email: string | undefined;
   private _birthDay: Date | undefined;
   private _roles: Role[] | undefined;
-  private _userPassword: string;
+  private _password: string;
+  private _username: string;
 
 
   constructor() {
-    this._userPassword = "1234";
+    this._password = '1234';
+    this._username = 'username';
 
   }
 
@@ -91,11 +94,19 @@ export class Person {
     this._roles = value;
   }
 
-  get userPassword(): string {
-    return this._userPassword;
+  get password(): string {
+    return this._password;
   }
 
-  set userPassword(value: string) {
-    this._userPassword = value;
+  set password(value: string) {
+    this._password = value;
+  }
+
+  get username(): string {
+    return this._username;
+  }
+
+  set username(value: string) {
+    this._username = value;
   }
 }

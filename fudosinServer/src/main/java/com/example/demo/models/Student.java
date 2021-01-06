@@ -3,6 +3,7 @@ package com.example.demo.models;
 import javax.persistence.*;
 import java.util.Set;
 @Entity
+@DiscriminatorValue("1")
 public class Student extends Person {
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -16,6 +17,7 @@ public class Student extends Person {
 
     public Student() {
     }
+
 
     public Set<Visit> getVisits() {
         return visits;

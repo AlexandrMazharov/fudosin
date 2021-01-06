@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../service/auth/auth.service";
+import {Person} from "../../models/person.model";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.less']
+  selector: 'app-create-user',
+  templateUrl: './create-user.component.html',
+  styleUrls: ['./create-user.component.less']
 })
-export class RegisterComponent implements OnInit {
-
+export class CreateUserComponent implements OnInit {
 
   form: any = {};
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    this.authService.registerStudent(this.form).subscribe(
+    this.authService.register(this.form).subscribe(
       data => {
         console.log(data);
         this.isSuccessful = true;
@@ -32,5 +33,4 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
-
 }

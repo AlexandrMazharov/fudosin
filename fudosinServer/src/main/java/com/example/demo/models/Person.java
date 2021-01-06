@@ -9,6 +9,8 @@ import java.util.Set;
 //@Table
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="role_type",
+        discriminatorType = DiscriminatorType.INTEGER)
 public class Person {
 
     @Id
