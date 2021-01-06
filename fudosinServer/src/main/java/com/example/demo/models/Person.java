@@ -5,12 +5,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-//@Entity
-//@Table
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="role_type",
-        discriminatorType = DiscriminatorType.INTEGER)
+@Table
 public class Person {
 
     @Id
@@ -27,9 +23,21 @@ public class Person {
     private String password;
 
 
-//    @ManyToOne
-//    @JoinColumn
-//    private Person parent;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Student studentId;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Parent parentId;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Instructor instructorId;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Administrator administratorId;
 
     public Person() {
     }
@@ -39,15 +47,6 @@ public class Person {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> userRoles;
-
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "user_group",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "group_id"))
-//    private Set<TrainingGroup> userGroup;
-
-//    @OneToMany
-//    private Set<Visit> visits;
 
     public Person(String username, String email, String password) {
         this.username = username;
@@ -133,5 +132,37 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Student getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
+    }
+
+    public Parent getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Parent parentId) {
+        this.parentId = parentId;
+    }
+
+    public Instructor getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(Instructor instructorId) {
+        this.instructorId = instructorId;
+    }
+
+    public Administrator getAdministratorId() {
+        return administratorId;
+    }
+
+    public void setAdministratorId(Administrator administratorId) {
+        this.administratorId = administratorId;
     }
 }

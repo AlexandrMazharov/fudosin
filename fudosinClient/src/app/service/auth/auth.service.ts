@@ -48,7 +48,6 @@ export class AuthService {
     }
     if (user.roles.includes('ADMIN')) {
       r.push('ROLE_ADMIN');
-      r.push('ROLE_INSTRUCTOR');
     }
     return this.http.post(AUTH_API + 'signup', {
       username: user.username,

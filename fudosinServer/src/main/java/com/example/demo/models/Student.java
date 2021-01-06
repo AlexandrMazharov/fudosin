@@ -3,8 +3,16 @@ package com.example.demo.models;
 import javax.persistence.*;
 import java.util.Set;
 @Entity
-@DiscriminatorValue("1")
-public class Student extends Person {
+@Table
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn
+    private Person person;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_group",
@@ -18,6 +26,13 @@ public class Student extends Person {
     public Student() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Set<Visit> getVisits() {
         return visits;
@@ -33,5 +48,13 @@ public class Student extends Person {
 
     public void setUserGroup(Set<TrainingGroup> userGroup) {
         this.userGroup = userGroup;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
