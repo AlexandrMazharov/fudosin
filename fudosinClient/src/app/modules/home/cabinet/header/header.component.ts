@@ -38,7 +38,9 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(): void {
+    window.location.reload();
     this.tokenStorageService.signOut();
+
   }
 
   forgotPass(): void {
