@@ -7,11 +7,12 @@ import {TokenStorageService} from '../../../../service/token-storage/token-stora
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
+  public isLoggedIn = false;
   @Input() username: string | undefined;
-  private publicRoles: string | undefined = '';
+  public publicRoles: string | undefined = '';
 
   @Input()
-  set roles(roles: string) {
+  set roles(roles: string[]) {
     if (roles.length > 0) {
       this.publicRoles = '(';
       if (roles.includes('ROLE_STUDENT')) {
@@ -34,6 +35,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.tokenStorageService.getPerson()) {
+      this.isLoggedIn = true;
+    }
   }
 
   signOut(): void {
@@ -43,6 +47,6 @@ export class HeaderComponent implements OnInit {
   }
 
   forgotPass(): void {
-  //  go to the password reset page
+    //  go to the password reset page
   }
 }
