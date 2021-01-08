@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Person} from "../../models/person.model";
+import {Person} from '../../models/person.model';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -22,7 +22,7 @@ export class TokenStorageService {
   }
 
   public getToken(): any {
-    return sessionStorage.getItem(TOKEN_KEY)
+    return sessionStorage.getItem(TOKEN_KEY);
 
   }
 
@@ -32,7 +32,7 @@ export class TokenStorageService {
   }
 
   public getPerson(): any {
-    return JSON.parse(<string>sessionStorage.getItem(USER_KEY));
+    return JSON.parse(sessionStorage.getItem(USER_KEY) as string);
   }
 
 }
