@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class CabinetComponent implements OnInit {
 
-  private roles: string[];
+  public roles: string[];
   isLoggedIn = false;
 
   showStudentBoard = false;
@@ -18,7 +18,7 @@ export class CabinetComponent implements OnInit {
   showInstructorBoard = false;
   username: string | undefined;
 
-  constructor(private tokenStorageService: TokenStorageService) {
+  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
     this.roles = [];
   }
 
@@ -37,6 +37,10 @@ export class CabinetComponent implements OnInit {
       this.username = user.username;
       console.log(user);
     }
+    else {
+      this.router.navigate(['/login']);
+    }
   }
+
 
 }

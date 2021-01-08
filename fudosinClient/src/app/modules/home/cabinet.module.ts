@@ -10,6 +10,7 @@ import { CabinetLogoComponent } from './cabinet/cabinet-logo/cabinet-logo.compon
 import {RouterModule} from '@angular/router';
 
 
+
 @NgModule({
   declarations: [CabinetComponent, HeaderComponent, CabinetLogoComponent],
   imports: [

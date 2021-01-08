@@ -1,5 +1,4 @@
 <header class="header">
-
   <div class="header__nav">
     <app-logo></app-logo>
     <nav class="nav">
@@ -14,15 +13,10 @@
   <div class="header__main">
     <div class="entry-block">
       <div class="entry-block__title">
-        <p>Петров Василий</p>
-        <p>(ученик)</p>
-
+        <p>{{username}}</p>
+        <p>{{publicRoles}}</p>
       </div>
-      <app-secondary-btn [title]="'Выйти'"></app-secondary-btn>
-
+      <app-secondary-btn [title]="'Выйти'" (click)="signOut()"></app-secondary-btn>
     </div>
-    <app-cabinet-logo style="width: 100%"></app-cabinet-logo>
-
   </div>
-
 </header>
