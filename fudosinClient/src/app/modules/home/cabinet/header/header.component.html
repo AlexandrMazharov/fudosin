@@ -13,10 +13,14 @@
   <div class="header__main">
     <div class="entry-block">
       <div class="entry-block__title">
+
         <p>{{username}}</p>
         <p>{{publicRoles}}</p>
       </div>
-      <app-secondary-btn [title]="'Выйти'" (click)="signOut()"></app-secondary-btn>
+      <app-secondary-btn *ngIf="tokenStorageService.getPerson()" [title]="'Выйти'"
+                         (click)="signOut()"></app-secondary-btn>
+      <app-secondary-btn *ngIf="!tokenStorageService.getPerson()" [title]="'Забыли пароль?'"
+                         (click)="forgotPass()"></app-secondary-btn>
     </div>
   </div>
 </header>

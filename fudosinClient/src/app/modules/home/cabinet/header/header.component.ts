@@ -8,33 +8,40 @@ import {TokenStorageService} from '../../../../service/token-storage/token-stora
 })
 export class HeaderComponent implements OnInit {
   @Input() username: string | undefined;
-  private publicRoles: string | undefined = ' ( ';
+  private publicRoles: string | undefined = '';
 
   @Input()
   set roles(roles: string) {
-    if (roles.includes('ROLE_STUDENT')) {
-      this.publicRoles = this.publicRoles + 'Ученик ';
+    if (roles.length > 0) {
+      this.publicRoles = '(';
+      if (roles.includes('ROLE_STUDENT')) {
+        this.publicRoles = this.publicRoles + 'Ученик ';
+      }
+      if (roles.includes('ROLE_PARENT')) {
+        this.publicRoles = this.publicRoles + 'Родитель ';
+      }
+      if (roles.includes('ROLE_INSTRUCTOR')) {
+        this.publicRoles = this.publicRoles + 'Инструктор ';
+      }
+      if (roles.includes('ROLE_ADMIN')) {
+        this.publicRoles = this.publicRoles + 'Администратор ';
+      }
+      this.publicRoles = this.publicRoles + ') ';
     }
-    if (roles.includes('ROLE_PARENT')) {
-      this.publicRoles = this.publicRoles + 'Родитель ';
-    }
-    if (roles.includes('ROLE_INSTRUCTOR')) {
-      this.publicRoles = this.publicRoles + 'Инструктор ';
-    }
-    if (roles.includes('ROLE_ADMIN')) {
-      this.publicRoles = this.publicRoles + 'Администратор ';
-    }
-    this.publicRoles = this.publicRoles + ') ';
-
   }
 
   constructor(private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
+
   }
 
   signOut(): void {
     this.tokenStorageService.signOut();
+  }
+
+  forgotPass(): void {
+  //  go to the password reset page
   }
 }
