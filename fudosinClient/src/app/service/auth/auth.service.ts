@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 const AUTH_API = 'http://localhost:8080/auth/';
 
@@ -25,12 +25,35 @@ export class AuthService {
     }, httpOptions);
   }
 
-  register(user: any): Observable<any> {
+  registerStudent(user: any): Observable<any> {
     return this.http.post(AUTH_API + 'signup', {
       username: user.username,
       email: user.email,
       password: user.password
     }, httpOptions);
   }
+
+  register(user: any): Observable<any> {
+    const r = [];
+    if (user.roles.includes('STUDENT')) {
+      r.push('ROLE_STUDENT');
+    }
+    if (user.roles.includes('PARENT')) {
+      r.push('ROLE_PARENT');
+    }
+    if (user.roles.includes('INSTRUCTOR')) {
+      r.push('ROLE_INSTRUCTOR');
+    }
+    if (user.roles.includes('ADMIN')) {
+      r.push('ROLE_ADMIN');
+    }
+    return this.http.post(AUTH_API + 'signup', {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      role: r
+    }, httpOptions);
+  }
+
 
 }

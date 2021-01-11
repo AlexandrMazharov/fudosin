@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 import javax.persistence.*;
 
@@ -15,8 +15,6 @@ public class Visit {
 
     private boolean isPresent;
     private String paymentStatus;
-
-
 
     public Visit() {
     }

@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -7,13 +7,9 @@ import java.util.Set;
 @Entity
 @Table
 public class Lesson {
-    //  занятие
-    //  занятие имеет место и время
-//    создает таблицу многие
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     private Date timeStart;
     private Date timeFinish;
@@ -22,7 +18,7 @@ public class Lesson {
     @JoinColumn(name = "group_id")
     private TrainingGroup trainingGroup;
 
-    @OneToMany(mappedBy="lesson")
+    @OneToMany(mappedBy = "lesson")
     private Set<Visit> visits;
 
     public Lesson() {
@@ -67,7 +63,6 @@ public class Lesson {
     public void setTrainingGroup(TrainingGroup trainingGroup) {
         this.trainingGroup = trainingGroup;
     }
-
 
     public Set<Visit> getVisits() {
         return visits;

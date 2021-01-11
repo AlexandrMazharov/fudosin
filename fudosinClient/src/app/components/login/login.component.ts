@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../service/auth/auth.service";
-import {TokenStorageService} from "../../service/token-storage/token-storage.service";
-import {Role} from "../../models/role.model";
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../service/auth/auth.service';
+import {TokenStorageService} from '../../service/token-storage/token-storage.service';
+import {Role} from '../../models/role.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,9 @@ export class LoginComponent implements OnInit {
   roles: Role[] | undefined = [];
 
   constructor(private authService: AuthService,
-              private tokenStorage: TokenStorageService) { }
+              private tokenStorage: TokenStorageService,
+              private router: Router) {
+  }
 
 
   ngOnInit(): void {
@@ -25,7 +28,11 @@ export class LoginComponent implements OnInit {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getPerson().roles;
     }
+    if (this.isLoggedIn === true) {
+      this.router.navigate(['/lk']);
+    }
   }
+
   onSubmit(): void {
     this.authService.login(this.form).subscribe(
       data => {

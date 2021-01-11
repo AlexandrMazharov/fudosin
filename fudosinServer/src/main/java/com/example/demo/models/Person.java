@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 
 import javax.persistence.*;
@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Entity
 @Table
-//@MappedSuperclass
 public class Person {
 
     @Id
@@ -24,9 +23,21 @@ public class Person {
     private String password;
 
 
-    @ManyToOne
-    @JoinColumn
-    private Person parent;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Student studentId;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Parent parentId;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Instructor instructorId;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Administrator administratorId;
 
     public Person() {
     }
@@ -36,15 +47,6 @@ public class Person {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> userRoles;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<TrainingGroup> userGroup;
-
-    @OneToMany
-    private Set<Visit> visits;
 
     public Person(String username, String email, String password) {
         this.username = username;
@@ -116,22 +118,6 @@ public class Person {
         this.userRoles = userRoles;
     }
 
-    public Set<TrainingGroup> getUserGroup() {
-        return userGroup;
-    }
-
-    public void setUserGroup(Set<TrainingGroup> userGroup) {
-        this.userGroup = userGroup;
-    }
-
-    public Set<Visit> getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Set<Visit> visits) {
-        this.visits = visits;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -140,19 +126,43 @@ public class Person {
         this.username = username;
     }
 
-    public Person getParent() {
-        return parent;
-    }
-
-    public void setParent(Person parent) {
-        this.parent = parent;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Student getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
+    }
+
+    public Parent getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Parent parentId) {
+        this.parentId = parentId;
+    }
+
+    public Instructor getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(Instructor instructorId) {
+        this.instructorId = instructorId;
+    }
+
+    public Administrator getAdministratorId() {
+        return administratorId;
+    }
+
+    public void setAdministratorId(Administrator administratorId) {
+        this.administratorId = administratorId;
     }
 }

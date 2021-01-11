@@ -1,31 +1,15 @@
-<div class="col-md-4 m-auto">
-  <div class="card card-container  p-4">
+  <div class="registration">
     <img
       id="profile-img"
       src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card m-auto"
       alt="avatar"
     />
-    <form
-      *ngIf="!isSuccessful"
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate
-    >
+    <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
       <div>
         <label for="username">Username</label>
         <input
-          type="text"
-          class="form-control"
-          name="username"
-          id="username"
-          [(ngModel)]="form.username"
-          required
-          minlength="3"
-          maxlength="20"
-          #username="ngModel"
-        />
+          type="text" name="username" id="username" [(ngModel)]="form.username" required minlength="3" maxlength="20"
+          #username="ngModel"/>
         <div *ngIf="f.submitted && username.invalid">
           <div *ngIf="username.errors?.required">Username is required</div>
           <div *ngIf="username.errors?.minlength">
@@ -50,15 +34,24 @@
         <label for="password">Password</label>
         <input type="password" name="password" id="password" [(ngModel)]="form.password" required minlength="6"
                #password="ngModel"/>
-        <div class="alert-danger" *ngIf="f.submitted && password.invalid">
+        <div *ngIf="f.submitted && password.invalid">
           <div *ngIf="password.errors?.required">Password is required</div>
           <div *ngIf="password.errors?.minlength">
             Password must be at least 6 characters
           </div>
         </div>
       </div>
-      <div class="form-group ">
-        <button class="btn btn-primary btn-block">Sign Up</button>
+      <div>
+        <select [(ngModel)]="form.roles" name="role" id="role">
+          <option value="STUDENT">STUDENT</option>
+          <option value="PARENT">PARENT</option>
+          <option value="STUDENT, PARENT">STUDENT+PARENT</option>
+          <option value="INSTRUCTOR">INSTRUCTOR</option>
+          <option value="INSTRUCTOR, ADMIN">ADMIN</option>
+        </select>
+      </div>
+      <div>
+        <button>Sign Up</button>
       </div>
 
       <div *ngIf="f.submitted && isSignUpFailed">
@@ -66,8 +59,9 @@
       </div>
     </form>
 
-    <div class="alert alert-success" *ngIf="isSuccessful">
+    <div *ngIf="isSuccessful">
       Your registration is successful!
     </div>
   </div>
-</div>
+
+

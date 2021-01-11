@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Person;
+import com.example.demo.models.Person;
 import com.example.demo.exception.ItemNotFoundException;
 import com.example.demo.repos.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,6 @@ public class PersonController {
         person.setBirthday(personDetails.getBirthday());
         person.setEmail(personDetails.getEmail());
         person.setTelephone(personDetails.getTelephone());
-        person.setVisits(personDetails.getVisits());
-        person.setUserGroup(personDetails.getUserGroup());
         person.setUserRoles(personDetails.getUserRoles());
 
         Person updatePerson = personRepository.save(person);
