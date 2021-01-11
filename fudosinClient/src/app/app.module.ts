@@ -8,7 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {CreateUserComponent} from './components/create-user/create-user.component';
-import {CabinetModule} from './modules/home/cabinet.module';
+import {CabinetModule} from './modules/cabinet/cabinet.module';
 
 @NgModule({
   declarations: [

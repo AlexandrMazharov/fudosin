@@ -6,9 +6,8 @@ import {HeaderComponent} from './cabinet/header/header.component';
 import {LogoModule} from '../../ui/logo/logo.module';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import { CabinetLogoComponent } from './cabinet/cabinet-logo/cabinet-logo.component';
+import {CabinetLogoComponent} from './cabinet/cabinet-logo/cabinet-logo.component';
 import {RouterModule} from '@angular/router';
-
 
 
 @NgModule({
