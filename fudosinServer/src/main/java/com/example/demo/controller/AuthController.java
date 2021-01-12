@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.ItemNotFoundException;
 import com.example.demo.models.ERole;
 import com.example.demo.models.Person;
 import com.example.demo.models.Role;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +34,18 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+
+    String randomString(int len) {
+        final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        SecureRandom rnd = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++)
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        return sb.toString();
+    }
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -46,6 +60,18 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @PostMapping("/reset/{email}")
+    public String resetPassword(@PathVariable(value = "email") String email) throws ItemNotFoundException {
+        Person p = userRepository.findPeopleByEmail(email)
+                .orElseThrow(() -> new ItemNotFoundException(email));
+        String newPassword = randomString(10);
+        p.setPassword(encoder.encode(newPassword));
+        userRepository.save(p);
+        return "Your new password: " + newPassword;
+
+    }
+
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
