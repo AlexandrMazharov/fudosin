@@ -22,7 +22,7 @@ public class TrainingGroup {
             inverseJoinColumns = @JoinColumn(name = "students_id"))
     private Set<Student> students;
 
-    @OneToMany(mappedBy = "trainingGroup")
+    @OneToMany
     private Set<Lesson> lessons;
 
     public TrainingGroup() {

@@ -15,10 +15,10 @@ public class Lesson {
     private Date timeFinish;
     private String place;
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn
     private TrainingGroup trainingGroup;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany
     private Set<Visit> visits;
 
     public Lesson() {
