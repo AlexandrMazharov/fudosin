@@ -62,14 +62,18 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping("/reset/{email}")
-    public String resetPassword(@PathVariable(value = "email") String email) throws ItemNotFoundException {
-        Person p = userRepository.findPeopleByEmail(email)
-                .orElseThrow(() -> new ItemNotFoundException(email));
-        String newPassword = randomString(10);
-        p.setPassword(encoder.encode(newPassword));
-        userRepository.save(p);
-        return "Your new password: " + newPassword;
+    public ResponseEntity<?> resetPassword(@PathVariable(value = "email") String email) throws ItemNotFoundException {
+        if (!userRepository.existsByEmail(email)) {
+            return ResponseEntity.ok("The user does not exist");
+        } else {
+            Person p = userRepository.findPeopleByEmail(email)
+                    .orElseThrow(() -> new ItemNotFoundException(email));
+            String newPassword = randomString(10);
+            p.setPassword(encoder.encode(newPassword));
+            userRepository.save(p);
+            return ResponseEntity.ok("Your new password: " + newPassword);
 
+        }
     }
 
 
