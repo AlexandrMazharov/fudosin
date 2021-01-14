@@ -9,7 +9,6 @@ import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {CreateUserComponent} from './components/create-user/create-user.component';
 import {CabinetModule} from './modules/cabinet/cabinet.module';
-import { NavBarModule } from './modules/cabinet/nav-bar/nav-bar.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { NavBarModule } from './modules/cabinet/nav-bar/nav-bar.module';
     CommonModule,
     HttpClientModule,
     CabinetModule,
-    NavBarModule
 
   ],
   providers: [],

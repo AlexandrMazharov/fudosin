@@ -1,14 +1,15 @@
 import { Injectable } from "@angular/core";
+import { Person } from "src/app/models/person.model";
 import { Role } from "src/app/models/role.model";
 
 @Injectable()
 export class NavService {
 
     private static ERole: string[] = [
-        'ROLE_STUDENT',
-        'ROLE_PARENT',
-        'ROLE_INSTRUCTOR',
-        'ROLE_ADMIN'
+        'STUDENT',
+        'PARENT',
+        'INSTRUCTOR',
+        'ADMIN'
     ]
 
     private static links: string[] = [
@@ -70,7 +71,7 @@ export class NavService {
         return -1;
     }
 
-    static getItems(roles: Role[] | undefined): string[] {
+    static getItems(roles: Role[] | string[] | undefined): string[] {
         let keys: number[];
         if (roles === undefined) {
             keys = this.getKeys(undefined);
@@ -88,12 +89,15 @@ export class NavService {
         return result;
     }
 
-    static getLinks(roles: Role[] | undefined): string[] {
-        if (roles === undefined) return this.getKeys(roles);
-
-        let keys = this.getKeys(roles[0]);
-        for (let i = 1; i < roles.length; ++i) {
-            keys = this.sumBoth(keys, this.getKeys(roles[i]));
+    static getLinks(roles: Role[] | string[] | undefined): string[] {
+        let keys: number[];
+        if (roles === undefined) {
+            keys = this.getKeys(undefined);
+        } else {
+            keys = this.getKeys(roles[0]);
+            for (let i = 1; i < roles.length; ++i) {
+                keys = this.sumBoth(keys, this.getKeys(roles[i]));
+            }
         }
 
         let result: string[] = [];
@@ -103,12 +107,20 @@ export class NavService {
         return result;
     }
 
-    private static getKeys(role: Role | undefined): number[] {
-        if (role === undefined || role.name === 'STUDENT') return NavService.roleKeys.student;
-        if (role.name === 'PARENT') return NavService.roleKeys.parent;
-        if (role.name === 'INSTRUCTOR') return NavService.roleKeys.trainer;
-        if (role.name === 'ADMIN') return NavService.roleKeys.admin;
-        else return [];
+    private static getKeys(role: Role | string | undefined): number[] {
+        if (typeof role !== 'string') {
+            if (role === undefined || role.name === 'STUDENT') return NavService.roleKeys.student;
+            if (role.name === 'PARENT') return NavService.roleKeys.parent;
+            if (role.name === 'INSTRUCTOR') return NavService.roleKeys.trainer;
+            if (role.name === 'ADMIN') return NavService.roleKeys.admin;
+            else return [];
+        } else {
+            if (role === undefined || role === 'STUDENT') return NavService.roleKeys.student;
+            if (role === 'PARENT') return NavService.roleKeys.parent;
+            if (role === 'INSTRUCTOR') return NavService.roleKeys.trainer;
+            if (role === 'ADMIN') return NavService.roleKeys.admin;
+            else return [];
+        }
     }
 
 }

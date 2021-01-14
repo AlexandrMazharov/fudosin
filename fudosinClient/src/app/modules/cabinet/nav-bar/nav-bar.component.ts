@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Person } from 'src/app/models/person.model';
+import { Role } from 'src/app/models/role.model';
 import { NavService } from './nav-bar.service';
 
 @Component({
@@ -12,17 +12,17 @@ export class NavBarComponent implements OnInit {
   nav_items: string[];
   nav_links: string[];
 
-  @Input() person!: Person; //why doesn't it work?! (without "!" mark; constructor is required, but I needn't a constructor) 
+  @Input() roles!: Role[] | string[]; //why doesn't it work?! (without "!" mark; constructor is required, but I needn't a constructor) 
 
   constructor() { 
-    this.nav_items = NavService.getItems(this.person.roles);
-    this.nav_links = NavService.getLinks(this.person.roles);
+    this.nav_items = NavService.getItems(this.roles);
+    this.nav_links = NavService.getLinks(this.roles);
   }
   
   ngOnInit(): void {
     console.log('Navigation Bar is created!');
-    this.nav_items = NavService.getItems(this.person.roles);
-    this.nav_links = NavService.getLinks(this.person.roles);
+    this.nav_items = NavService.getItems(this.roles);
+    this.nav_links = NavService.getLinks(this.roles);
   }
 
   getLink(num: number) {

@@ -1,25 +1,18 @@
 <header class="header">
-  <div class="header__nav">
-    <app-logo></app-logo>
-    <nav *ngIf="isLoggedIn" class="nav">
-      Главная<br>
-      Посещаемость<br>
-      Справка<br>
-      Группы<br>
-      Материалы<br>
-    </nav>
+    <div class="header__nav">
+        <app-logo></app-logo>
 
-  </div>
-  <div class="header__main">
-    <div class="entry-block">
-      <div class="entry-block__title">
-        <p>{{username}}</p>
-        <p>{{publicRoles}}</p>
-      </div>
-      <app-secondary-btn *ngIf="isLoggedIn" [title]="'Выйти'"
-                         (click)="signOut()"></app-secondary-btn>
-      <app-secondary-btn *ngIf="!isLoggedIn" [title]="'Забыли пароль?'"
-                         (click)="forgotPass()"></app-secondary-btn>
+        <nav-bar [roles]="roles"></nav-bar>
+
     </div>
-  </div>
+    <div class="header__main">
+        <div class="entry-block">
+            <div class="entry-block__title">
+                <p>{{username}}</p>
+                <p>{{publicRoles}}</p>
+            </div>
+            <app-secondary-btn *ngIf="isLoggedIn" [title]="'Выйти'" (click)="signOut()"></app-secondary-btn>
+            <app-secondary-btn *ngIf="!isLoggedIn" [title]="'Забыли пароль?'" (click)="forgotPass()"></app-secondary-btn>
+        </div>
+    </div>
 </header>

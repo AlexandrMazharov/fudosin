@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {CabinetLogoComponent} from './cabinet/cabinet-logo/cabinet-logo.component';
 import {RouterModule} from '@angular/router';
+import { NavBarModule } from './nav-bar/nav-bar.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {RouterModule} from '@angular/router';
     SecondaryBtnModule,
     LogoModule,
     RouterModule,
+    NavBarModule
   ],
   exports: [
     CabinetComponent
