@@ -139,15 +139,12 @@ public class DataLoader implements ApplicationRunner {
             Student student = new Student();
             student.setPerson(user);
 
-//            Parent parent = new Parent();
-//            parent.setPerson(user);
-
             Instructor instructor = new Instructor();
             instructor.setPerson(user);
 
             user.setStudent(student);
-//            user.setParent(parent);
-            user.setInstructorId(instructor);
+
+            user.setInstructor(instructor);
             userRepository.save(user);
         }
     }
@@ -166,12 +163,8 @@ public class DataLoader implements ApplicationRunner {
             addAdminRole(roles);
             user.setUserRoles(roles);
 
-
             Student student = new Student();
             student.setPerson(user);
-
-//            Parent parent = new Parent();
-//            parent.setPerson(user);
 
             Instructor instructor = new Instructor();
             instructor.setPerson(user);
@@ -180,9 +173,9 @@ public class DataLoader implements ApplicationRunner {
             administrator.setPerson(user);
 
             user.setStudent(student);
-//            user.setParent(parent);
-            user.setInstructorId(instructor);
-            user.setAdministratorId(administrator);
+
+            user.setInstructor(instructor);
+            user.setAdministrator(administrator);
 
             userRepository.save(user);
 
@@ -236,7 +229,7 @@ public class DataLoader implements ApplicationRunner {
                 // добавляем нового студента во все группы
                 List<TrainingGroup> trainingGroups = trainingGroupRepository.findAll();
                 for (TrainingGroup trainingGroup : trainingGroups) {
-                    trainingGroup.addStudent(newStudent.getStudentId());
+                    trainingGroup.addStudent(newStudent.getStudent());
                     trainingGroupRepository.save(trainingGroup);
                 }
             }
@@ -279,7 +272,6 @@ public class DataLoader implements ApplicationRunner {
             trainingGroupRepository.save(trGroup);
         }
     }
-
 
     private void insertLessons() {
 

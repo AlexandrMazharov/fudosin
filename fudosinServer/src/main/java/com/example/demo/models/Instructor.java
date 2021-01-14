@@ -18,14 +18,6 @@ public class Instructor {
     @JoinColumn
     private Person person;
 
-//    @ManyToMany(fetch = FetchType.EAGER,
-//            cascade = {CascadeType.ALL})
-//    @JoinTable(name = "group_instructors",
-//            joinColumns = @JoinColumn(name = "group_id"),
-//            inverseJoinColumns = @JoinColumn(name = "instructor_id"))
-//    @JsonIgnore
-//    private Set<Instructor> instructors = new HashSet<>();
-
     @JsonIgnore
     @ManyToMany(mappedBy = "instructors", fetch = FetchType.EAGER)
     private Set<TrainingGroup> trainingGroups = new HashSet<>();
@@ -33,13 +25,15 @@ public class Instructor {
     public Instructor() {
     }
 
+    public Instructor(Person person) {
+        this.person = person;
+    }
+
     public void addGroup(TrainingGroup group) {
         this.trainingGroups.add(group);
     }
 
-    public Instructor(Person person) {
-        this.person = person;
-    }
+    // getters setters
 
     public Long getId() {
         return id;

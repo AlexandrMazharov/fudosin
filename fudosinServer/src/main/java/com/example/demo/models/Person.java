@@ -2,7 +2,6 @@ package com.example.demo.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,20 +23,21 @@ public class Person {
     private String telephone;
     private String username;
     private String password;
+    private String degree;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    private Student studentId;
+    private Student student;
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    private Parent parentId;
+    private Parent parent;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    private Instructor instructorId;
+    private Instructor instructor;
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    private Administrator administratorId;
+    private Administrator administrator;
 
     public Person() {
     }
@@ -53,6 +53,8 @@ public class Person {
         this.email = email;
         this.password = password;
     }
+
+    // getters setters
 
     public Long getId() {
         return id;
@@ -134,35 +136,45 @@ public class Person {
         this.password = password;
     }
 
-    public Student getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
+    }
+
+    public Parent getParent() {
+        return parent;
+    }
+
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructorId) {
+        this.instructor = instructorId;
+    }
+
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administratorId) {
+        this.administrator = administratorId;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
     public void setStudent(Student studentId) {
-        this.studentId = studentId;
-    }
-
-    public Parent getParentId() {
-        return parentId;
+        this.student = studentId;
     }
 
     public void setParent(Parent parentId) {
-        this.parentId = parentId;
+        this.parent = parentId;
     }
 
-    public Instructor getInstructorId() {
-        return instructorId;
-    }
-
-    public void setInstructorId(Instructor instructorId) {
-        this.instructorId = instructorId;
-    }
-
-    public Administrator getAdministratorId() {
-        return administratorId;
-    }
-
-    public void setAdministratorId(Administrator administratorId) {
-        this.administratorId = administratorId;
-    }
 }

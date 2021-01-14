@@ -24,6 +24,7 @@ public class Domain {
     public Domain(String name) {
         this.name = name;
     }
+    // getters setters
 
     public Long getId() {
         return id;

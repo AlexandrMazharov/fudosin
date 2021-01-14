@@ -23,13 +23,15 @@ public class Parent {
 
     public Parent() {
     }
+    public Parent(Person p) {
+        this.person = p;
+    }
 
     public void addStudent(Student student){
         students.add(student);
     }
-    public Parent(Person p) {
-        this.person = p;
-    }
+
+    // getters setters
 
     public Long getId() {
         return id;

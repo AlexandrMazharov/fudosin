@@ -35,8 +35,8 @@ public class Student {
     public void addTrainingGroup(TrainingGroup group) {
         this.groups.add(group);
     }
-    // getters and setters
 
+    // getters and setters
 
     public Long getId() {
         return id;
@@ -69,4 +69,5 @@ public class Student {
     public void setVisits(Set<Visit> visits) {
         this.visits = visits;
     }
+
 }

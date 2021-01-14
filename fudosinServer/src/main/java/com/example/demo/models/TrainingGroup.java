@@ -61,6 +61,7 @@ public class TrainingGroup {
     }
 
     //getters and setters
+
     public Long getId() {
         return id;
     }

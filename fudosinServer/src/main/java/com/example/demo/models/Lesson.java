@@ -36,6 +36,8 @@ public class Lesson {
         this.trainingGroup = trainingGroup;
     }
 
+    // getters setters
+
     public Long getId() {
         return id;
     }

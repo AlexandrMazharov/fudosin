@@ -25,6 +25,8 @@ public class Visit {
     public Visit() {
     }
 
+    // getters setters
+
     public Lesson getLesson() {
         return lesson;
     }
