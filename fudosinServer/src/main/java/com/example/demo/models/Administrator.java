@@ -11,11 +11,14 @@ public class Administrator {
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn
     private Person person;
 
     public Administrator() {
+    }
+
+    public Administrator(Person person) {
+        this.person = person;
     }
 
     public Long getId() {

@@ -1,6 +1,9 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Table
@@ -14,36 +17,50 @@ public class TrainingGroup {
     @JoinColumn
     private Domain domain;
 
+    private String description;
 
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "group_students",
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    @JoinTable(name = "student_group",
             joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "students_id"))
-    private Set<Student> students;
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    Set<Student> students = new HashSet<>();
 
-    @OneToMany
+
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    @JoinTable(name = "instructor_group",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "instructor_id"))
+    private Set<Instructor> instructors;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "trainingGroup")
     private Set<Lesson> lessons;
 
     public TrainingGroup() {
     }
 
-    public Set<Lesson> getLessons() {
-        return lessons;
+    public TrainingGroup(Domain domain, String description) {
+        this.description = description;
+        this.domain = domain;
     }
 
-    public void setLessons(Set<Lesson> lessons) {
-        this.lessons = lessons;
+    public void addInstructor(Instructor instructor) {
+        instructors.add(instructor);
     }
 
-    public Domain getDomain() {
-        return domain;
+    public void addStudent(Student student) {
+        students.add(student);
     }
 
-    public void setDomain(Domain domen) {
-        this.domain = domen;
-    }
-
+    //getters and setters
     public Long getId() {
         return id;
     }
@@ -52,11 +69,43 @@ public class TrainingGroup {
         this.id = id;
     }
 
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Set<Student> getStudents() {
         return students;
     }
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    public Set<Instructor> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(Set<Instructor> instructors) {
+        this.instructors = instructors;
+    }
+
+    public Set<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<Lesson> lessons) {
+        this.lessons = lessons;
     }
 }

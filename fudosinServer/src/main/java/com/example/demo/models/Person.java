@@ -1,6 +1,9 @@
 package com.example.demo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.parameters.P;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -22,21 +25,18 @@ public class Person {
     private String username;
     private String password;
 
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Student studentId;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Parent parentId;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Instructor instructorId;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Administrator administratorId;
 
     public Person() {
@@ -138,7 +138,7 @@ public class Person {
         return studentId;
     }
 
-    public void setStudentId(Student studentId) {
+    public void setStudent(Student studentId) {
         this.studentId = studentId;
     }
 
@@ -146,7 +146,7 @@ public class Person {
         return parentId;
     }
 
-    public void setParentId(Parent parentId) {
+    public void setParent(Parent parentId) {
         this.parentId = parentId;
     }
 

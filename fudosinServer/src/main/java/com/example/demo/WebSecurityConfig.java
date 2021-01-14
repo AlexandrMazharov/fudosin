@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import com.example.demo.security.AuthEntryPointJwt;
 import com.example.demo.security.AuthTokenFilter;
 import com.example.demo.security.services.UserDetailsServiceImpl;
@@ -19,12 +20,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableWebSecurity
-@EnableTransactionManagement //?
+@EnableTransactionManagement
 @EnableGlobalMethodSecurity(
-        // securedEnabled = true,
-        // jsr250Enabled = true,
         prePostEnabled = true)
-public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -60,7 +59,12 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
                 .antMatchers("/main").permitAll()
                 .antMatchers("/domain").permitAll()
-
+                .antMatchers("/group").permitAll()
+                .antMatchers("/lesson").permitAll()
+                .antMatchers("/student").permitAll()
+                .antMatchers("/parent").permitAll()
+                .antMatchers("/visit").permitAll()
+                .antMatchers("/person").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -12,11 +14,15 @@ public class Domain {
     private Long id;
 
     private String name;
-
-    @OneToMany(mappedBy = "domain", fetch = FetchType.EAGER)
-    private Set<TrainingGroup> domain;
+    @JsonIgnore
+    @OneToMany(mappedBy="domain", fetch = FetchType.EAGER)
+    private Set<TrainingGroup> trainingGroups;
 
     public Domain() {
+    }
+
+    public Domain(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -35,11 +41,11 @@ public class Domain {
         this.name = name;
     }
 
-    public Set<TrainingGroup> getDomain() {
-        return domain;
+    public Set<TrainingGroup> getTrainingGroups() {
+        return trainingGroups;
     }
 
-    public void setDomain(Set<TrainingGroup> domain) {
-        this.domain = domain;
+    public void setTrainingGroups(Set<TrainingGroup> trainingGroups) {
+        this.trainingGroups = trainingGroups;
     }
 }

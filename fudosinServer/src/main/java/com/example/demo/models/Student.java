@@ -1,7 +1,11 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
+
 @Entity
 @Table
 public class Student {
@@ -10,21 +14,29 @@ public class Student {
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn
     private Person person;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<TrainingGroup> userGroup;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "students")
+    private Set<TrainingGroup> groups = new HashSet<>();
 
-    @OneToMany
-    private Set<Visit> visits;
+    @JsonIgnore
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private Set<Visit> visits = new HashSet<>();
 
     public Student() {
     }
+
+    public Student(Person p) {
+        this.person = p;
+    }
+
+    public void addTrainingGroup(TrainingGroup group) {
+        this.groups.add(group);
+    }
+    // getters and setters
+
 
     public Long getId() {
         return id;
@@ -34,27 +46,27 @@ public class Student {
         this.id = id;
     }
 
-    public Set<Visit> getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Set<Visit> visits) {
-        this.visits = visits;
-    }
-
-    public Set<TrainingGroup> getUserGroup() {
-        return userGroup;
-    }
-
-    public void setUserGroup(Set<TrainingGroup> userGroup) {
-        this.userGroup = userGroup;
-    }
-
     public Person getPerson() {
         return person;
     }
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<TrainingGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<TrainingGroup> groups) {
+        this.groups = groups;
+    }
+
+    public Set<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(Set<Visit> visits) {
+        this.visits = visits;
     }
 }

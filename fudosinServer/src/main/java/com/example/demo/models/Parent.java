@@ -1,24 +1,34 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table
-public class Parent  {
+public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn
     private Person person;
 
+    @JsonIgnore
     @OneToMany
-    private Set<Student> children;
+    private Set<Student> students = new HashSet<>(0);
 
     public Parent() {
+    }
+
+    public void addStudent(Student student){
+        students.add(student);
+    }
+    public Parent(Person p) {
+        this.person = p;
     }
 
     public Long getId() {
@@ -37,11 +47,11 @@ public class Parent  {
         this.person = person;
     }
 
-    public Set<Student> getChildren() {
-        return children;
+    public Set<Student> getStudents() {
+        return students;
     }
 
-    public void setChildren(Set<Student> children) {
-        this.children = children;
+    public void setStudents(Set<Student> children) {
+        this.students = children;
     }
 }

@@ -1,9 +1,11 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "visit")
+@Table
 public class Visit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +15,11 @@ public class Visit {
     @JoinColumn
     private Lesson lesson;
 
-    private boolean isPresent;
+    @ManyToOne
+    @JoinColumn
+    private Student student;
+
+    private String isPresent;
     private String paymentStatus;
 
     public Visit() {
@@ -35,12 +41,12 @@ public class Visit {
         this.id = id;
     }
 
-    public boolean isPresent() {
+    public String getIsPresent() {
         return isPresent;
     }
 
-    public void setPresent(boolean present) {
-        isPresent = present;
+    public void setIsPresent(String isPresent) {
+        this.isPresent = isPresent;
     }
 
     public String getPaymentStatus() {
@@ -49,5 +55,13 @@ public class Visit {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }
