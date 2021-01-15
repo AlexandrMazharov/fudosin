@@ -8,6 +8,7 @@ import com.example.demo.models.Role;
 import com.example.demo.models.Student;
 import com.example.demo.repos.PersonRepository;
 import com.example.demo.repos.RoleRepository;
+import com.example.demo.repos.StudentRepository;
 import com.example.demo.security.JwtUtils;
 import com.example.demo.security.request.LoginRequest;
 import com.example.demo.security.request.SignupRequest;
@@ -48,6 +49,9 @@ public class AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    StudentRepository studentRepository;
 
     @Autowired
     PersonRepository userRepository;
@@ -128,6 +132,8 @@ public class AuthController {
             Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
+
+
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
@@ -158,7 +164,7 @@ public class AuthController {
                 }
             });
         }
-
+        studentRepository.save(new Student(user));
         user.setUserRoles(roles);
         userRepository.save(user);
 
