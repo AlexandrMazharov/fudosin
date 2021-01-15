@@ -8,11 +8,14 @@ import {TokenStorageService} from '../../../../service/token-storage/token-stora
 })
 export class HeaderComponent implements OnInit {
   public isLoggedIn = false;
+  public rolesExample: string[] | undefined;
   @Input() username: string | undefined;
   public publicRoles: string | undefined = '';
 
   @Input()
   set roles(roles: string[]) {
+    console.log(roles);
+    this.rolesExample = roles;
     if (roles.length > 0) {
       this.publicRoles = '(';
       if (roles.includes('ROLE_STUDENT')) {

@@ -109,16 +109,16 @@ export class NavService {
 
     private static getKeys(role: Role | string | undefined): number[] {
         if (typeof role !== 'string') {
-            if (role === undefined || role.name === 'STUDENT') return NavService.roleKeys.student;
-            if (role.name === 'PARENT') return NavService.roleKeys.parent;
-            if (role.name === 'INSTRUCTOR') return NavService.roleKeys.trainer;
-            if (role.name === 'ADMIN') return NavService.roleKeys.admin;
+            if (role === undefined || role.name === 'ROLE_STUDENT') return NavService.roleKeys.student;
+            if (role.name === 'ROLE_PARENT') return NavService.roleKeys.parent;
+            if (role.name === 'ROLE_INSTRUCTOR') return NavService.roleKeys.trainer;
+            if (role.name === 'ROLE_ADMIN') return NavService.roleKeys.admin;
             else return [];
         } else {
-            if (role === undefined || role === 'STUDENT') return NavService.roleKeys.student;
-            if (role === 'PARENT') return NavService.roleKeys.parent;
-            if (role === 'INSTRUCTOR') return NavService.roleKeys.trainer;
-            if (role === 'ADMIN') return NavService.roleKeys.admin;
+            if (role === undefined || role === 'ROLE_STUDENT') return NavService.roleKeys.student;
+            if (role === 'ROLE_PARENT') return NavService.roleKeys.parent;
+            if (role === 'ROLE_INSTRUCTOR') return NavService.roleKeys.trainer;
+            if (role === 'ROLE_ADMIN') return NavService.roleKeys.admin;
             else return [];
         }
     }
