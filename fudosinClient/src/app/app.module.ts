@@ -10,6 +10,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {CreateUserComponent} from './components/create-user/create-user.component';
 import {CabinetModule} from './modules/cabinet/cabinet.module';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import {AccountManagementModule} from './modules/account-management/account-management.module';
+import { PersonDetailComponent } from './components/person-detail/person-detail/person-detail.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     LoginComponent,
     CreateUserComponent,
     ResetPasswordComponent,
+    PersonDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,8 +27,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     FormsModule,
     CommonModule,
     HttpClientModule,
-    CabinetModule
-
+    CabinetModule,
+    AccountManagementModule
   ],
   providers: [],
   exports: [

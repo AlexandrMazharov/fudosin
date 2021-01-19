@@ -28,7 +28,7 @@ public class PersonController {
                 .orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    @PutMapping("/person/upd/{id}")
+    @PutMapping("/upd/{id}")
     public Person updateNote(@PathVariable(value = "id") Long personId,
                              @Valid
                              @RequestBody Person personDetails) throws Throwable {
@@ -44,7 +44,7 @@ public class PersonController {
         person.setEmail(personDetails.getEmail());
         person.setTelephone(personDetails.getTelephone());
         person.setUserRoles(personDetails.getUserRoles());
-
+        System.out.println(person.toString());
         Person updatePerson = personRepository.save(person);
 
         return updatePerson;

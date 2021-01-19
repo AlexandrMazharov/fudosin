@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <h1 class="title">Пользователи:</h1>
+<ul class="persons">
+  <li class="item" *ngFor="let person of persons">
+    <a routerLink="/detail/{{person.id}}">
+      <span class="badge">{{person.id}}</span> {{person.username}}
+      </a>
+    <button class="delete" class="delete person" (click)="delete(person)">Удалить</button>
+  </li>
+</ul>
+</div>
+
+
+
+
+
