@@ -4,19 +4,21 @@ import {CabinetComponent} from './cabinet/cabinet.component';
 import {HeaderComponent} from './cabinet/header/header.component';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import {CabinetLogoComponent} from './cabinet/cabinet-logo/cabinet-logo.component';
+import {PageHeaderComponent} from './cabinet/page-header/page-header.component';
 import {RouterModule} from '@angular/router';
 import {UiElementsModule} from '../ui-elements/ui-elements.module';
+import {StudentModule} from './cabinet/student/student.module';
 
 
 @NgModule({
-  declarations: [CabinetComponent, HeaderComponent, CabinetLogoComponent],
+  declarations: [CabinetComponent, HeaderComponent, PageHeaderComponent],
   imports: [
     BrowserModule,
     FormsModule,
     CommonModule,
     RouterModule,
-    UiElementsModule
+    UiElementsModule,
+    StudentModule
   ],
   exports: [
     CabinetComponent

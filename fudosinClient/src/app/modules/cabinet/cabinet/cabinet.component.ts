@@ -38,7 +38,7 @@ export class CabinetComponent implements OnInit {
       console.log(user);
     }
     else {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
 
