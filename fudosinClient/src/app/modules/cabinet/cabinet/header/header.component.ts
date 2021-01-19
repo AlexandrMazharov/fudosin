@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit {
 
   @Input()
   set roles(roles: string[]) {
-    console.log(roles);
     this.rolesExample = roles;
     if (roles.length > 0) {
       this.publicRoles = '(';
@@ -52,6 +51,5 @@ export class HeaderComponent implements OnInit {
 
   forgotPass(): void {
     this.router.navigate(['/reset']);
-    //  go to the password reset page
   }
 }

@@ -1,6 +1,6 @@
 <div class="nav-body">
 
-    <div class="nav-body__item" *ngFor="let item of nav_items; let i = index">
+    <div class="nav-body__item" *ngFor="let item of navItems; let i = index">
         <a class="nav-body__link" [routerLink]="getLink(i)">{{item}}</a>
     </div>
 

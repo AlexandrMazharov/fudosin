@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavService} from './nav-bar.service';
-import {TokenStorageService} from '../../../service/token-storage/token-storage.service';
-import {Role} from '../../../models/role.model';
+import {TokenStorageService} from '../../service/token-storage/token-storage.service';
+import {Role} from '../../models/role.model';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,7 +12,7 @@ export class NavBarComponent implements OnInit {
 
   navItems: string[];
   navLinks: string[];
-  roles: Role[] ;
+  roles: Role[] | undefined | string[];
 
   constructor(private  tokenStorageService: TokenStorageService) {
     const user = this.tokenStorageService.getPerson();

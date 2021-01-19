@@ -84,6 +84,7 @@ export class NavService {
     }
 
     const result: string[] = [];
+
     for (let i = 0; i < keys.length; ++i) {
       result.push(this.items[keys[i]]);
     }
@@ -141,5 +142,4 @@ export class NavService {
       }
     }
   }
-
 }
