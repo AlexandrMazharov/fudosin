@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.exception.ItemNotFoundException;
 import com.example.demo.models.ERole;
 import com.example.demo.models.Person;
 import com.example.demo.models.Role;
 import com.example.demo.models.Student;
 import com.example.demo.repos.PersonRepository;
 import com.example.demo.repos.RoleRepository;
+import com.example.demo.repos.StudentRepository;
 import com.example.demo.security.JwtUtils;
 import com.example.demo.security.request.LoginRequest;
 import com.example.demo.security.request.SignupRequest;
@@ -23,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,8 +35,23 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+
+    String randomString(int len) {
+        final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        SecureRandom rnd = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++)
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        return sb.toString();
+    }
+
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    StudentRepository studentRepository;
 
     @Autowired
     PersonRepository userRepository;
@@ -46,6 +64,22 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @PostMapping("/reset/{email}")
+    public ResponseEntity<?> resetPassword(@PathVariable(value = "email") String email) throws ItemNotFoundException {
+        if (!userRepository.existsByEmail(email)) {
+            return ResponseEntity.ok("The user does not exist");
+        } else {
+            Person p = userRepository.findPeopleByEmail(email)
+                    .orElseThrow(() -> new ItemNotFoundException(email));
+            String newPassword = randomString(10);
+            p.setPassword(encoder.encode(newPassword));
+            userRepository.save(p);
+            return ResponseEntity.ok("Your new password: " + newPassword);
+
+        }
+    }
+
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -98,6 +132,8 @@ public class AuthController {
             Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
+
+
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
@@ -128,7 +164,7 @@ public class AuthController {
                 }
             });
         }
-
+        studentRepository.save(new Student(user));
         user.setUserRoles(roles);
         userRepository.save(user);
 

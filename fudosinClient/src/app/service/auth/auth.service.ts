@@ -16,6 +16,10 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
+  resetPassword(email: string): Observable<any> {
+    return this.http.post(AUTH_API + 'reset/' + email, {}, {responseType: 'text'});
+  }
+
   login(credentials: any): Observable<any> {
     console.log(credentials.username);
     return this.http.post(AUTH_API + 'signin', {
