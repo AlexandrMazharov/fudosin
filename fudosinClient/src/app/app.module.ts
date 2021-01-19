@@ -22,8 +22,7 @@ import {CabinetModule} from './modules/cabinet/cabinet.module';
     FormsModule,
     CommonModule,
     HttpClientModule,
-    CabinetModule
-
+    CabinetModule,
   ],
   providers: [],
   exports: [
