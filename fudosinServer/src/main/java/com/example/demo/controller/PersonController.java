@@ -58,7 +58,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteNote(@PathVariable(value = "id") Long id) throws Throwable {
+    public ResponseEntity deleteNote(@PathVariable(value = "id") Long id) throws Throwable {
 
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
@@ -69,8 +69,8 @@ public class PersonController {
         if(person.getStudent()!= null && person.getStudent().getParent()!=null){
             return new ResponseEntity<>("Невозможно удалить студента - он связан с родителем.", HttpStatus.OK);
         }
-        if (!person.getInstructor().getTrainingGroups().isEmpty()){
-            return new ResponseEntity<>("\"Невозможно удалить инструктора - он ведет некоторые группы.", HttpStatus.OK);
+        if (person.getInstructor()!= null && !person.getInstructor().getTrainingGroups().isEmpty()){
+            return new ResponseEntity<>("Невозможно удалить инструктора - он ведет некоторые группы.", HttpStatus.OK);
         }
         personRepository.delete(person);
         return new ResponseEntity<>("Пользователь успешно удален!", HttpStatus.OK);

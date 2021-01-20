@@ -11,7 +11,7 @@ export class AccountManagementService {
   private url = 'http://localhost:8080/person';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
   constructor(private http: HttpClient) {
@@ -26,11 +26,11 @@ export class AccountManagementService {
     return this.http.get<Person[]>(this.url);
   }
 
-  deletePerson(person: Person | number): Observable<Person> {
+  deletePerson(person: Person | number): Observable<any> {
     const id = typeof person === 'number' ? person : person.id;
     const url = `${this.url}/${id}`;
+    return this.http.delete(url,   { responseType: 'text' });
 
-    return this.http.delete<Person>(url, this.httpOptions);
   }
 
   updatePerson(person: Person): Observable<any> {
