@@ -2,6 +2,8 @@ package com.example.demo.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,16 +27,22 @@ public class Person {
     private String password;
     private String degree;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Student student;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Parent parent;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Instructor instructor;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Administrator administrator;
