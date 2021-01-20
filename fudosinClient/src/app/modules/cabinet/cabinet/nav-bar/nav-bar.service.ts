@@ -124,10 +124,22 @@ export class NavService {
     }
   }
 
+  // static getTitle(link: string): string {
+  //   for (let i = 0; i < NavService.links.length; ++i) {
+  //     if (link === NavService.links[i]) {
+  //       return NavService.items[i];
+  //     }
+  //   }
+  //   return 'Извините, страница не найдена...';
+  // }
+
   static getTitle(link: string): string {
-    for (let i = 0; i < NavService.links.length; ++i) {
-      if (link === NavService.links[i]) {
-        return NavService.items[i];
+    const l = link.split('/');
+    for (let i = 0; l.length; ++i) {
+      for (let j = 0; j < NavService.links.length; ++j) {
+        if (l[i] === NavService.links[j]) {
+          return NavService.items[j];
+        }
       }
     }
     return 'Извините, страница не найдена...';

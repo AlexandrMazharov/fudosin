@@ -9,17 +9,14 @@ import {NavService} from '../nav-bar/nav-bar.service';
 })
 export class PageHeaderComponent implements OnInit {
 
-  public title: string;
+  public title: string = '';
 
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.title = '';
-    this.activatedRoute.children[0].params.subscribe(p => {
-      this.title = p.link;
-    });
+  constructor() {
+    this.title = NavService.getTitle(document.location.toString());
   }
 
   ngOnInit(): void {
-    this.title = NavService.getTitle(this.title).toLowerCase();
+    this.title = this.title.toLowerCase();
     this.title = this.title[0].toUpperCase() + this.title.slice(1);
   }
 
