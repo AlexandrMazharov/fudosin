@@ -1,6 +1,8 @@
 package com.example.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,12 +15,12 @@ public class Parent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn
     private Person person;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private Set<Student> students = new HashSet<>(0);
 
     public Parent() {
@@ -56,4 +58,5 @@ public class Parent {
     public void setStudents(Set<Student> children) {
         this.students = children;
     }
+
 }

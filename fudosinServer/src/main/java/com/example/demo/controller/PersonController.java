@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.models.Person;
 import com.example.demo.exception.ItemNotFoundException;
+import com.example.demo.models.Student;
 import com.example.demo.repos.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,13 +58,22 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteNote(@PathVariable(value = "id") Long id) throws Throwable {
+    public ResponseEntity<String> deleteNote(@PathVariable(value = "id") Long id) throws Throwable {
 
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
 
+        if (person.getParent()!=null && person.getParent().getStudents() != null) {
+            return new ResponseEntity<>("Невозможно удалить родителя - он связан с ребенком.", HttpStatus.OK);
+        }
+        if(person.getStudent()!= null && person.getStudent().getParent()!=null){
+            return new ResponseEntity<>("Невозможно удалить студента - он связан с родителем.", HttpStatus.OK);
+        }
+        if (!person.getInstructor().getTrainingGroups().isEmpty()){
+            return new ResponseEntity<>("\"Невозможно удалить инструктора - он ведет некоторые группы.", HttpStatus.OK);
+        }
         personRepository.delete(person);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("Пользователь успешно удален!", HttpStatus.OK);
     }
 
 }
