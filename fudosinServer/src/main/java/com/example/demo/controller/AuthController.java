@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.exception.ItemNotFoundException;
-import com.example.demo.models.ERole;
-import com.example.demo.models.Person;
-import com.example.demo.models.Role;
-import com.example.demo.models.Student;
+import com.example.demo.models.*;
 import com.example.demo.repos.PersonRepository;
 import com.example.demo.repos.RoleRepository;
 import com.example.demo.repos.StudentRepository;
@@ -106,15 +103,11 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
@@ -132,31 +125,44 @@ public class AuthController {
             Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
-
-
+            Student student = new Student();
+            student.setPerson(user);
+            user.setStudent(student);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
+                    case "ROLE_STUDENT":
+                        Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+                                .orElseThrow(()-> new RuntimeException("Error: Role is not found."));
+                        roles.add(studentRole);
+                        Student student = new Student();
+                        student.setPerson(user);
+                        user.setStudent(student);
+                        break;
                     case "ROLE_ADMIN":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
-
+                        Administrator administrator = new Administrator();
+                        administrator.setPerson(user);
+                        user.setAdministrator(administrator);
                         break;
                     case "ROLE_PARENT":
                         Role parRole = roleRepository.findByName(ERole.ROLE_PARENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(parRole);
-
+                        Parent parent = new Parent();
+                        parent.setPerson(user);
+                        user.setParent(parent);
                         break;
-
                     case "ROLE_INSTRUCTOR":
                         Role instrRole = roleRepository.findByName(ERole.ROLE_INSTRUCTOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(instrRole);
-
+                        Instructor instructor = new Instructor();
+                        instructor.setPerson(user);
+                        user.setInstructor(instructor);
                         break;
-
                     default:
                         Role studRole = roleRepository.findByName(ERole.ROLE_STUDENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -164,7 +170,7 @@ public class AuthController {
                 }
             });
         }
-        studentRepository.save(new Student(user));
+//        studentRepository.save(new Student(user));
         user.setUserRoles(roles);
         userRepository.save(user);
 
