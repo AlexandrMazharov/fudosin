@@ -13,7 +13,10 @@ import com.example.demo.security.response.JwtResponse;
 import com.example.demo.security.response.MessageResponse;
 import com.example.demo.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.security.SecureRandom;
 import java.util.HashSet;
@@ -33,6 +37,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 public class AuthController {
 
+
+    @Qualifier("getJavaMainSender")
+    @Autowired
+    public JavaMailSender emailSender;
 
     String randomString(int len) {
         final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -100,7 +108,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest)  {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -133,7 +141,7 @@ public class AuthController {
                 switch (role) {
                     case "ROLE_STUDENT":
                         Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
-                                .orElseThrow(()-> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(studentRole);
                         Student student = new Student();
                         student.setPerson(user);
@@ -170,11 +178,21 @@ public class AuthController {
                 }
             });
         }
-//        studentRepository.save(new Student(user));
         user.setUserRoles(roles);
         userRepository.save(user);
-
+        sendEmail(user.getEmail(),user.getUsername(),signUpRequest.getPassword());
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    private void sendEmail(String emailReceiver, String login, String password) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(emailReceiver);
+        message.setSubject("Фудосин регистрация на сайте");
+        String textMessage = "Login"  + login +"\n"+ "Password: "+ password;
+        message.setText(textMessage);
+        System.out.println(textMessage );
+        this.emailSender.send(message);
     }
 
 
