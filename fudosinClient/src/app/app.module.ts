@@ -24,7 +24,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     FormsModule,
     CommonModule,
     HttpClientModule,
-    CabinetModule
+    CabinetModule,
 
   ],
   providers: [],

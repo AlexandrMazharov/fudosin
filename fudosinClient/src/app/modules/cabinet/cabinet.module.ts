@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {CabinetLogoComponent} from './cabinet/cabinet-logo/cabinet-logo.component';
 import {RouterModule} from '@angular/router';
+import { NavBarModule } from './nav-bar/nav-bar.module';
 import {UiElementsModule} from '../ui-elements/ui-elements.module';
 
 
@@ -16,6 +17,7 @@ import {UiElementsModule} from '../ui-elements/ui-elements.module';
     FormsModule,
     CommonModule,
     RouterModule,
+    NavBarModule,
     UiElementsModule
   ],
   exports: [

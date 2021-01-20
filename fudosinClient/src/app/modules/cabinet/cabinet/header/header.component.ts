@@ -9,11 +9,13 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   public isLoggedIn = false;
+  public rolesExample: string[] | undefined;
   @Input() username: string | undefined;
   public publicRoles: string | undefined = '';
 
   @Input()
   set roles(roles: string[]) {
+    this.rolesExample = roles;
     if (roles.length > 0) {
       this.publicRoles = '(';
       if (roles.includes('ROLE_STUDENT')) {
@@ -49,6 +51,5 @@ export class HeaderComponent implements OnInit {
 
   forgotPass(): void {
     this.router.navigate(['/reset']);
-    //  go to the password reset page
   }
 }
