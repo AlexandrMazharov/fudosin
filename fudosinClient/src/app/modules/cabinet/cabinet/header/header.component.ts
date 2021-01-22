@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +9,13 @@ import {TokenStorageService} from '../../../../service/token-storage/token-stora
 })
 export class HeaderComponent implements OnInit {
   public isLoggedIn = false;
+  public rolesExample: string[] | undefined;
   @Input() username: string | undefined;
   public publicRoles: string | undefined = '';
 
   @Input()
   set roles(roles: string[]) {
+    this.rolesExample = roles;
     if (roles.length > 0) {
       this.publicRoles = '(';
       if (roles.includes('ROLE_STUDENT')) {
@@ -31,7 +34,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor(private tokenStorageService: TokenStorageService) {
+  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,6 +50,6 @@ export class HeaderComponent implements OnInit {
   }
 
   forgotPass(): void {
-    //  go to the password reset page
+    this.router.navigate(['/reset']);
   }
 }

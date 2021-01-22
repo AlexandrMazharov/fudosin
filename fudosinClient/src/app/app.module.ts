@@ -9,12 +9,14 @@ import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {CreateUserComponent} from './components/create-user/create-user.component';
 import {CabinetModule} from './modules/cabinet/cabinet.module';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CreateUserComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,6 +25,7 @@ import {CabinetModule} from './modules/cabinet/cabinet.module';
     CommonModule,
     HttpClientModule,
     CabinetModule,
+
   ],
   providers: [],
   exports: [

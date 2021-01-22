@@ -6,4 +6,7 @@ public class ItemNotFoundException  extends  Exception{
     public ItemNotFoundException(Long id) {
         super(String.format("item is not found with id : '%s'", id));
     }
+    public ItemNotFoundException(String email) {
+        super(String.format("item is not found with email : '%s'", email));
+    }
 }

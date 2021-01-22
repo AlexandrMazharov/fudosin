@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -14,15 +16,27 @@ public class Lesson {
     private Date timeStart;
     private Date timeFinish;
     private String place;
+
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn
     private TrainingGroup trainingGroup;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "lesson")
     private Set<Visit> visits;
 
     public Lesson() {
     }
+
+    public Lesson(Date timeStart, Date timeFinish, String place, TrainingGroup trainingGroup) {
+        this.timeStart = timeStart;
+        this.timeFinish = timeFinish;
+        this.place = place;
+        this.trainingGroup = trainingGroup;
+    }
+
+    // getters setters
 
     public Long getId() {
         return id;

@@ -1,6 +1,8 @@
 package com.example.demo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -21,23 +23,21 @@ public class Person {
     private String telephone;
     private String username;
     private String password;
+    private String degree;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    private Student student;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    private Parent parent;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Student studentId;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Parent parentId;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Instructor instructorId;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Administrator administratorId;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    private Instructor instructor;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    private Administrator administrator;
 
     public Person() {
     }
@@ -53,6 +53,8 @@ public class Person {
         this.email = email;
         this.password = password;
     }
+
+    // getters setters
 
     public Long getId() {
         return id;
@@ -134,35 +136,45 @@ public class Person {
         this.password = password;
     }
 
-    public Student getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Student studentId) {
-        this.studentId = studentId;
+    public Parent getParent() {
+        return parent;
     }
 
-    public Parent getParentId() {
-        return parentId;
+
+    public Instructor getInstructor() {
+        return instructor;
     }
 
-    public void setParentId(Parent parentId) {
-        this.parentId = parentId;
+    public void setInstructor(Instructor instructorId) {
+        this.instructor = instructorId;
     }
 
-    public Instructor getInstructorId() {
-        return instructorId;
+    public Administrator getAdministrator() {
+        return administrator;
     }
 
-    public void setInstructorId(Instructor instructorId) {
-        this.instructorId = instructorId;
+    public void setAdministrator(Administrator administratorId) {
+        this.administrator = administratorId;
     }
 
-    public Administrator getAdministratorId() {
-        return administratorId;
+    public String getDegree() {
+        return degree;
     }
 
-    public void setAdministratorId(Administrator administratorId) {
-        this.administratorId = administratorId;
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
+
+    public void setStudent(Student studentId) {
+        this.student = studentId;
+    }
+
+    public void setParent(Parent parentId) {
+        this.parent = parentId;
+    }
+
 }
