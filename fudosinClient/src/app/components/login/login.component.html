@@ -10,7 +10,7 @@
         <input type="text" id="username" name="username" [(ngModel)]="form.username" required
                #username="ngModel" placeholder="Логин"/>
         <div *ngIf="f.submitted && username.invalid" class="login__error">
-          Введите логин
+          * Введите логин
         </div>
       </div>
       <div class="login__form-group">
@@ -20,7 +20,7 @@
                placeholder="Пароль"/>
         <div *ngIf="f.submitted && password.invalid" class="login__error">
           <div *ngIf="password.errors?.required">
-            Нужно ввести пароль
+            * Нужно ввести пароль
           </div>
           <div *ngIf="password.errors?.minlength">
             Слишком короткий пароль
