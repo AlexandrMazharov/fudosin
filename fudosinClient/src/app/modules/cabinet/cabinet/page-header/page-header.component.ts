@@ -9,15 +9,15 @@ import {NavService} from '../nav-bar/nav-bar.service';
 })
 export class PageHeaderComponent implements OnInit {
 
-  public title: string = '';
+  public title= 'ssdfs';
 
   constructor() {
-    this.title = NavService.getTitle(document.location.toString());
+    // this.title = NavService.getTitle(document.location.toString());
   }
 
   ngOnInit(): void {
-    this.title = this.title.toLowerCase();
-    this.title = this.title[0].toUpperCase() + this.title.slice(1);
+    // this.title = this.title.toLowerCase();
+    // this.title = this.title[0].toUpperCase() + this.title.slice(1);
   }
 
 }

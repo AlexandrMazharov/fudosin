@@ -6,6 +6,7 @@ import {StudentComponent} from './modules/cabinet/cabinet/student/student.compon
 import {CabinetComponent} from './modules/cabinet/cabinet/cabinet.component';
 
 export const appRoutes: Routes = [
+  {path: '', component: CabinetComponent},
   {path: 'login', component: CabinetComponent, children: [
       {path: '**', component: LoginComponent}
     ]},
