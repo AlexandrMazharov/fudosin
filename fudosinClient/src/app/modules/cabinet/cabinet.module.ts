@@ -8,6 +8,7 @@ import {RouterModule} from '@angular/router';
 import { NavBarModule } from './nav-bar/nav-bar.module';
 import {UiElementsModule} from '../ui-elements/ui-elements.module';
 import {StudentModule} from './cabinet/student/student.module';
+import {PageHeaderComponent} from './cabinet/page-header/page-header.component';
 
 
 @NgModule({
