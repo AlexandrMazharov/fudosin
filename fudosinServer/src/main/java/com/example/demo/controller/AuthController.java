@@ -80,7 +80,8 @@ public class AuthController {
             String newPassword = randomString(10);
             p.setPassword(encoder.encode(newPassword));
             userRepository.save(p);
-            return ResponseEntity.ok("Your new password: " + newPassword);
+            sendEmail(p.getEmail(),p.getUsername(),newPassword);
+            return ResponseEntity.ok("Новый пароль отправлен вам на почту.");
 
         }
     }
