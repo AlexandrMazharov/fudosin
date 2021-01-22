@@ -35,6 +35,7 @@ export class CabinetComponent implements OnInit {
       this.showInstructorBoard = this.roles.includes('ROLE_MODERATOR');
 
       this.username = user.username;
+      this.router.navigate(['/lk']);
     }
     else {
       this.router.navigate(['/login']);
