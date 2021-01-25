@@ -9,7 +9,7 @@ import {NavService} from '../nav-bar/nav-bar.service';
 })
 export class PageHeaderComponent implements OnInit {
 
-  public title= 'ssdfs';
+  public title= 'Личный кабинет';
 
   constructor() {
     // this.title = NavService.getTitle(document.location.toString());
