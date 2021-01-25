@@ -8,6 +8,7 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./reset-password.component.less']
 })
 export class ResetPasswordComponent implements OnInit {
+  form: any = {};
   email: string | undefined;
 
   constructor(private  authService: AuthService) {
