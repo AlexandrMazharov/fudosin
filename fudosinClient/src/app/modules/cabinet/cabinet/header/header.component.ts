@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   public rolesExample: string[] | undefined;
   @Input() username: string | undefined;
   public publicRoles: string | undefined = '';
-  private isShowBtnLogin: boolean;
+  public isShowBtnLogin: boolean;
 
   @Input()
   set roles(roles: string[]) {
