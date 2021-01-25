@@ -26,6 +26,10 @@ export class AccountManagementService {
     return this.http.get<Person[]>(this.url);
   }
 
+  addPerson(person: Person): Observable<Person> {
+    return this.http.post<Person>(this.url, person, this.httpOptions);
+  }
+
   deletePerson(person: Person | number): Observable<any> {
     const id = typeof person === 'number' ? person : person.id;
     const url = `${this.url}/${id}`;

@@ -1,4 +1,13 @@
 <div class="wrapper">
+  <div>
+    <label>Person name:
+      <input #personName />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add(personName.value); personName.value=''">
+      add
+    </button>
+  </div>
   <h1 class="title">Пользователи:</h1>
 <ul class="persons">
   <li class="item" *ngFor="let person of persons">
