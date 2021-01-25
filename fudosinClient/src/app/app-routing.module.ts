@@ -9,20 +9,16 @@ import {ParentComponent} from './modules/cabinet/cabinet/parent/parent.component
 import {PageHeaderComponent} from './modules/cabinet/cabinet/page-header/page-header.component';
 
 export const appRoutes: Routes = [
-  // {path: '', component: CabinetComponent},
-  // {path: 'reset', component: ResetPasswordComponent},
-  // {path: '', component: CabinetComponent},
-  // {path: 'login', component: CabinetComponent, children: [
-  //     {path: '**', component: LoginComponent}
-  //   ]},
   {path: '', component: CabinetComponent, children: [
       {path: '', component: LoginComponent},
-      {path: 'reset', component: ResetPasswordComponent},
+      {path: 'reg', component: CreateUserComponent},
       {path: 'lk', component: PageHeaderComponent},
-
-      {path: 'student', component: StudentComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'}
+      {path: 'reset', component: ResetPasswordComponent},
+      // {path: 'login/:login', component: LoginComponent},
+      {path: 'student', component: StudentComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'},
+      {path: '**', component: PageHeaderComponent},
     ]},
-  {path: 'reg', component: CreateUserComponent},
+
 ];
 export const superRouting: Routes = [
   {path: '', component: CabinetComponent},

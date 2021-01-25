@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   public rolesExample: string[] | undefined;
   @Input() username: string | undefined;
   public publicRoles: string | undefined = '';
+  private isShowBtnLogin: boolean;
 
   @Input()
   set roles(roles: string[]) {
@@ -36,8 +37,13 @@ export class HeaderComponent implements OnInit {
 
   constructor(private tokenStorageService: TokenStorageService,
               private router: Router,
-              private routerState: ActivatedRoute) {
-    console.log(routerState);
+  ) {
+    if (this.router.url === '/') {
+      this.isShowBtnLogin = false;
+    } else {
+      this.isShowBtnLogin = true;
+    }
+
   }
 
   ngOnInit(): void {
@@ -47,16 +53,19 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(): void {
-    window.location.reload();
+    this.isLoggedIn = false;
+    this.isShowBtnLogin = !this.isShowBtnLogin;
     this.tokenStorageService.signOut();
-
+    this.navigateToLogin();
   }
 
   forgotPass(): void {
+    this.isShowBtnLogin = !this.isShowBtnLogin;
     this.router.navigate(['reset']);
   }
 
   navigateToLogin(): void {
+    this.isShowBtnLogin = !this.isShowBtnLogin;
     this.router.navigate(['']);
   }
 }
