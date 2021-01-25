@@ -18,7 +18,9 @@ export class CabinetComponent implements OnInit {
   showInstructorBoard = false;
   username: string | undefined;
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
+  constructor(private tokenStorageService: TokenStorageService, private router: Router
+  ) {
+
     this.roles = [];
   }
 
@@ -28,7 +30,6 @@ export class CabinetComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getPerson();
       this.roles = user.roles;
-
       this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
       this.showParentBoard = this.roles.includes('ROLE_PARENT');
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
@@ -36,9 +37,6 @@ export class CabinetComponent implements OnInit {
 
       this.username = user.username;
       this.router.navigate(['/lk']);
-    }
-    else {
-      this.router.navigate(['/login']);
     }
   }
 

@@ -6,15 +6,20 @@ import {StudentComponent} from './modules/cabinet/cabinet/student/student.compon
 import {CabinetComponent} from './modules/cabinet/cabinet/cabinet.component';
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {ParentComponent} from './modules/cabinet/cabinet/parent/parent.component';
+import {PageHeaderComponent} from './modules/cabinet/cabinet/page-header/page-header.component';
 
 export const appRoutes: Routes = [
-  {path: '', component: CabinetComponent},
-  {path: 'reset', component: ResetPasswordComponent},
-  {path: '', component: CabinetComponent},
-  {path: 'login', component: CabinetComponent, children: [
-      {path: '**', component: LoginComponent}
-    ]},
-  {path: 'lk', component: CabinetComponent, children: [
+  // {path: '', component: CabinetComponent},
+  // {path: 'reset', component: ResetPasswordComponent},
+  // {path: '', component: CabinetComponent},
+  // {path: 'login', component: CabinetComponent, children: [
+  //     {path: '**', component: LoginComponent}
+  //   ]},
+  {path: '', component: CabinetComponent, children: [
+      {path: '', component: LoginComponent},
+      {path: 'reset', component: ResetPasswordComponent},
+      {path: 'lk', component: PageHeaderComponent},
+
       {path: 'student', component: StudentComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'}
     ]},
   {path: 'reg', component: CreateUserComponent},

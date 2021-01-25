@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -34,7 +34,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
+  constructor(private tokenStorageService: TokenStorageService,
+              private router: Router,
+              private routerState: ActivatedRoute) {
+    console.log(routerState);
   }
 
   ngOnInit(): void {
@@ -50,6 +53,10 @@ export class HeaderComponent implements OnInit {
   }
 
   forgotPass(): void {
-    this.router.navigate(['/reset']);
+    this.router.navigate(['reset']);
+  }
+
+  navigateToLogin(): void {
+    this.router.navigate(['']);
   }
 }
