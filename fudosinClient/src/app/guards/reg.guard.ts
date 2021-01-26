@@ -10,7 +10,8 @@ export class RegGuard implements CanActivate, CanActivateChild {
   constructor(private tokenStorageService: TokenStorageService, private router: Router) {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-  if (this.tokenStorageService.getPerson().roles.includes('ROLE_ADMIN')) {
+
+  if (this.tokenStorageService.getPerson() && this.tokenStorageService.getPerson().roles.includes('ROLE_ADMIN')) {
     return of(true);
   } else {
     alert('Only admin');
