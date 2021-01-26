@@ -1,0 +1,12 @@
+<div class="lesson" [style]="getHeight()">
+
+  <div class="lesson__left-border" [ngClass]="getLesson()"></div>
+  <div class="lesson-body">
+    <h4 class="lesson-body__title">{{getTitle()}}</h4>
+    <p class="lesson-body__text">{{getText()}}</p>
+  </div>
+  <div class="lesson__right-border" [ngClass]="getPaid()">
+    <img class="lesson__right-border_img" src="assets/images/elements/ruble.svg">
+  </div>
+
+</div>

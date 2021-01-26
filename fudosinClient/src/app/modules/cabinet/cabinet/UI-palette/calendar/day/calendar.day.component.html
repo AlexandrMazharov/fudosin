@@ -1,0 +1,30 @@
+<div class="day">
+  <div class="day-inner">
+
+    <div class="day-header">
+      <div class="day-header__left-arrow">
+        <img class="day-header__left-arrow_img" src="../assets/images/elements/left-arrow.svg"
+             [routerLink]="getLink(-1)">
+      </div>
+      <div class="day-header__number">
+        <h3 class="day-header__number_inner">{{day}} {{getMonth()}} {{year}}</h3>
+      </div>
+      <div class="day-header__right-arrow">
+        <img class="day-header__right-arrow_img" src="../assets/images/elements/right-arrow.svg"
+             [routerLink]="getLink(1)">
+      </div>
+    </div>
+
+    <div class="day-body">
+      <app-timeline [timeBegin]="getTimeBegin()" [timeEnd]="getTimeEnd()"></app-timeline>
+      <div class="day-lessons">
+        <app-day-part-lesson [style]="getStyle(i)" *ngFor="let lesson of lessons; let i = index" [lesson]="lesson"></app-day-part-lesson>
+      </div>
+    </div>
+
+    <div class="day-footer__back">
+      <a class="day-footer__back_inner" routerLink="../">Назад</a>
+    </div>
+
+  </div>
+</div>

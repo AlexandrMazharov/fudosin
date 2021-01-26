@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {CalendarService} from '../../services/calendar.service';
 
 @Component({
-  selector: 'app-attend-year',
-  templateUrl: './attend-year.component.html',
-  styleUrls: ['./attend-year.component.less']
+  selector: 'app-calendar-year',
+  templateUrl: './calendar.year.component.html',
+  styleUrls: ['./calendar.year.component.less']
 })
-export class AttendYearComponent implements OnInit {
+export class CalendarYearComponent implements OnInit {
 
   public year: number;
   public rows = [0, 1, 2, 3];

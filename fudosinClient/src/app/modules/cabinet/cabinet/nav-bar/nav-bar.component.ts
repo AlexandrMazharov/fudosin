@@ -13,7 +13,7 @@ export class NavBarComponent {
   navLinks: string[];
   private roles: string[] | undefined;
 
-  constructor(private  tokenStorageService: TokenStorageService) {
+  constructor(private tokenStorageService: TokenStorageService) {
     const user = this.tokenStorageService.getPerson();
     this.roles = user.roles;
     this.navItems = NavService.getItems(this.roles);

@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap');
+
+.year {
+  width: 840px;
+  height: 570px;
+  background: #172755;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+  margin: 51px auto;
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    padding: 35px 0 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    &__number_inner {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 40px;
+      line-height: 47px;
+      text-align: center;
+      color: white;
+      width: 196px;
+      margin: 0 32px 0;
+      margin: 0;
+    }
+  }
+}
+
+.year-calendar {
+  display: flex;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    margin: 0 90px 30px;
+  }
+
+  &__month {
+    width: 180px;
+    height: 80px;
+    margin: 0 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 150%;
+    color: #FFFFFF;
+
+    &:hover {
+      box-shadow: 0px 0px 10px #EF2A82;
+    }
+
+    & .link {
+      box-shadow: none;
+    }
+  }
+}

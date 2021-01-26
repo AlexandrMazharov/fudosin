@@ -31,27 +31,26 @@ export class NavService {
   ];
 
   private static roleKeys = {
-    // student: [0, 1, 2, NavService.items.length - 1],
-    // parent: [0, 1, 2, 3, NavService.items.length - 1],
-    // trainer: [0, 1, 2, 4, 7, NavService.items.length - 1],
-    // admin: [0, 1, 2, 3, 4, 5, 6, NavService.items.length - 1]
-
-    student: [],
-    parent: [],
-    trainer: [],
-    admin: [0, 5]
+    student: [0, 1, 2],
+    parent: [0, 1, 2, 3],
+    trainer: [0, 1, 2, 4, 7],
+    admin: [0, 1, 2, 3, 4, 5, 6]
   };
 
   private static sumBoth(mas1: number[], mas2: number[]): number[] {
-    for (let i = 0; i < mas1.length; ++i) {
-      if (this.checkNumber(mas2, mas1[i])) {
-        const newOne = this.getPlace(mas2, i);
-        const left = mas2.slice(0, newOne);
-        const right = mas2.slice(newOne);
-        mas2 = left.concat(mas1[i], right);
+    for (let i = 0; i < mas2.length; ++i) {
+      if (this.checkNumber(mas1, mas2[i])) {
+        const newOne = this.getPlace(mas1, mas2[i]);
+        if (newOne === -1) {
+          mas1.push(mas2[i]);
+        } else {
+          const left = mas1.slice(0, newOne);
+          const right = mas1.slice(newOne);
+          mas1 = left.concat(mas2[i], right);
+        }
       }
     }
-    return mas2;
+    return mas1;
   }
 
   private static checkNumber(mas: number[], num: number): boolean {
@@ -127,18 +126,9 @@ export class NavService {
     }
   }
 
-  // static getTitle(link: string): string {
-  //   for (let i = 0; i < NavService.links.length; ++i) {
-  //     if (link === NavService.links[i]) {
-  //       return NavService.items[i];
-  //     }
-  //   }
-  //   return 'Извините, страница не найдена...';
-  // }
-
   static getTitle(link: string): string {
     const l = link.split('/');
-    for (let i = 0; l.length; ++i) {
+    for (let i = 1; l.length; ++i) {
       for (let j = 0; j < NavService.links.length; ++j) {
         if (l[i] === NavService.links[j]) {
           return NavService.items[j];

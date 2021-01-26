@@ -4,6 +4,7 @@ import {CalendarService} from '../pages/services/calendar.service';
 import {StudentRouting} from './student.routing';
 import {StudentComponent} from './student.component';
 import {AttendModule} from '../pages/attend/attend.module';
+import {PageHeaderModule} from '../page-header/page-header.module';
 
 
 
@@ -12,7 +13,8 @@ import {AttendModule} from '../pages/attend/attend.module';
   imports: [
     CommonModule,
     AttendModule,
-    StudentRouting
+    StudentRouting,
+    PageHeaderModule
   ],
   providers: [CalendarService],
   exports: [StudentComponent]
