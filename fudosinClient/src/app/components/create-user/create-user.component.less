@@ -1,6 +1,80 @@
-.registration{
+.registration {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color:white;
+  color: white;
+
+  &__header {
+    color: white;
+  }
+
+  &__img {
+    margin-bottom: 20px;
+  }
+
+  &__form-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  &__error {
+    position: absolute;
+    color: #EF2A82;
+    margin-left: 40px;
+  }
+  &__label{
+    margin-left: 10px;
+  }
+}
+
+input,select{
+  background: #EEEEF7;
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 40px;
+  margin: 10px;
+  border: 0 solid;
+  border-radius: 100px;
+
+  color: #172755;
+  font-size: 16px;
+  line-height: 18px;
+
+  &:focus {
+    outline: none;
+    color: #172755;
+  }
+
+  &::placeholder {
+    text-align: center;
+    margin: 0 auto;
+    //padding-left: 30px;
+    color: #172755;
+  }
+}
+
+button{
+  background: #EF2A82;
+  color: white;
+  cursor: pointer;
+  transition: .2s;
+
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 40px;
+  margin: 10px;
+  border: 0 solid;
+  border-radius: 100px;
+
+  color: #172755;
+  font-size: 16px;
+  line-height: 18px;
+  &:hover {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+Label {
+  display: none;
 }
