@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CalendarService} from '../../services/calendar.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 
 @Component({
   selector: 'app-calendar-month',
@@ -15,7 +16,7 @@ export class CalendarMonthComponent implements OnInit {
   public type: string;
 
   // Потом удалить!
-  lessons = [
+  public lessons = [
     {
       isPresent: 'Был',
       domain: 'Айкидо',
@@ -33,7 +34,8 @@ export class CalendarMonthComponent implements OnInit {
     }
   ];
 
-  constructor(private calendar: CalendarService, private activatedRoute: ActivatedRoute, private route: Router) {
+  constructor(private tokenStorageService: TokenStorageService, private calendar: CalendarService,
+              private activatedRoute: ActivatedRoute, private route: Router) {
     if (this.activatedRoute == null) {
       this.year = calendar.getYear();
       this.month = calendar.getMonth();
@@ -50,6 +52,8 @@ export class CalendarMonthComponent implements OnInit {
       }
     }
     this.dayRows = this.fillMonth(calendar.getWeekDay(this.year, this.month, 0));
+
+    // this.lessons = this.tokenStorageService.
   }
 
   private fillMonth(firstDay: number): number[][] {
