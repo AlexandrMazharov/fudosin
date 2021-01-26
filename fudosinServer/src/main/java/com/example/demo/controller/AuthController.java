@@ -190,7 +190,7 @@ public class AuthController {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(emailReceiver);
         message.setSubject("Фудосин регистрация на сайте");
-        String textMessage = "Login"  + login +"\n"+ "Password: "+ password;
+        String textMessage = "Login: "  + login +"\n"+ "Password: "+ password;
         message.setText(textMessage);
         System.out.println(textMessage );
         this.emailSender.send(message);

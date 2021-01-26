@@ -5,11 +5,11 @@ import {HeaderComponent} from './cabinet/header/header.component';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import { NavBarModule } from './nav-bar/nav-bar.module';
 import {UiElementsModule} from '../ui-elements/ui-elements.module';
 import {StudentModule} from './cabinet/student/student.module';
 import {PageHeaderComponent} from './cabinet/page-header/page-header.component';
 import {ParentModule} from './cabinet/parent/parent.module';
+import {NavBarModule} from './cabinet/nav-bar/nav-bar.module';
 
 
 @NgModule({
