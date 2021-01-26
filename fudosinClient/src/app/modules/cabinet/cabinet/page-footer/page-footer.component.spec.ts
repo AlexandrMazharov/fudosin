@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MonthPartDayComponent } from './month-part-day.component';
+import { PageFooterComponent } from './page-footer.component';
 
-describe('MonthPartDayComponent', () => {
-  let component: MonthPartDayComponent;
-  let fixture: ComponentFixture<MonthPartDayComponent>;
+describe('PageFooterComponent', () => {
+  let component: PageFooterComponent;
+  let fixture: ComponentFixture<PageFooterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MonthPartDayComponent ]
+      declarations: [ PageFooterComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MonthPartDayComponent);
+    fixture = TestBed.createComponent(PageFooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

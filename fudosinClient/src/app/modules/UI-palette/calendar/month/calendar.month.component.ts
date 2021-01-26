@@ -14,6 +14,7 @@ export class CalendarMonthComponent implements OnInit {
   public month: number; // January is 0, etc.
   public dayRows: number[][];
   public type: string;
+  public role: string;
 
   // Потом удалить!
   public lessons = [
@@ -45,6 +46,10 @@ export class CalendarMonthComponent implements OnInit {
       this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
       // @ts-ignore
       this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+      if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11) {
+        this.year = calendar.getYear();
+        this.month = calendar.getMonth();
+      }
       if (route.url.includes('attend')) {
         this.type = 'attend';
       } else {
@@ -53,7 +58,18 @@ export class CalendarMonthComponent implements OnInit {
     }
     this.dayRows = this.fillMonth(calendar.getWeekDay(this.year, this.month, 0));
 
-    // this.lessons = this.tokenStorageService.
+    const user = this.tokenStorageService.getPerson();
+    if (user === null || user === undefined) {
+      this.role = 'student';
+    } else if (user.roles.includes('ROLE_ADMIN')) {
+      this.role = 'admin';
+    } else if (user.roles.includes('ROLE_MODERATOR')) {
+      this.role = 'instructor';
+    } else if (user.roles.includes('ROLE_PARENT')) {
+      this.role = 'parent';
+    } else {
+      this.role = 'student';
+    }
   }
 
   private fillMonth(firstDay: number): number[][] {
@@ -105,6 +121,10 @@ export class CalendarMonthComponent implements OnInit {
     // @ts-ignore
     this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
     this.dayRows = this.fillMonth(this.calendar.getWeekDay(this.year, this.month, 0));
+  }
+
+  getLessons() {
+
   }
 
   createDocumentAttend(): void {
