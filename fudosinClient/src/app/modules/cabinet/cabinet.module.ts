@@ -21,7 +21,7 @@ import {ParentModule} from './cabinet/parent/parent.module';
     NavBarModule,
     UiElementsModule,
     StudentModule,
-    ParentModule
+    ParentModule,
   ],
   exports: [
     CabinetComponent

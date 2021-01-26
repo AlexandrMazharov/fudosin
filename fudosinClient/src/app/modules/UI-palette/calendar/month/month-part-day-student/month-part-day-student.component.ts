@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-month-part-day',
-  templateUrl: './month-part-day.component.html',
-  styleUrls: ['./month-part-day.component.less']
+  selector: 'app-month-part-day-student',
+  templateUrl: './month-part-day-student.component.html',
+  styleUrls: ['./month-part-day-student.component.less']
 })
-export class MonthPartDayComponent implements OnInit {
+export class MonthPartDayStudentComponent implements OnInit {
 
   @Input() title: number;
   @Input() lessons: any;

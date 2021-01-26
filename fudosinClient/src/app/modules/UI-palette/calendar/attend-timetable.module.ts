@@ -5,14 +5,14 @@ import {CalendarYearComponent} from './year/calendar.year.component';
 import {CalendarMonthComponent} from './month/calendar.month.component';
 import {CalendarDayComponent} from './day/calendar.day.component';
 import {TimelineComponent} from './day/timeline/timeline.component';
-import {MonthPartDayComponent} from './month/month-part-day/month-part-day.component';
+import {MonthPartDayStudentComponent} from './month/month-part-day-student/month-part-day-student.component';
 import {DayPartLessonComponent} from './day/day-part-lesson/day-part-lesson.component';
 import {CalendarService} from '../services/calendar.service';
 
 
 @NgModule({
   declarations: [CalendarYearComponent, CalendarMonthComponent, CalendarDayComponent,
-    MonthPartDayComponent, DayPartLessonComponent, TimelineComponent],
+    MonthPartDayStudentComponent, DayPartLessonComponent, TimelineComponent],
   imports: [
     CommonModule,
     RouterModule

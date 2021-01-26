@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {CalendarService} from '../../services/calendar.service';
 import {TimeService} from '../../services/time.service';
+import {CalendarService} from '../../services/calendar.service';
 
 @Component({
   selector: 'app-calendar-day',
@@ -44,9 +44,9 @@ export class CalendarDayComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService) {
     if (this.activatedRoute === undefined) {
-      this.year = 0;
-      this.month = 0;
-      this.day = 0;
+      this.year = this.calendar.getYear();
+      this.month = this.calendar.getMonth();
+      this.day = 1;
     } else {
       // @ts-ignore
       this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
@@ -54,6 +54,11 @@ export class CalendarDayComponent implements OnInit {
       this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
       // @ts-ignore
       this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
+      if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11 || this.day < 1 || this.day > 31) {
+        this.year = this.calendar.getYear();
+        this.month = this.calendar.getMonth();
+        this.day = this.calendar.getDay();
+      }
     }
   }
 
