@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CabinetLogoComponent } from './cabinet-logo.component';
+import { AttendMonthComponent } from './attend-month.component';
 
-describe('CabinetLogoComponent', () => {
-  let component: CabinetLogoComponent;
-  let fixture: ComponentFixture<CabinetLogoComponent>;
+describe('TimetableMonthComponent', () => {
+  let component: AttendMonthComponent;
+  let fixture: ComponentFixture<AttendMonthComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CabinetLogoComponent ]
+      declarations: [ AttendMonthComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CabinetLogoComponent);
+    fixture = TestBed.createComponent(AttendMonthComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

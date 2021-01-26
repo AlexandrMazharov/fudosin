@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   public rolesExample: string[] | undefined;
   @Input() username: string | undefined;
   public publicRoles: string | undefined = '';
+  public isShowBtnLogin: boolean;
 
   @Input()
   set roles(roles: string[]) {
@@ -34,7 +35,15 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
+  constructor(private tokenStorageService: TokenStorageService,
+              private router: Router,
+  ) {
+    if (this.router.url === '/') {
+      this.isShowBtnLogin = false;
+    } else {
+      this.isShowBtnLogin = true;
+    }
+
   }
 
   ngOnInit(): void {
@@ -44,12 +53,19 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(): void {
-    window.location.reload();
+    this.isLoggedIn = false;
+    this.isShowBtnLogin = !this.isShowBtnLogin;
     this.tokenStorageService.signOut();
-
+    this.navigateToLogin();
   }
 
   forgotPass(): void {
-    this.router.navigate(['/reset']);
+    this.isShowBtnLogin = !this.isShowBtnLogin;
+    this.router.navigate(['reset']);
+  }
+
+  navigateToLogin(): void {
+    this.isShowBtnLogin = !this.isShowBtnLogin;
+    this.router.navigate(['']);
   }
 }
