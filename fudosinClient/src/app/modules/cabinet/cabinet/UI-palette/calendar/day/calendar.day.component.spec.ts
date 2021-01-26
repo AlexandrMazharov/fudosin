@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AttendYearComponent } from './attend-year.component';
+import { CalendarDayComponent } from './calendar.day.component';
 
-describe('TimetableYearComponent', () => {
-  let component: AttendYearComponent;
-  let fixture: ComponentFixture<AttendYearComponent>;
+describe('DayComponent', () => {
+  let component: CalendarDayComponent;
+  let fixture: ComponentFixture<CalendarDayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AttendYearComponent ]
+      declarations: [ CalendarDayComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AttendYearComponent);
+    fixture = TestBed.createComponent(CalendarDayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
