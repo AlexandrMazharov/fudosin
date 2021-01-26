@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 import {CalendarYearComponent} from '../../../../UI-palette/calendar/year/calendar.year.component';
-import {CalendarMonthComponent} from '../../../../UI-palette/calendar/month/calendar.month.component';
 import {CalendarDayComponent} from '../../../../UI-palette/calendar/day/calendar.day.component';
+import {CalendarMonthComponent} from '../../../../UI-palette/calendar/month/calendar.month.component';
 
 export const studentTimetableRoutes: Routes = [
   {path: ':year_id', component: CalendarYearComponent},

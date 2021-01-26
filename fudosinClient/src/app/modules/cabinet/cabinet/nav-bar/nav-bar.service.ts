@@ -128,7 +128,7 @@ export class NavService {
 
   static getTitle(link: string): string {
     const l = link.split('/');
-    for (let i = 1; l.length; ++i) {
+    for (let i = 1; i < l.length; ++i) {
       for (let j = 0; j < NavService.links.length; ++j) {
         if (l[i] === NavService.links[j]) {
           return NavService.items[j];

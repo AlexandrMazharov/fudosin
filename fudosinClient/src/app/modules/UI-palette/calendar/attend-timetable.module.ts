@@ -7,6 +7,7 @@ import {CalendarDayComponent} from './day/calendar.day.component';
 import {TimelineComponent} from './day/timeline/timeline.component';
 import {MonthPartDayComponent} from './month/month-part-day/month-part-day.component';
 import {DayPartLessonComponent} from './day/day-part-lesson/day-part-lesson.component';
+import {CalendarService} from '../services/calendar.service';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {DayPartLessonComponent} from './day/day-part-lesson/day-part-lesson.comp
   imports: [
     CommonModule,
     RouterModule
-  ]
+  ],
+  providers: [CalendarService]
 })
 export class AttendTimetableModule {
 }

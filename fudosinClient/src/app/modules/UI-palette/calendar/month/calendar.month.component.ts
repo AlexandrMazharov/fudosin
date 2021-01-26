@@ -118,15 +118,15 @@ export class CalendarMonthComponent implements OnInit {
   getMonthLink(direction: number): string {
     if (direction === -1) {
       if (this.month === 0) {
-        return `../../../${(this.year - 1)}/month/11`;
+        return `../../${(this.year - 1)}/11`;
       } else {
-        return `../../../${this.year}/month/${(this.month - 1)}`;
+        return `../../${this.year}/${(this.month - 1)}`;
       }
     } else {
       if (this.month === 11) {
-        return `../../../${(this.year + 1)}/month/0`;
+        return `../../${(this.year + 1)}/0`;
       } else {
-        return `../../../${this.year}/month/${(this.month + 1)}`;
+        return `../../${this.year}/${(this.month + 1)}`;
       }
     }
   }

@@ -16,15 +16,15 @@
     <div class="year-calendar__row" *ngFor="let i of rows">
       <div class="year-calendar__month">
         <a class="year-calendar__month link"
-            [routerLink]="year + '/month/'+(i + i * 2)">{{getMonthString(i + i * 2)}}</a>
+            [routerLink]="year + '/'+(i + i * 2)">{{getMonthString(i + i * 2)}}</a>
       </div>
       <div class="year-calendar__month">
         <a class="year-calendar__month link"
-            [routerLink]="year + '/month/'+(i + 1 + i * 2)">{{getMonthString(i + 1 + i * 2)}}</a>
+            [routerLink]="year + '/'+(i + 1 + i * 2)">{{getMonthString(i + 1 + i * 2)}}</a>
       </div>
       <div class="year-calendar__month">
         <a class="year-calendar__month link"
-            [routerLink]="year + '/month/'+(i + 2 + i * 2)">{{getMonthString(i + 2 + i * 2)}}</a>
+            [routerLink]="year + '/'+(i + 2 + i * 2)">{{getMonthString(i + 2 + i * 2)}}</a>
       </div>
     </div>
   </div>

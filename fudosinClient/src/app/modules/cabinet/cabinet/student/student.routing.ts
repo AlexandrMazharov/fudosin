@@ -5,11 +5,11 @@ import {studentMainRoutes} from './pages/student-main.routing';
 import {studentTimetableRoutes} from './pages/student-timetable.routing';
 
 export const studentRoutes: Routes = [
-
-  { path: '', children: studentTimetableRoutes },
+  { path: '', redirectTo: 'timetable', pathMatch: 'full' },
   { path: 'attend', children: studentAttendRoutes },
   { path: 'main', children: studentMainRoutes },
   { path: 'timetable', children: studentTimetableRoutes },
+  { path: '**', redirectTo: 'timetable', pathMatch: 'full' },
 ];
 
 @NgModule({
