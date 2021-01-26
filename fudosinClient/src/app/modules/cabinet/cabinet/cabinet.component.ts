@@ -33,7 +33,7 @@ export class CabinetComponent implements OnInit {
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showInstructorBoard = this.roles.includes('ROLE_MODERATOR');
       this.username = user.username;
-      // this.router.navigate(['/lk']);
+      this.router.navigate(['/lk']);
     } else {
       // this.router.navigate(['/login']);
     }

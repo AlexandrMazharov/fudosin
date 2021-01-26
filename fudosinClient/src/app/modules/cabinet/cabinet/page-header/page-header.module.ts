@@ -7,6 +7,7 @@ import {PageHeaderComponent} from './page-header.component';
   imports: [
     CommonModule
   ],
+  providers: [],
   exports: [PageHeaderComponent]
 })
 export class PageHeaderModule { }
