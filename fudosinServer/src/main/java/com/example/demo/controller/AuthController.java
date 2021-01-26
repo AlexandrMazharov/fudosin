@@ -80,7 +80,8 @@ public class AuthController {
             String newPassword = randomString(10);
             p.setPassword(encoder.encode(newPassword));
             userRepository.save(p);
-            sendEmail(p.getEmail(),p.getUsername(),newPassword);
+            String message = "Новый пароль отправлен вам на почту.";
+            sendEmail(p.getEmail(),p.getUsername(),newPassword, "Ваши данные для входа");
             return ResponseEntity.ok("Новый пароль отправлен вам на почту.");
 
         }
@@ -181,16 +182,15 @@ public class AuthController {
         }
         user.setUserRoles(roles);
         userRepository.save(user);
-        sendEmail(user.getEmail(),user.getUsername(),signUpRequest.getPassword());
+        sendEmail(user.getEmail(),user.getUsername(),signUpRequest.getPassword(), "Вы зарегистрировались!");
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    private void sendEmail(String emailReceiver, String login, String password) {
+    private void sendEmail(String emailReceiver, String login, String password, String text) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(emailReceiver);
-        message.setSubject("Фудосин регистрация на сайте");
-        String textMessage = "Login: "  + login +"\n"+ "Password: "+ password;
+        String textMessage = text + "\n"+ "Login: "  + login +"\n"+ "Password: "+ password;
         message.setText(textMessage);
         System.out.println(textMessage );
         this.emailSender.send(message);

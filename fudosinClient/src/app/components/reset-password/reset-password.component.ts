@@ -10,6 +10,7 @@ import {NgForm} from '@angular/forms';
 export class ResetPasswordComponent implements OnInit {
   form: any = {};
   email: string | undefined;
+  statusMessage = '';
 
   constructor(private  authService: AuthService) {
   }
@@ -20,7 +21,11 @@ export class ResetPasswordComponent implements OnInit {
   resetPassword(emailForm: NgForm): void {
     const email = emailForm.value.email;
     if (email) {
-      this.authService.resetPassword(email).subscribe(data => console.log(data));
+      this.authService.resetPassword(email).subscribe(data => {
+        console.log(data);
+        this.statusMessage = data;
+
+      });
     }
 
   }
