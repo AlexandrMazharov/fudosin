@@ -36,6 +36,4 @@ export class CabinetComponent implements OnInit {
       // this.router.navigate(['/lk']);
     }
   }
-
-
 }
