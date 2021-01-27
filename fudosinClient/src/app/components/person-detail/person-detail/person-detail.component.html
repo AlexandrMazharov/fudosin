@@ -2,10 +2,26 @@
   <h2>Пользователь {{person.username | uppercase}}</h2>
   <div><span>id: </span>{{person.id}}</div>
   <div>
-    <label>username:
-      <input [(ngModel)]="person.username" placeholder="name"/>
+    <label>Фамилия:
+      <input [(ngModel)]="person.lastName"/>
     </label>
   </div>
+  <div>
+    <label>Имя:
+      <input [(ngModel)]="person.firstName"/>
+    </label>
+  </div>
+  <div>
+    <label>Отчество:
+      <input [(ngModel)]="person.secondName"/>
+    </label>
+  </div>
+  <div>
+    <label>Ранг:
+      <input [(ngModel)]="person.degree"/>
+    </label>
+  </div>
+
   <button (click)="goBack()">go back</button>
   <button (click)="save()">save</button>
 </div>

@@ -24,14 +24,6 @@ export class AccountManagementComponent implements OnInit {
     this.getPersons();
   }
 
-  add(username: string): void {
-    username = username.trim();
-    if (!username) { return; }
-    this.accountService.addPerson({ username } as Person)
-      .subscribe(p => {
-        this.persons.push(p);
-      });
-  }
 
   delete(person: Person): void {
     this.persons = this.persons.filter(p => p !== person);

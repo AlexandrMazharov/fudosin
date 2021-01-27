@@ -39,6 +39,7 @@ public class PersonController {
                 .orElseThrow(() -> new ItemNotFoundException(personId));
 
         person.setId(personDetails.getId());
+        person.setDegree(personDetails.getDegree());
         person.setFirstName(personDetails.getFirstName());
         person.setLastName(personDetails.getLastName());
         person.setSecondName(personDetails.getSecondName());
@@ -63,9 +64,9 @@ public class PersonController {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
 
-        if (person.getParent()!=null && person.getParent().getStudents() != null) {
+  /*      if (person.getParent()!=null && person.getParent().getStudents() != null) {
             return new ResponseEntity<>("Невозможно удалить родителя - он связан с ребенком.", HttpStatus.OK);
-        }
+        }*/
         if(person.getStudent()!= null && person.getStudent().getParent()!=null){
             return new ResponseEntity<>("Невозможно удалить студента - он связан с родителем.", HttpStatus.OK);
         }
