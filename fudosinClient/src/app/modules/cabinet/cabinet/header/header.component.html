@@ -1,5 +1,5 @@
 <header class="header">
-    <div class="header__nav">
+    <div [ngClass]="isLoggedIn ? 'header__nav-shadow' : 'header__nav'">
         <app-logo></app-logo>
 
         <app-nav-bar *ngIf="isLoggedIn" class="nav"></app-nav-bar>
