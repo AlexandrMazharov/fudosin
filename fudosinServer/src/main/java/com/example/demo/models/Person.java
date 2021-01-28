@@ -2,6 +2,7 @@ package com.example.demo.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.bytebuddy.implementation.ExceptionMethod;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -185,4 +186,53 @@ public class Person {
         this.parent = parentId;
     }
 
+    public void addRole(Role findedRole) {
+
+
+        if (findedRole.getName() == ERole.ROLE_STUDENT) {
+            if (this.getStudent() == null) {
+                Student student = new Student();
+                student.setPerson(this);
+                this.setStudent(student);
+
+                this.userRoles.add(findedRole);
+            } else {
+                System.out.println("The user is already a student");
+            }
+        }
+        if (findedRole.getName() == ERole.ROLE_PARENT) {
+            if (this.getParent() == null) {
+                Parent p = new Parent();
+                p.setPerson(this);
+                this.setParent(p);
+
+                this.userRoles.add(findedRole);
+            } else {
+                System.out.println("The user is already a parent");
+            }
+        }
+        if (findedRole.getName() == ERole.ROLE_INSTRUCTOR) {
+            if (this.getInstructor() == null) {
+                Instructor instructor = new Instructor();
+                instructor.setPerson(this);
+                this.setInstructor(instructor);
+
+                this.userRoles.add(findedRole);
+            } else {
+                System.out.println("The user is already a instructor");
+            }
+        }
+        if (findedRole.getName() == ERole.ROLE_ADMIN) {
+            if (this.getAdministrator() == null) {
+                Administrator administrator = new Administrator();
+                administrator.setPerson(this);
+                this.setAdministrator(administrator);
+
+                this.userRoles.add(findedRole);
+            } else {
+                System.out.println("The user is already a admin");
+            }
+        }
+
+    }
 }
