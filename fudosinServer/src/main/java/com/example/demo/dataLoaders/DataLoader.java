@@ -392,16 +392,16 @@ public class DataLoader implements ApplicationRunner {
     }
 
 
-    private void insertTrainingGroup() {
-        for (Domain domain : domainRepository.findAll()) {
-            if (!trainingGroupRepository.existsTrainingGroupByDomain(domain)) {
-                TrainingGroup trainingGroup1 = new TrainingGroup(domain, "Дети");
-                TrainingGroup trainingGroup2 = new TrainingGroup(domain, "Взрослые");
-                trainingGroupRepository.save(trainingGroup1);
-                trainingGroupRepository.save(trainingGroup2);
-            }
-        }
-    }
+//    private void insertTrainingGroup() {
+//        for (Domain domain : domainRepository.findAll()) {
+//            if (!trainingGroupRepository.existsTrainingGroupByDomain(domain)) {
+//                TrainingGroup trainingGroup1 = new TrainingGroup(domain, "Дети");
+//                TrainingGroup trainingGroup2 = new TrainingGroup(domain, "Взрослые");
+//                trainingGroupRepository.save(trainingGroup1);
+//                trainingGroupRepository.save(trainingGroup2);
+//            }
+//        }
+//    }
 
     private void insertDomain() {
         String[] domains = {"Джиу-джитсу", "Айкидо", "Кобудо"};
