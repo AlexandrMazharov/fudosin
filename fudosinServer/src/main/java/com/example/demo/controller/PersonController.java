@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.models.Person;
 import com.example.demo.exception.ItemNotFoundException;
+import com.example.demo.persponse.Roles;
 import com.example.demo.repos.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,17 @@ public class PersonController {
     public Person getNoteById(@PathVariable(value = "id") Long id) throws Throwable {
         return personRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
+    }
+
+    @GetMapping("/{id}/roles")
+    public Roles getRolesById(@PathVariable(value = "id") Long id) throws Throwable {
+        Person person = personRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
+        Roles roles = new Roles();
+        if (person.getStudent() != null) roles.setStudent(person.getStudent().getId());
+        if (person.getParent() != null) roles.setParent(person.getParent().getId());
+        if (person.getInstructor() != null) roles.setInstructor(person.getInstructor().getId());
+        if (person.getAdministrator() != null) roles.setAdministrator(person.getAdministrator().getId());
+        return roles;
     }
 
     @PutMapping("/person/upd/{id}")

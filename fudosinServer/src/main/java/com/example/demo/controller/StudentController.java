@@ -25,6 +25,7 @@ public class StudentController {
         return ResponseEntity.ok(studentRepository.findAll());
     }
 
+
     @GetMapping("/{st-id}/group")
     public ResponseEntity<List<String>> getLessonByGroupAndDate(@PathVariable("st-id") Long id
     ) {
