@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,22 +32,22 @@ public class Person {
     private String password;
     private String degree;
 
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    //    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Student student;
 
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    //    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Parent parent;
 
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    //    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Instructor instructor;
 
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    //    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Administrator administrator;
@@ -53,6 +55,7 @@ public class Person {
     public Person() {
     }
 
+    //    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -189,8 +192,6 @@ public class Person {
     }
 
     public void addRole(Role findedRole) {
-
-
         if (findedRole.getName() == ERole.ROLE_STUDENT) {
             if (this.getStudent() == null) {
                 Student student = new Student();
@@ -238,16 +239,26 @@ public class Person {
 
     }
 
-    public void removeRole(Role findedRole)
-    {
+    public void removeRole(Role findedRole) {
 
         if (findedRole.getName() == ERole.ROLE_STUDENT) {
-            this.student = null;
-            this.userRoles.remove(findedRole);
-
+            if (this.student != null) {
+                if(this.student.getParent()!=null) {
+                    this.student.getParent().getStudents().remove(this.student);
+                }
+                this.student = null;
+                this.userRoles.remove(findedRole);
+            }
         }
         if (findedRole.getName() == ERole.ROLE_PARENT) {
-            this.parent= null;
+            if( this.parent!=null){
+            if( this.parent.getStudents()!=null){
+                Set<Student> students = this.parent.getStudents();
+                for (Student stud : students) {
+                    stud.setParent(null);
+                }
+            }}
+            this.parent = null;
             this.userRoles.remove(findedRole);
 
         }

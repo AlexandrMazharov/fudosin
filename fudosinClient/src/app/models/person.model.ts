@@ -12,7 +12,7 @@ export class Person implements Deserializable{
   private _parentId: Person | undefined;
   private _email: string | undefined;
   private _birthDay: Date | undefined;
-  private _userRoles: Role[] ;
+  private _userRoles!: Role[] ;
   private _password: string;
   private _username: string;
   private _degree: string | undefined;
