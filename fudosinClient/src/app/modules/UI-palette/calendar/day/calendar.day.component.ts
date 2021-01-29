@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {TimeService} from '../../services/time.service';
 import {CalendarService} from '../../services/calendar.service';
+import {Lesson} from '../../../../models/lesson.model';
+import {Observable} from 'rxjs';
+import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
+import {StudentService} from '../../../../service/getStudent/student.service';
 
 @Component({
   selector: 'app-calendar-day',
@@ -10,39 +14,13 @@ import {CalendarService} from '../../services/calendar.service';
 })
 export class CalendarDayComponent implements OnInit {
 
-  public year;
-  public month;
-  public day;
+  public year: number;
+  public month: number;
+  public day: number;
 
-  lessons = [
-    {
-      id: 1,
-      timeBegin: new TimeService(14, 0),
-      timeEnd: new TimeService(15, 30),
-      isPresent: 'Был',
-      domain: 'Айкидо',
-      paymentStatus: 'Оплачено'
-    },
-    {
-      id: 2,
-      timeBegin: new TimeService(15, 30),
-      timeEnd: new TimeService(17, 0),
-      isPresent: 'Нет',
-      domain: 'Кобудо',
-      paymentStatus: 'Оплачено'
-    },
-    {
-      id: 3,
-      timeBegin: new TimeService(17, 0),
-      timeEnd: new TimeService(19, 30),
-      isPresent: 'Был',
-      domain: 'Джиу-Джитсу',
-      paymentStatus: 'Нет'
-    },
-  ];
+  public lessons: Lesson[] = [];
 
-
-  constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService) {
+  constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService, private tokenStorageService: TokenStorageService, private studentService: StudentService) {
     if (this.activatedRoute === undefined) {
       this.year = this.calendar.getYear();
       this.month = this.calendar.getMonth();
@@ -60,6 +38,20 @@ export class CalendarDayComponent implements OnInit {
         this.day = this.calendar.getDay();
       }
     }
+
+    // // @ts-ignore
+    // const studId = +this.activatedRoute.snapshot.paramMap.get('stud_id');
+    // if (studId === null) {
+    //   this.getLessons(-1).subscribe(lessons => {
+    //     this.lessons = lessons;
+    //   });
+    // } else {
+    //   this.getLessons(studId).subscribe(lessons => {
+    //     this.lessons = lessons;
+    //   });
+    // }
+
+    this.lessons = this.getLessons();
   }
 
   ngOnInit(): void {
@@ -74,8 +66,24 @@ export class CalendarDayComponent implements OnInit {
     this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
   }
 
+  getLessons(): Lesson[] {
+    return [
+      new Lesson(false, false, '2020-03-03T15:00:00.000+00:00', '2020-03-03T17:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
+      new Lesson(true, true, '2020-03-03T17:00:00.000+00:00', '2020-03-03T19:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
+      new Lesson(false, true, '2020-03-03T19:00:00.000+00:00', '2020-03-03T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
+    ];
+  }
+
+  // getLessons(idStudent: number): Observable<Lesson[]> {
+  //   if (idStudent === -1) {
+  //     return this.studentService.getLessonsDay(this.tokenStorageService.getPerson().id, this.year, this.month, this.day);
+  //   } else {
+  //     return this.studentService.getLessonsDayStudent(idStudent, this.year, this.month, this.day);
+  //   }
+  // }
+
   getLink(direction: number): string {
-    let url = '../../../../';
+    let url = '../../../';
     let d = this.day;
     let m = this.month;
     let y = this.year;
@@ -104,7 +112,7 @@ export class CalendarDayComponent implements OnInit {
         --d;
       }
     }
-    url += `${y}/month/${m}/${d}`;
+    url += `${y}/${m}/${d}`;
     return url;
   }
 
@@ -120,21 +128,21 @@ export class CalendarDayComponent implements OnInit {
   }
 
   getTimeBegin(): TimeService {
-    return new TimeService(this.lessons[0].timeBegin.hours, this.lessons[0].timeBegin.minutes);
+    return new TimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute);
   }
 
   getTimeEnd(): TimeService {
-    return new TimeService(this.lessons[this.lessons.length - 1].timeEnd.hours, this.lessons[this.lessons.length - 1].timeEnd.minutes);
+    return new TimeService(this.lessons[this.lessons.length - 1].timeEnd.hour, this.lessons[this.lessons.length - 1].timeEnd.minute);
   }
 
   getStyle(id: number): string {
     let top = 0;
-    if (this.lessons[0].timeBegin.minutes < 30) {
-      top = this.lessons[0].timeBegin.minutes * (4 / 3);
+    if (this.lessons[0].timeBegin.minute < 30) {
+      top = this.lessons[0].timeBegin.minute * (4 / 3);
     } else {
-      top = (this.lessons[0].timeBegin.minutes - 30) * (4 / 3);
+      top = (this.lessons[0].timeBegin.minute - 30) * (4 / 3);
     }
-    top += TimeService.getHeight(this.lessons[0].timeBegin, this.lessons[id].timeBegin);
+    top += TimeService.getHeight(new TimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute), new TimeService(this.lessons[id].timeBegin.hour, this.lessons[id].timeBegin.minute));
     return `top: ${top + 13}px`;
   }
 

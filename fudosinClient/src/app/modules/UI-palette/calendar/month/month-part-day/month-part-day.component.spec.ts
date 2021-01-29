@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MonthPartDayStudentComponent } from './month-part-day-student.component';
+import { MonthPartDayComponent } from './month-part-day.component';
 
 describe('MonthPartDayComponent', () => {
-  let component: MonthPartDayStudentComponent;
-  let fixture: ComponentFixture<MonthPartDayStudentComponent>;
+  let component: MonthPartDayComponent;
+  let fixture: ComponentFixture<MonthPartDayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MonthPartDayStudentComponent ]
+      declarations: [ MonthPartDayComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MonthPartDayStudentComponent);
+    fixture = TestBed.createComponent(MonthPartDayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

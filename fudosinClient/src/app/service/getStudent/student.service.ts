@@ -14,11 +14,19 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  // getLessonsMonth(idStudent: number): Observable<Lesson[]> {
+  // getLessonsMonth(idParent: number, year: number, month: number): Observable<Lesson[]> {
   //
   // }
   //
-  // getLessonsDay(idStudent: number): Observable<Lesson[]> {
+  // getLessonsDay(idParent: number, year: number, month: number, day: number): Observable<Lesson[]> {
+  //
+  // }
+  //
+  // getLessonsMonthStudent(idStudent: number, year: number, month: number): Observable<Lesson[]> {
+  //
+  // }
+  //
+  // getLessonsDayStudent(idStudent: number, year: number, month: number, day: number): Observable<Lesson[]> {
   //
   // }
 

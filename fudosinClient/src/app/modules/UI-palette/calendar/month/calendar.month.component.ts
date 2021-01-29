@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {CalendarService} from '../../services/calendar.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
+import {Observable} from 'rxjs';
+import {Lesson} from '../../../../models/lesson.model';
+import {StudentService} from "../../../../service/getStudent/student.service";
+import {MonthLesson} from "../../services/MonthLessons.model";
 
 @Component({
   selector: 'app-calendar-month',
@@ -13,30 +17,13 @@ export class CalendarMonthComponent implements OnInit {
   public year: number;
   public month: number; // January is 0, etc.
   public dayRows: number[][];
-  public type: string;
-  public role: string;
+  public type: string; // attend or timetable
+  public role: string; // student or parent
 
-  // Потом удалить!
-  public lessons = [
-    {
-      isPresent: 'Был',
-      domain: 'Айкидо',
-      paymentStatus: 'Оплачено'
-    },
-    {
-      isPresent: 'Был',
-      domain: 'Джиу-Джитсу',
-      paymentStatus: 'Нет'
-    },
-    {
-      isPresent: 'Нет',
-      domain: 'Кобудо',
-      paymentStatus: 'Оплачено'
-    }
-  ];
+  public lessons: MonthLesson;
 
   constructor(private tokenStorageService: TokenStorageService, private calendar: CalendarService,
-              private activatedRoute: ActivatedRoute, private route: Router) {
+              private activatedRoute: ActivatedRoute, private route: Router, private studentService: StudentService) {
     if (this.activatedRoute == null) {
       this.year = calendar.getYear();
       this.month = calendar.getMonth();
@@ -50,7 +37,7 @@ export class CalendarMonthComponent implements OnInit {
         this.year = calendar.getYear();
         this.month = calendar.getMonth();
       }
-      if (route.url.includes('attend')) {
+      if (this.route.url.includes('attend')) {
         this.type = 'attend';
       } else {
         this.type = 'timetable';
@@ -58,14 +45,20 @@ export class CalendarMonthComponent implements OnInit {
     }
     this.dayRows = this.fillMonth(calendar.getWeekDay(this.year, this.month, 0));
 
-    const user = this.tokenStorageService.getPerson();
-    if (user === null || user === undefined) {
-      this.role = 'student';
-    } else if (user.roles.includes('ROLE_ADMIN')) {
-      this.role = 'admin';
-    } else if (user.roles.includes('ROLE_MODERATOR')) {
-      this.role = 'instructor';
-    } else if (user.roles.includes('ROLE_PARENT')) {
+    // const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
+    // if (studId !== null) {
+    //   this.getLessons(+studId).subscribe(lessons => {
+    //     this.lessons = lessons;
+    //   });
+    // } else {
+    //   this.getLessons(-1).subscribe(lessons => {
+    //     this.lessons = lessons;
+    //   });
+    // }
+
+    this.lessons = new MonthLesson(this.getLessons(), this.year, this.month);
+
+    if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
       this.role = 'parent';
     } else {
       this.role = 'student';
@@ -123,9 +116,30 @@ export class CalendarMonthComponent implements OnInit {
     this.dayRows = this.fillMonth(this.calendar.getWeekDay(this.year, this.month, 0));
   }
 
-  getLessons() {
-
+  getLessons(): Lesson[] {
+    return [
+      new Lesson(false, true, '2021-01-03T15:00:00.000+00:00', '2021-01-03T17:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
+      new Lesson(true, false, '2021-01-03T17:00:00.000+00:00', '2021-01-03T19:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
+      new Lesson(true, true, '2021-01-03T19:00:00.000+00:00', '2021-01-03T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
+      new Lesson(false, false, '2021-01-08T15:00:00.000+00:00', '2021-01-08T17:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
+      new Lesson(true, true, '2021-01-08T17:00:00.000+00:00', '2021-01-08T19:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
+      new Lesson(true, false, '2021-01-08T19:00:00.000+00:00', '2021-01-08T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
+      new Lesson(false, true, '2021-01-09T15:00:00.000+00:00', '2021-01-09T17:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
+      new Lesson(true, false, '2021-01-09T17:00:00.000+00:00', '2021-01-09T19:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
+      new Lesson(false, false, '2021-01-09T19:00:00.000+00:00', '2021-01-09T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
+      new Lesson(true, false, '2021-01-15T15:00:00.000+00:00', '2021-01-15T17:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
+      new Lesson(false, false, '2021-01-15T17:00:00.000+00:00', '2021-01-15T19:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
+      new Lesson(false, false, '2021-01-15T19:00:00.000+00:00', '2021-01-15T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
+    ];
   }
+
+  // getLessons(id: number): Observable<Lesson[]> {
+  //   if (id !== -1) {
+  //     return this.studentService.getLessonsMonthStudent(id, this.year, this.month);
+  //   } else {
+  //     return this.studentService.getLessonsMonth(this.tokenStorageService.getPerson().id, this.year, this.month); // fix it!
+  //   }
+  // }
 
   createDocumentAttend(): void {
 
