@@ -44,4 +44,8 @@ export class AccountManagementService {
     );
 
   }
+
+  removeRole(person: Person, role: string): Observable<any>{
+    return this.http.post( this.url + '/remove/' + person.id + '/' + role , this.httpOptions);
+  }
 }

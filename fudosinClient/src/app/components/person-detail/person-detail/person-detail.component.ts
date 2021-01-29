@@ -53,20 +53,37 @@ export class PersonDetailComponent implements OnInit {
     this.accountService.updatePerson(this.person)
       .subscribe(() => this.goBack());
   }
+
 // эти методы для теста. переписать как нужно
-  addAdminRole() {
+  addAdminRole(): void {
     this.accountService.setRole(this.person, 'ADMIN').subscribe(data => console.log(data));
   }
 
-  addInstructorRole() {
+  addInstructorRole(): void {
     this.accountService.setRole(this.person, 'INSTRUCTOR').subscribe(data => console.log(data));
   }
 
-  addStudentRole() {
+  addStudentRole(): void {
     this.accountService.setRole(this.person, 'STUDENT').subscribe(data => console.log(data));
   }
 
-  addParentRole() {
+  addParentRole(): void {
     this.accountService.setRole(this.person, 'PARENT').subscribe(data => console.log(data));
+  }
+
+  removeAdminRole(): void {
+    this.accountService.removeRole(this.person, 'ADMIN').subscribe(data => console.log(data));
+  }
+
+  removeInstructorRole(): void {
+    this.accountService.removeRole(this.person, 'INSTRUCTOR').subscribe(data => console.log(data));
+  }
+
+  removeStudentRole(): void {
+    this.accountService.removeRole(this.person, 'STUDENT').subscribe(data => console.log(data));
+  }
+
+  removeParentRole(): void {
+    this.accountService.removeRole(this.person, 'PARENT').subscribe(data => console.log(data));
   }
 }

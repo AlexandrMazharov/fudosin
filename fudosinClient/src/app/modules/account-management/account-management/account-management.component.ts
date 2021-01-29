@@ -17,7 +17,9 @@ export class AccountManagementComponent implements OnInit {
 
   getPersons(): void {
     this.accountService.getPersons()
-      .subscribe(persons => this.persons = persons);
+      .subscribe(persons => {
+        this.persons = Object.values(persons);
+      });
   }
 
   ngOnInit(): void {

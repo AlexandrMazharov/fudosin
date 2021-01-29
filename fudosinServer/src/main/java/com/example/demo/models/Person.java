@@ -1,10 +1,12 @@
 package com.example.demo.models;
 
 
+import com.example.demo.repos.AdministratorRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.bytebuddy.implementation.ExceptionMethod;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -30,22 +32,22 @@ public class Person {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Student student;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Parent parent;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Instructor instructor;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Administrator administrator;
 
     public Person() {
@@ -235,4 +237,30 @@ public class Person {
         }
 
     }
+
+    public void removeRole(Role findedRole)
+    {
+
+        if (findedRole.getName() == ERole.ROLE_STUDENT) {
+            this.student = null;
+            this.userRoles.remove(findedRole);
+
+        }
+        if (findedRole.getName() == ERole.ROLE_PARENT) {
+            this.parent= null;
+            this.userRoles.remove(findedRole);
+
+        }
+        if (findedRole.getName() == ERole.ROLE_INSTRUCTOR) {
+            this.instructor = null;
+            this.userRoles.remove(findedRole);
+
+        }
+        if (findedRole.getName() == ERole.ROLE_ADMIN) {
+            this.administrator = null;
+            this.userRoles.remove(findedRole);
+
+        }
+    }
+
 }

@@ -25,11 +25,19 @@
 
     <div>{{role.name}}</div>
   </div>
+<div class="">
+  <button (click)="addAdminRole()">addAdminRole</button>
+  <button (click)="addInstructorRole()">addInstrRole</button>
+  <button (click)="addStudentRole()">addStudentRole</button>
+  <button (click)="addParentRole()">addParentRole</button>
+</div>
+  <div class="">
+    <button (click)="removeAdminRole()">removeAdminRole</button>
+    <button (click)="removeInstructorRole()">removeInstrRole</button>
+    <button (click)="removeStudentRole()">removeStudentRole</button>
+    <button (click)="removeParentRole()">removeParentRole</button>
+  </div>
 
-  <button (click)="addAdminRole()">addAdmin</button>
-  <button (click)="addInstructorRole()">addInstr</button>
-  <button (click)="addStudentRole()">addStudent</button>
-  <button (click)="addParentRole()">addParent</button>
   <button (click)="goBack()">go back</button>
   <button (click)="save()">save</button>
 </div>

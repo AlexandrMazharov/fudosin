@@ -26,7 +26,7 @@ public class Student {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Visit> visits = new HashSet<>();
 
 
