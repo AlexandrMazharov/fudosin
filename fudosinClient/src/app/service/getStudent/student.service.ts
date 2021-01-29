@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Lesson} from '../../models/lesson.model';
 
 const URL = 'http://localhost:8080/';
 
@@ -13,13 +14,13 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  getLessonsMonth(idStudent: number): Observable<any> {
-
-  }
-
-  getLessonsDay(idStudent: number): Observable<any> {
-
-  }
+  // getLessonsMonth(idStudent: number): Observable<Lesson[]> {
+  //
+  // }
+  //
+  // getLessonsDay(idStudent: number): Observable<Lesson[]> {
+  //
+  // }
 
   getVisitsByStudent(id: number): Observable<any>{
     const myHeaders = new HttpHeaders().set('Content-Type', 'application/json');

@@ -7,8 +7,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {UiElementsModule} from '../ui-elements/ui-elements.module';
 import {NavBarModule} from './cabinet/nav-bar/nav-bar.module';
-import {StudentModule} from './cabinet/student/student.module';
-import {ParentModule} from './cabinet/parent/parent.module';
+import {TimetableModule} from './cabinet/pages/timetable/timetable.module';
+import {AttendModule} from './cabinet/pages/attend/attend.module';
+import {MainModule} from './cabinet/pages/main/main.module';
 
 
 @NgModule({
@@ -20,8 +21,9 @@ import {ParentModule} from './cabinet/parent/parent.module';
     RouterModule,
     NavBarModule,
     UiElementsModule,
-    StudentModule,
-    ParentModule,
+    TimetableModule,
+    AttendModule,
+    MainModule
   ],
   exports: [
     CabinetComponent
