@@ -9,8 +9,8 @@ import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {CreateUserComponent} from './components/create-user/create-user.component';
 import {CabinetModule} from './modules/cabinet/cabinet.module';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import {PageFooterModule} from "./modules/cabinet/cabinet/page-footer/page-footer.module";
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {PageFooterModule} from './modules/cabinet/cabinet/page-footer/page-footer.module';
 
 @NgModule({
   declarations: [
@@ -29,8 +29,7 @@ import {PageFooterModule} from "./modules/cabinet/cabinet/page-footer/page-foote
     PageFooterModule
   ],
   providers: [],
-  exports: [
-  ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

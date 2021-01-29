@@ -22,7 +22,7 @@ export class NavBarComponent {
   }
 
   getLink(num: number): string {
-    return `${this.navLinks[num]}`;
+    return `lk/${this.navLinks[num]}`;
   }
 
 }
