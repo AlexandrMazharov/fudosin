@@ -26,11 +26,9 @@
     <div class="month-calendar__row" *ngFor="let row of dayRows; let i = index">
       <div class="month-calendar__day" *ngFor="let day of dayRows[i]; let j = index"
            [ngClass]="j === 6 ? 'month-calendar__sunday' : ''">
-        <app-month-part-day-student *ngIf="dayRows[i][j] !== 0 && (role === 'student' || role === 'parent')"
-                            [title]="dayRows[i][j] === 0 ? 0 : dayRows[i][j]"
-                            [lessons]="lessons" [type]="type"></app-month-part-day-student>
-
-<!--        write your days for INSTRUCTOR and ADMIN here-->
+        <app-month-part-day *ngIf="dayRows[i][j] !== 0"
+                                    [title]="dayRows[i][j]"
+                                    [lessons]="lessons.getLessonsByDay(dayRows[i][j] - 1)" [type]="type" [role]="role"></app-month-part-day>
       </div>
     </div>
   </div>

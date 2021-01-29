@@ -1,0 +1,83 @@
+.day {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+    width: 620px;
+    background: #172755;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 35px 0 40px;
+
+    &__left-arrow:hover, &__right-arrow:hover {
+      cursor: pointer;
+    }
+
+    &__number {
+      margin: 0 55px;
+
+      &_inner {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 47px;
+        text-align: center;
+        color: #FFFFFF;
+        margin: 0;
+      }
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-lessons {
+    position: relative;
+  }
+
+  &-footer__back {
+    text-align: center;
+    margin: 20px 0 30px;
+
+    &_inner {
+      font-family: Roboto;
+      font-style: normal;
+      font-size: 20px;
+      color: #FFFFFF;
+      margin: 0;
+      text-decoration: none;
+    }
+  }
+
+  &-none {
+    text-align: center;
+    padding: 100px 0;
+
+    &__inner {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 30px;
+      color: #FFFFFF;
+      margin: 0;
+      text-decoration: none;
+    }
+  }
+}
+
+app-day-part-lesson {
+  position: absolute;
+}

@@ -7,6 +7,8 @@ export class Lesson {
   private _timeBegin: Time;
   private _timeEnd: Time;
   private _place: string;
+  private _title: string;
+  private _idStudent: number;
 
   private isPresentTypes = [
     'да', 'был'
@@ -16,7 +18,7 @@ export class Lesson {
     'оплачено', 'деньги'
   ];
 
-  constructor(isPresent: string | boolean, paymentStatus: string | boolean, timeBegin: string, timeEnd: string, place: string) {
+  constructor(isPresent: string | boolean, paymentStatus: string | boolean, timeBegin: string, timeEnd: string, place: string, title: string, idStudent: number) {
     if (typeof isPresent === 'boolean') {
       this._isPresent = isPresent;
     } else {
@@ -42,6 +44,8 @@ export class Lesson {
     this._timeBegin = new Time(timeBegin);
     this._timeEnd = new Time(timeEnd);
     this._place = place;
+    this._title = title;
+    this._idStudent = idStudent;
   }
 
   get isPresent(): boolean {
@@ -62,6 +66,14 @@ export class Lesson {
 
   get place(): string {
     return this._place;
+  }
+
+  get title(): string {
+    return this._title;
+  }
+
+  get idStudent(): number {
+    return this._idStudent;
   }
 
 }

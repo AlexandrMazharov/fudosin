@@ -6,11 +6,10 @@ import {NgModule} from '@angular/core';
 
 export const TimetableRoutes: Routes = [
   {path: '', component: CalendarYearComponent},
-  {path: ':stud_id', component: CalendarYearComponent},
   {path: ':year_id/:month_id', component: CalendarMonthComponent},
   {path: ':year_id/:month_id/:day_id', component: CalendarDayComponent},
-  {path: ':stud_id/:year_id/:month_id', component: CalendarMonthComponent},
-  {path: ':stud_id/:year_id/:month_id/:day_id', component: CalendarDayComponent},
+  {path: 's/:stud_id/:year_id/:month_id', component: CalendarMonthComponent},
+  {path: 's/:stud_id/:year_id/:month_id/:day_id', component: CalendarDayComponent},
   // {path: 'instructor/', component: },
   // {path: 'admin', component:},
   {path: '**', redirectTo: '', pathMatch: 'full'},
