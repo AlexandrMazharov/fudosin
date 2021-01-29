@@ -5,7 +5,7 @@ import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {Observable} from 'rxjs';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {StudentService} from '../../../../service/getStudent/student.service';
+import {StudentService} from '../../../../service/personalities/student.service';
 
 @Component({
   selector: 'app-calendar-day',
@@ -68,8 +68,8 @@ export class CalendarDayComponent implements OnInit {
 
   getLessons(): Lesson[] {
     return [
-      new Lesson(false, false, '2020-03-03T15:00:00.000+00:00', '2020-03-03T17:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
-      new Lesson(true, true, '2020-03-03T17:00:00.000+00:00', '2020-03-03T19:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
+      new Lesson(false, false, '2020-03-03T15:00:00.000+00:00', '2020-03-03T16:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
+      new Lesson(true, true, '2020-03-03T17:00:00.000+00:00', '2020-03-03T18:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
       new Lesson(false, true, '2020-03-03T19:00:00.000+00:00', '2020-03-03T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
     ];
   }

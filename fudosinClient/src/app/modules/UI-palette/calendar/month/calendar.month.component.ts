@@ -4,8 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 import {Observable} from 'rxjs';
 import {Lesson} from '../../../../models/lesson.model';
-import {StudentService} from "../../../../service/getStudent/student.service";
-import {MonthLesson} from "../../services/MonthLessons.model";
+import {StudentService} from '../../../../service/personalities/student.service';
+import {MonthLesson} from '../../services/MonthLessons.model';
+import {ParentService} from '../../../../service/personalities/parent.service';
 
 @Component({
   selector: 'app-calendar-month',
@@ -19,11 +20,14 @@ export class CalendarMonthComponent implements OnInit {
   public dayRows: number[][];
   public type: string; // attend or timetable
   public role: string; // student or parent
+  public childs: string[];
+  private childsId: string[];
 
   public lessons: MonthLesson;
 
   constructor(private tokenStorageService: TokenStorageService, private calendar: CalendarService,
-              private activatedRoute: ActivatedRoute, private route: Router, private studentService: StudentService) {
+              private activatedRoute: ActivatedRoute, private route: Router,
+              private studentService: StudentService, private parentService: ParentService) {
     if (this.activatedRoute == null) {
       this.year = calendar.getYear();
       this.month = calendar.getMonth();
@@ -60,8 +64,16 @@ export class CalendarMonthComponent implements OnInit {
 
     if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
       this.role = 'parent';
+      // this.getChilds().subscribe(childs => {
+      //   this.childs = childs[0];
+      //   this.childsId = childs[1];
+      // });
+      this.childs = this.getChilds();
+      this.childsId = ['0', '1', '2'];
     } else {
       this.role = 'student';
+      this.childs = [];
+      this.childsId = [];
     }
   }
 
@@ -115,6 +127,26 @@ export class CalendarMonthComponent implements OnInit {
     this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
     this.dayRows = this.fillMonth(this.calendar.getWeekDay(this.year, this.month, 0));
   }
+
+  getChilds(): string[] {
+    return [
+      'Иван Иванов',
+      'Петр Иванов',
+      'Мария Иванова'
+    ];
+  }
+
+  getChildLink(id: number): string {
+    if (this.route.url.includes('s')) {
+      return `../../../../s/${this.childsId[id]}/${this.year}/${this.month}`;
+    } else {
+      return `../../s/${this.childsId[id]}/${this.year}/${this.month}`;
+    }
+  }
+
+  // private getChilds(): Observable<string[][]> { // fix it!!!
+  //   return this.parentService.getChilds(this.tokenStorageService.getPerson().id);
+  // }
 
   getLessons(): Lesson[] {
     return [
