@@ -24,4 +24,5 @@ public class VisitController {
     public ResponseEntity<List<Visit>> getAllVisits() {
         return ResponseEntity.ok(visitRepository.findAll());
     }
+
 }

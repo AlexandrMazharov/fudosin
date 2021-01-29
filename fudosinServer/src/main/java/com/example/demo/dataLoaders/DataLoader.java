@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -57,9 +58,7 @@ public class DataLoader implements ApplicationRunner {
 
 
         insertDomain();
-        insertTrainingGroup();
-        insertLessons();
-
+        insertRealGroupAndLesson();
 
         insertRoles();
         insertUserStudentParent();
@@ -68,6 +67,125 @@ public class DataLoader implements ApplicationRunner {
         insertStudentsParents();
         insertVisits();
         insertInstructorGroup();
+
+
+    }
+
+    private void insertRealGroupAndLesson() {
+        Domain domainJJ = domainRepository.findById(Long.valueOf(1)).get();
+        Domain domainAikido = domainRepository.findById(Long.valueOf(2)).get();
+        Domain domainKobudo = domainRepository.findById(Long.valueOf(3)).get();
+
+// add groups
+        TrainingGroup groupJJ1 = new TrainingGroup(domainJJ, "Группа 1");
+        TrainingGroup groupJJ2 = new TrainingGroup(domainJJ, "Группа 2");
+        TrainingGroup groupJJ3 = new TrainingGroup(domainJJ, "Группа 3");
+        trainingGroupRepository.save(groupJJ1);
+        trainingGroupRepository.save(groupJJ2);
+        trainingGroupRepository.save(groupJJ3);
+
+        TrainingGroup groupAkido1 = new TrainingGroup(domainAikido, "Группа 1");
+        TrainingGroup groupAkido2 = new TrainingGroup(domainAikido, "Группа 2");
+        trainingGroupRepository.save(groupAkido1);
+        trainingGroupRepository.save(groupAkido2);
+
+        TrainingGroup groupKobudo1 = new TrainingGroup(domainKobudo, "Группа 1");
+        trainingGroupRepository.save(groupKobudo1);
+
+        Calendar start = new GregorianCalendar();
+        Calendar end = new GregorianCalendar();
+        end.add(Calendar.MONTH, 6);
+        while (start.before(end)) {
+
+            String place = "Орбита";
+            if (start.get(Calendar.DAY_OF_WEEK) == 2 || start.get(Calendar.DAY_OF_WEEK) == 4 || start.get(Calendar.DAY_OF_WEEK) == 6  ) {
+                // Monday and Wednesday and Friday
+                start.set(Calendar.HOUR_OF_DAY, 18);
+                start.set(Calendar.MINUTE, 30);
+                lessonRepository.save(createLesson(start, 60, groupJJ1, place));
+
+                start.set(Calendar.HOUR_OF_DAY, 19);
+                start.set(Calendar.MINUTE, 30);
+                lessonRepository.save(createLesson(start, 90, groupJJ2, place));
+            }
+            if (start.get(Calendar.DAY_OF_WEEK) == 3 || start.get(Calendar.DAY_OF_WEEK) == 5) {
+                // Tuesday and Thursday
+                start.set(Calendar.HOUR_OF_DAY, 19);
+                start.set(Calendar.MINUTE, 30);
+                lessonRepository.save(createLesson(start, 90, groupAkido1, place));
+            }
+            if (start.get(Calendar.DAY_OF_WEEK) == 7) {
+                // Saturday
+                start.set(Calendar.HOUR_OF_DAY, 17);
+                start.set(Calendar.MINUTE, 0);
+                lessonRepository.save(createLesson(start, 60, groupKobudo1, place));
+            }
+            place = "Молодежный";
+            if (start.get(Calendar.DAY_OF_WEEK) == 3 || start.get(Calendar.DAY_OF_WEEK) == 5) {
+                start.set(Calendar.HOUR_OF_DAY, 20);
+                start.set(Calendar.MINUTE, 0);
+                lessonRepository.save(createLesson(start, 60, groupAkido2, place));
+            }
+            if (start.get(Calendar.DAY_OF_WEEK) == 6) {
+                start.set(Calendar.HOUR_OF_DAY, 10);
+                start.set(Calendar.MINUTE, 0);
+                lessonRepository.save(createLesson(start, 60, groupAkido2, place));
+            }
+
+            if (start.get(Calendar.DAY_OF_WEEK) == 2
+                    || start.get(Calendar.DAY_OF_WEEK) == 4
+                    || start.get(Calendar.DAY_OF_WEEK) == 6
+            ) {
+                start.set(Calendar.HOUR_OF_DAY, 19);
+                start.set(Calendar.MINUTE, 15);
+                lessonRepository.save(createLesson(start, 90, groupJJ3, place));
+            }
+
+            start.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+
+    }
+
+    private Lesson createLesson(Calendar start, int duration, TrainingGroup group, String place) {
+        Calendar finish = (Calendar) start.clone();
+        finish.add(Calendar.MINUTE, duration);
+        return new Lesson(start.getTime(), finish.getTime(), place, group);
+    }
+
+    private void insertLessons() {
+
+        for (TrainingGroup group : trainingGroupRepository.findAll()) {
+
+            Calendar date1 = new GregorianCalendar();
+            date1.set(Calendar.YEAR, 2020);
+            date1.set(Calendar.MONTH, 2);
+            date1.set(Calendar.DAY_OF_MONTH, 1);
+            date1.set(Calendar.HOUR_OF_DAY, 19);
+            date1.set(Calendar.MINUTE, 0);
+            date1.set(Calendar.SECOND, 0);
+            date1.set(Calendar.MILLISECOND, 0);
+
+            Calendar date2 = new GregorianCalendar();
+            date2.set(Calendar.YEAR, 2020);
+            date2.set(Calendar.MONTH, 2);
+            date2.set(Calendar.DAY_OF_MONTH, 1);
+            date2.set(Calendar.HOUR_OF_DAY, 21);
+            date2.set(Calendar.MINUTE, 0);
+            date2.set(Calendar.SECOND, 0);
+            date2.set(Calendar.MILLISECOND, 0);
+
+            String place = "Орбита";
+            if (!lessonRepository.existsLessonByTrainingGroup(group)) {
+                for (int i = 0; i < 10; i++) {
+                    date1.set(Calendar.DAY_OF_MONTH, date1.get(Calendar.DAY_OF_MONTH) + 2);
+                    date2.set(Calendar.DAY_OF_MONTH, date2.get(Calendar.DAY_OF_MONTH) + 2);
+                    Lesson lesson = new Lesson(date1.getTime(), date2.getTime(), place, group);
+                    lessonRepository.save(lesson);
+                }
+            }
+        }
+
     }
 
     private void addStudentRole(Set<Role> roles) {
@@ -273,51 +391,17 @@ public class DataLoader implements ApplicationRunner {
         }
     }
 
-    private void insertLessons() {
 
-        for (TrainingGroup group : trainingGroupRepository.findAll()) {
-
-            Calendar date1 = new GregorianCalendar();
-            date1.set(Calendar.YEAR, 2020);
-            date1.set(Calendar.MONTH, 2);
-            date1.set(Calendar.DAY_OF_MONTH, 1);
-            date1.set(Calendar.HOUR_OF_DAY, 19);
-            date1.set(Calendar.MINUTE, 0);
-            date1.set(Calendar.SECOND, 0);
-            date1.set(Calendar.MILLISECOND, 0);
-
-            Calendar date2 = new GregorianCalendar();
-            date2.set(Calendar.YEAR, 2020);
-            date2.set(Calendar.MONTH, 2);
-            date2.set(Calendar.DAY_OF_MONTH, 1);
-            date2.set(Calendar.HOUR_OF_DAY, 21);
-            date2.set(Calendar.MINUTE, 0);
-            date2.set(Calendar.SECOND, 0);
-            date2.set(Calendar.MILLISECOND, 0);
-
-            String place = "Орбита";
-            if (!lessonRepository.existsLessonByTrainingGroup(group)) {
-                for (int i = 0; i < 10; i++) {
-                    date1.set(Calendar.DAY_OF_MONTH, date1.get(Calendar.DAY_OF_MONTH) + 2);
-                    date2.set(Calendar.DAY_OF_MONTH, date2.get(Calendar.DAY_OF_MONTH) + 2);
-                    Lesson lesson = new Lesson(date1.getTime(), date2.getTime(), place, group);
-                    lessonRepository.save(lesson);
-                }
-            }
-        }
-
-    }
-
-    private void insertTrainingGroup() {
-        for (Domain domain : domainRepository.findAll()) {
-            if (!trainingGroupRepository.existsTrainingGroupByDomain(domain)) {
-                TrainingGroup trainingGroup1 = new TrainingGroup(domain, "Дети");
-                TrainingGroup trainingGroup2 = new TrainingGroup(domain, "Взрослые");
-                trainingGroupRepository.save(trainingGroup1);
-                trainingGroupRepository.save(trainingGroup2);
-            }
-        }
-    }
+//    private void insertTrainingGroup() {
+//        for (Domain domain : domainRepository.findAll()) {
+//            if (!trainingGroupRepository.existsTrainingGroupByDomain(domain)) {
+//                TrainingGroup trainingGroup1 = new TrainingGroup(domain, "Дети");
+//                TrainingGroup trainingGroup2 = new TrainingGroup(domain, "Взрослые");
+//                trainingGroupRepository.save(trainingGroup1);
+//                trainingGroupRepository.save(trainingGroup2);
+//            }
+//        }
+//    }
 
     private void insertDomain() {
         String[] domains = {"Джиу-джитсу", "Айкидо", "Кобудо"};

@@ -17,8 +17,10 @@ public class TrainingGroup {
     @JoinColumn
     private Domain domain;
 
+    private String place;
     private String description;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.MERGE,
