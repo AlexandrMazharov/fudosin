@@ -6,14 +6,14 @@
     </div>
     <div class="month-header__title">
       <div class="month-header__left-arrow">
-        <img class="month-header__left-arrow_img" src="../assets/images/elements/left-arrow.svg"
+        <img class="month-header__left-arrow_img" src="../assets/images/elements/left-arrow.svg" (click)="turn()"
              [routerLink]="getMonthLink(-1)">
       </div>
       <div class="month-header__number">
         <h3 class="month-header__number_inner">{{getMonth()}} {{year}}</h3>
       </div>
       <div class="month-header__right-arrow">
-        <img class="month-header__right-arrow_img" src="../assets/images/elements/right-arrow.svg"
+        <img class="month-header__right-arrow_img" src="../assets/images/elements/right-arrow.svg" (click)="turn()"
              [routerLink]="getMonthLink(1)">
       </div>
     </div>

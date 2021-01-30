@@ -10,14 +10,14 @@ export class MonthLesson {
     for (let i = 0; i < this._data.length; ++i) {
       let j = 0;
       this._data[i] = new DayLesson(i + 1);
-      while (lessons[j] !== undefined) {
+      while (j < lessons.length) {
         if (lessons[j].timeBegin.day === i + 1) {
           this._data[i].addData(lessons[j]);
-          ++j;
         }
+        ++j;
       }
     }
-    // this._data = this.sort(this._data);
+    this._data = this.sort(this._data);
   }
 
   getLessonsByDay(day: number): Lesson[] | undefined {
@@ -28,9 +28,20 @@ export class MonthLesson {
     }
   }
 
-  // sort(mas: DayLesson[]): DayLesson[] {
-  //
-  // }
+  sort(mas: DayLesson[]): DayLesson[] {
+    for (let day of mas) {
+      for (let j = day.data.length - 1; j > 0; j--) {
+        for (let i = 0; i < j; i++) {
+          if (day.data[i] > day.data[i + 1]) {
+            let temp = day.data[i];
+            day.data[i] = day.data[i + 1];
+            day.data[i + 1] = temp;
+          }
+        }
+      }
+    }
+    return mas;
+  }
 
 }
 
