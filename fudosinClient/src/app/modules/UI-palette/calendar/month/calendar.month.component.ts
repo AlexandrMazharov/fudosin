@@ -120,6 +120,13 @@ export class CalendarMonthComponent implements OnInit {
     }
   }
 
+  turn(): void {
+    this.lessons = new MonthLesson([], 0, 0);
+    setTimeout(() => {
+      this.httpInit();
+    }, 100);
+  }
+
   ngDoCheck() {
     // @ts-ignore
     this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
@@ -144,7 +151,7 @@ export class CalendarMonthComponent implements OnInit {
     if (id !== -1) {
       return this.studentParentService.getLessonsMonthStudent(id, this.year, this.month);
     } else {
-      return this.studentParentService.getLessonsMonthParent(this.tokenStorageService.getPerson().id, this.year, this.month); // fix it!
+      return this.studentParentService.getLessonsMonthParent(this.tokenStorageService.getPerson().id, this.year, this.month);
     }
   }
 
