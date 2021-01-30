@@ -47,7 +47,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.tokenStorageService.getPerson());
     if (this.tokenStorageService.getPerson()) {
 
       this.isLoggedIn = true;

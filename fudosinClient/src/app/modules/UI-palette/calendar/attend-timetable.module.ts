@@ -8,8 +8,7 @@ import {TimelineComponent} from './day/timeline/timeline.component';
 import {MonthPartDayComponent} from './month/month-part-day/month-part-day.component';
 import {DayPartLessonComponent} from './day/day-part-lesson/day-part-lesson.component';
 import {CalendarService} from '../services/calendar.service';
-import {StudentService} from '../../../service/personalities/student.service';
-import {ParentService} from '../../../service/personalities/parent.service';
+import {StudentParentService} from '../../../service/personalities/studentParent.service';
 
 
 @NgModule({
@@ -19,7 +18,7 @@ import {ParentService} from '../../../service/personalities/parent.service';
     CommonModule,
     RouterModule
   ],
-  providers: [CalendarService, StudentService, ParentService]
+  providers: [CalendarService, StudentParentService]
 })
 export class AttendTimetableModule {
 }

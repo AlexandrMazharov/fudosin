@@ -1,5 +1,15 @@
 import {Time} from './Time.fudoshin.model';
 
+class Words {
+  static isPresentTypes = [
+    'да', 'был'
+  ];
+
+  static paymentStatusTypes = [
+    'оплачено', 'деньги'
+  ];
+}
+
 export class Lesson {
 
   private _isPresent: boolean;
@@ -10,20 +20,14 @@ export class Lesson {
   private _title: string;
   private _idStudent: number;
 
-  private isPresentTypes = [
-    'да', 'был'
-  ];
 
-  private paymentStatusTypes = [
-    'оплачено', 'деньги'
-  ];
 
   constructor(isPresent: string | boolean, paymentStatus: string | boolean, timeBegin: string, timeEnd: string, place: string, title: string, idStudent: number) {
     if (typeof isPresent === 'boolean') {
       this._isPresent = isPresent;
     } else {
       this._isPresent = false;
-      for (let present of this.isPresentTypes) {
+      for (let present of Words.isPresentTypes) {
         if (isPresent.toLowerCase().includes(present)) {
           this._isPresent = true;
         }
@@ -34,7 +38,7 @@ export class Lesson {
       this._paymentStatus = paymentStatus;
     } else {
       this._paymentStatus = false;
-      for (let pay of this.paymentStatusTypes) {
+      for (let pay of Words.paymentStatusTypes) {
         if (paymentStatus.toLowerCase().includes(pay)) {
           this._paymentStatus = true;
         }

@@ -5,7 +5,7 @@ import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {Observable} from 'rxjs';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {StudentService} from '../../../../service/personalities/student.service';
+import {StudentParentService} from '../../../../service/personalities/studentParent.service';
 
 @Component({
   selector: 'app-calendar-day',
@@ -20,7 +20,7 @@ export class CalendarDayComponent implements OnInit {
 
   public lessons: Lesson[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService, private tokenStorageService: TokenStorageService, private studentService: StudentService) {
+  constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService, private tokenStorageService: TokenStorageService, private studentService: StudentParentService) {
     if (this.activatedRoute === undefined) {
       this.year = this.calendar.getYear();
       this.month = this.calendar.getMonth();
