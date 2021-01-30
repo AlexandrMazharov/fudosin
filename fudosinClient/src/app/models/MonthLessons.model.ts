@@ -1,5 +1,5 @@
-import {Lesson} from '../../../models/lesson.model';
-import {CalendarService} from './calendar.service';
+import {Lesson} from './lesson.model';
+import {CalendarService} from '../modules/UI-palette/services/calendar.service';
 
 export class MonthLesson {
 
@@ -7,19 +7,17 @@ export class MonthLesson {
 
   constructor(lessons: Lesson[], idYear: number, idMonth: number) {
     this._data = new Array(new CalendarService().getCountOfDaysInMonth(idYear, idMonth));
-    let j = 0;
     for (let i = 0; i < this._data.length; ++i) {
+      let j = 0;
       this._data[i] = new DayLesson(i + 1);
-      let key = true;
-      while (key && lessons[j] !== undefined) {
+      while (lessons[j] !== undefined) {
         if (lessons[j].timeBegin.day === i + 1) {
           this._data[i].addData(lessons[j]);
           ++j;
-        } else {
-          key = false;
         }
       }
     }
+    // this._data = this.sort(this._data);
   }
 
   getLessonsByDay(day: number): Lesson[] | undefined {
@@ -29,6 +27,10 @@ export class MonthLesson {
       return this._data[day].data;
     }
   }
+
+  // sort(mas: DayLesson[]): DayLesson[] {
+  //
+  // }
 
 }
 
