@@ -31,11 +31,7 @@ export class MonthPartDayComponent implements OnInit {
   }
 
   getTitle(lesson: Lesson): string {
-    if (this.role === 'parent') {
-      return `${lesson.idStudent} – ${lesson.title}`;
-    } else {
-      return lesson.title;
-    }
+    return lesson.title;
   }
 
   private visit(lesson: Lesson): string {

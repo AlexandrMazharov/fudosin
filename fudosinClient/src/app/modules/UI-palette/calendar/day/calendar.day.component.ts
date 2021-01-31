@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {TimeService} from '../../services/time.service';
 import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
-import {Observable} from 'rxjs';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 import {StudentParentService} from '../../../../service/personalities/studentParent.service';
+import {MonthLesson} from '../../../../models/MonthLessons.model';
 
 @Component({
   selector: 'app-calendar-day',
@@ -17,10 +17,12 @@ export class CalendarDayComponent implements OnInit {
   public year: number;
   public month: number;
   public day: number;
+  private role = 'student'; // student or parent
+  private childsId: number[] = [];
 
   public lessons: Lesson[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService, private tokenStorageService: TokenStorageService, private studentService: StudentParentService) {
+  constructor(private activatedRoute: ActivatedRoute, private calendar: CalendarService, private tokenStorageService: TokenStorageService, private studentParentService: StudentParentService) {
     if (this.activatedRoute === undefined) {
       this.year = this.calendar.getYear();
       this.month = this.calendar.getMonth();
@@ -39,19 +41,14 @@ export class CalendarDayComponent implements OnInit {
       }
     }
 
-    // // @ts-ignore
-    // const studId = +this.activatedRoute.snapshot.paramMap.get('stud_id');
-    // if (studId === null) {
-    //   this.getLessons(-1).subscribe(lessons => {
-    //     this.lessons = lessons;
-    //   });
-    // } else {
-    //   this.getLessons(studId).subscribe(lessons => {
-    //     this.lessons = lessons;
-    //   });
-    // }
+    this.getLessonsDay().then(lessons => {
+      this.lessons = lessons;
+    });
 
-    this.lessons = this.getLessons();
+  }
+
+  private getChilds(): Promise<number[]> {
+    return this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id);
   }
 
   ngOnInit(): void {
@@ -66,21 +63,35 @@ export class CalendarDayComponent implements OnInit {
     this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
   }
 
-  getLessons(): Lesson[] {
-    return [
-      new Lesson(false, false, '2020-03-03T15:00:00.000+00:00', '2020-03-03T16:00:00.000+00:00', 'Орбита', 'Айкидо', 1),
-      new Lesson(true, true, '2020-03-03T17:00:00.000+00:00', '2020-03-03T18:00:00.000+00:00', 'Орбита', 'Кобудо', 1),
-      new Lesson(false, true, '2020-03-03T19:00:00.000+00:00', '2020-03-03T21:00:00.000+00:00', 'Орбита', 'Джиу-Джитсу', 1),
-    ];
-  }
+  private getLessonsDay(): Promise<Lesson[]> {
+    return new Promise<Lesson[]>(resolve => {
+      if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
+        this.role = 'parent';
+        // @ts-ignore
+        const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
 
-  // getLessons(idStudent: number): Observable<Lesson[]> {
-  //   if (idStudent === -1) {
-  //     return this.studentService.getLessonsDay(this.tokenStorageService.getPerson().id, this.year, this.month, this.day);
-  //   } else {
-  //     return this.studentService.getLessonsDayStudent(idStudent, this.year, this.month, this.day);
-  //   }
-  // }
+        if (studId === null) {
+          this.getChilds().then(data => {
+            this.childsId = data;
+          }).then(() => {
+            this.studentParentService.getLessonsMonth(this.childsId[0], this.year, this.month).then(allMonth => {
+              resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
+            });
+          });
+
+        } else {
+          this.studentParentService.getLessonsMonth(+studId, this.year, this.month).then(allMonth => {
+            resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
+          });
+        }
+      } else {
+        this.role = 'student';
+        this.studentParentService.getLessonsMonth(this.tokenStorageService.getPerson().id, this.year, this.month).then(allMonth => {
+          resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
+        });
+      }
+    });
+  }
 
   getLink(direction: number): string {
     let url = '../../../';
@@ -137,7 +148,7 @@ export class CalendarDayComponent implements OnInit {
 
   getStyle(id: number): string {
     let top = 0;
-    if (this.lessons[0].timeBegin.minute < 30) {
+    if (this.lessons[0].timeBegin.minute <= 30) {
       top = this.lessons[0].timeBegin.minute * (4 / 3);
     } else {
       top = (this.lessons[0].timeBegin.minute - 30) * (4 / 3);

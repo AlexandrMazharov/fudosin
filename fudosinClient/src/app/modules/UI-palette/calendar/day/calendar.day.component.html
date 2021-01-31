@@ -15,14 +15,14 @@
       </div>
     </div>
 
-    <div class="day-body" *ngIf="lessons !== undefined">
+    <div class="day-body" *ngIf="lessons.length !== 0">
       <app-timeline [timeBegin]="getTimeBegin()" [timeEnd]="getTimeEnd()"></app-timeline>
       <div class="day-lessons">
         <app-day-part-lesson [style]="getStyle(i)" *ngFor="let lesson of lessons; let i = index" [lesson]="lesson"></app-day-part-lesson>
       </div>
     </div>
 
-    <div class="day-none" *ngIf="lessons === undefined">
+    <div class="day-none" *ngIf="lessons.length === 0">
       <p class="day-none__inner">Сегодня занятий нет!</p>
     </div>
 
