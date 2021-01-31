@@ -17,14 +17,33 @@ export class StudentParentService {
   constructor(private http: HttpClient) {
   }
 
+  private getIdOfRole(idPerson: number, role: string): Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      this.http.get<any>(URL + this.person + idPerson + '/roles', {observe: 'body'}).subscribe(data => {
+        if (data[`${role}`] !== null) {
+          resolve(data[`${role}`]);
+        } else {
+          reject(-1);
+        }
+      }, () => {
+        reject(-1);
+      });
+    });
+  }
+
   // STUDENT
 
-  // getLessonsDayStudent(idStudent: number, year: number, month: number, day: number): Promise<Lesson[]> {
+  // Impossible now
+  // getLessonsDay(idPerson: number, year: number, month: number, day: number): Promise<Lesson[]> {
+  //   return new Promise<Lesson[]>((resolve, reject) => {
+  //     this.getIdOfRole(idPerson, 'student').then(idStudent => {
   //
+  //     })
+  //   });
   // }
 
   private queryForStudent(massive: any[], num: number, url: string, year: number, month: number, id: number, result: any[]): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<any>(resolve => {
       if (num >= massive.length) {
         resolve(result);
       } else {
@@ -36,13 +55,13 @@ export class StudentParentService {
     });
   }
 
-  getLessonsMonthStudent(idPerson: number, year: number, month: number): Promise<Lesson[]> {
+  getLessonsMonth(idPerson: number, year: number, month: number): Promise<Lesson[]> {
     return new Promise<Lesson[]>((resolve, reject) => {
-      this.http.get<any>(URL + this.person + idPerson + '/roles', {observe: 'body'}).subscribe(roles => {
-        this.getGroupsId(roles.student).then(
+      this.getIdOfRole(idPerson, 'student').then(studentId => {
+        this.getGroupsId(studentId).then(
           res => {
             let result: Lesson[] = [];
-            this.queryForStudent(res, 0, URL, year, month, roles.student, result).then(d => {
+            this.queryForStudent(res, 0, URL, year, month, studentId, result).then(d => {
               resolve(d);
             }, () => {
               reject([]);
@@ -88,56 +107,54 @@ export class StudentParentService {
 
   // PARENT
 
-  getChildsId(idParent: number): Promise<number[]> {
+  getChildsId(idPerson: number): Promise<number[]> {
     return new Promise<number[]>((resolve, reject) => {
-      this.http.get<any>(URL + this.parent + `${idParent}/students`, {observe: 'body'}).subscribe(data => {
+      this.getIdOfRole(idPerson, 'parent').then(idParent => {
+        this.http.get<any>(URL + this.parent + `${idParent}/students`, {observe: 'body'}).subscribe(data => {
+          let result = [];
+          for (let i = 0; i < data.length; ++i) {
+            result.push(+data[i].person.id); // also persons id-s
+          }
+          resolve(result);
+        }, () => {
+          reject([]);
+        });
+      });
+    });
+  }
+
+  getNameSurname(idPerson: number): Promise<string[]> {
+    return new Promise<string[]>((resolve) => {
+      this.http.get<any>(URL + this.person + idPerson, {observe: 'body'}).subscribe(data => {
         let result = [];
-        for (let i = 0; i < data.length; ++i) {
-          result.push(+data[i].person.id); // also persons id-s
+        if (data.firstName !== null) {
+          result.push(data.firstName);
+        } else {
+          result.push('ИМЯ');
+        }
+        if (data.lastName !== null) {
+          result.push(data.lastName);
+        } else {
+          result.push('ФАМИЛИЯ');
         }
         resolve(result);
       }, () => {
-        reject([]);
+        resolve(['ИМЯ', 'ФАМИЛИЯ']);
       });
     });
   }
 
-  getLessonsMonthParent(idPerson: number, year: number, month: number): Promise<Lesson[]> {
-    return new Promise<any[]>((resolve, reject) => {
-      this.http.get<any>(URL + this.person + idPerson + '/roles', {observe: 'body'}).subscribe(roles => {
-        this.getChildsId(+roles.parent).then(
-          res => {
-            let result: Lesson[] = [];
-            this.queryForParent(res, 0, 2021, 1, result).then(d => {
-              resolve(d);
-            });
-          },
-          () => {
-            reject([]);
-          });
-      }, error => {
-        reject([]);
-      });
-    });
-  }
-
-  private queryForParent(massive: any[], num: number, year: number, month: number, result: any[]): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      if (num >= massive.length) {
+  getFullNames(ides: number[], num: number, result: string[]): Promise<string[]> {
+    return new Promise<string[]>(resolve => {
+      if (num >= ides.length) {
         resolve(result);
       } else {
-        this.getLessonsMonthStudent(massive[num], year, month).then(d => {
-          result = result.concat(d);
-          resolve(this.queryForParent(massive, ++num, year, month, result));
-        }, () => {
-          reject([]);
+        this.getNameSurname(ides[num]).then(res => {
+          result = result.concat(`${res[0]} ${res[1]}`);
+          resolve(this.getFullNames(ides, ++num, result));
         });
       }
     });
   }
-
-  // getLessonsDayParent(idParent: number, year: number, month: number, day: number): Promise<Lesson[]> {
-  //
-  // }
 
 }

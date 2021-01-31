@@ -2,7 +2,7 @@
 
   <div class="month-header">
     <div class="month-header__back">
-      <a class="month-header__back_inner" routerLink="../../">Назад</a>
+      <a class="month-header__back_inner" [routerLink]="getBack()">Назад</a>
     </div>
     <div class="month-header__title">
       <div class="month-header__left-arrow">
@@ -23,7 +23,7 @@
   </div>
 
   <div class="month-tabs" *ngIf="role === 'parent'">
-    <div class="tab" [routerLink]="getChildLink(i)" routerLinkActive="active-tab" *ngFor="let child of childs; let i = index">
+    <div class="tab" [ngClass]="firstActivated(i)" [routerLink]="getChildLink(i)" routerLinkActive="active-tab" *ngFor="let child of childs; let i = index">
       <p class="tab__inner">{{child}}</p>
     </div>
   </div>

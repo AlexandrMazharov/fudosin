@@ -18,7 +18,7 @@ export class CalendarMonthComponent implements OnInit {
   public dayRows: number[][];
   public type: string; // attend or timetable
   public role = 'student'; // student or parent
-  public childs: number[] = [];
+  public childs: string[] = [];
   private childsId: number[] = [];
 
   public lessons: MonthLesson = new MonthLesson([], 0, 0);
@@ -39,7 +39,7 @@ export class CalendarMonthComponent implements OnInit {
         this.year = calendar.getYear();
         this.month = calendar.getMonth();
       }
-      if (this.route.url.includes('attend')) {
+      if (this.route.url.includes('/attend/')) {
         this.type = 'attend';
       } else {
         this.type = 'timetable';
@@ -97,19 +97,23 @@ export class CalendarMonthComponent implements OnInit {
     if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
       this.role = 'parent';
       this.getChilds().then(data => {
-        this.childs = data;
         this.childsId = data;
+      }).then(() => {
+        this.studentParentService.getFullNames(this.childsId, 0, []).then(names => {
+          this.childs = names;
+        });
+      }).then(() => {
+        const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
+        if (studId !== null) {
+          this.getLessons(+studId).then(data => {
+            this.lessons = new MonthLesson(data, this.year, this.month);
+          });
+        } else {
+          this.getLessons(this.childsId[0]).then(lessons => {
+            this.lessons = new MonthLesson(lessons, this.year, this.month);
+          });
+        }
       });
-      const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
-      if (studId !== null) {
-        this.getLessons(+studId).then(data => {
-          this.lessons = new MonthLesson(data, this.year, this.month);
-        });
-      } else {
-        this.getLessons(-1).then(lessons => {
-          this.lessons = new MonthLesson(lessons, this.year, this.month);
-        });
-      }
     } else {
       this.role = 'student';
       this.childs = [];
@@ -136,7 +140,7 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   getChildLink(id: number): string {
-    if (this.route.url.includes('s')) {
+    if (this.route.url.includes('/s/')) {
       return `../../../../s/${this.childsId[id]}/${this.year}/${this.month}`;
     } else {
       return `../../s/${this.childsId[id]}/${this.year}/${this.month}`;
@@ -148,11 +152,7 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   getLessons(id: number): Promise<Lesson[]> {
-    if (id !== -1) {
-      return this.studentParentService.getLessonsMonthStudent(id, this.year, this.month);
-    } else {
-      return this.studentParentService.getLessonsMonthParent(this.tokenStorageService.getPerson().id, this.year, this.month);
-    }
+    return this.studentParentService.getLessonsMonth(id, this.year, this.month);
   }
 
   createDocumentAttend(): void {
@@ -179,4 +179,19 @@ export class CalendarMonthComponent implements OnInit {
     }
   }
 
+  getBack(): string {
+    if (this.route.url.includes('/s/')) {
+      return `../../../../`;
+    } else {
+      return `../../`;
+    }
+  }
+
+  firstActivated(i: number): string {
+    if (!this.route.url.includes('/s/') && this.role === 'parent' && i === 0) {
+      return `active-tab`;
+    } else {
+      return `active-tab`;
+    }
+  }
 }

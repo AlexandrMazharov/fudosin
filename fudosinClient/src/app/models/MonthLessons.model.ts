@@ -20,19 +20,15 @@ export class MonthLesson {
     this._data = this.sort(this._data);
   }
 
-  getLessonsByDay(day: number): Lesson[] | undefined {
-    if (this._data[day] === undefined) {
-      return undefined;
-    } else {
-      return this._data[day].data;
-    }
+  getLessonsByDay(day: number): Lesson[] {
+    return this._data[day].data;
   }
 
-  sort(mas: DayLesson[]): DayLesson[] {
+  private sort(mas: DayLesson[]): DayLesson[] {
     for (let day of mas) {
       for (let j = day.data.length - 1; j > 0; j--) {
         for (let i = 0; i < j; i++) {
-          if (day.data[i] > day.data[i + 1]) {
+          if ((day.data[i].timeBegin.hour > day.data[i + 1].timeBegin.hour) || ((day.data[i].timeBegin.hour === day.data[i + 1].timeBegin.hour) && (day.data[i].timeBegin.minute > day.data[i + 1].timeBegin.minute))) {
             let temp = day.data[i];
             day.data[i] = day.data[i + 1];
             day.data[i + 1] = temp;
