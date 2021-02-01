@@ -63,9 +63,9 @@ export class AccountManagementComponent implements OnInit {
   getPersons(): void {
     this.accountService.getPersons()
       .subscribe(persons => {
-        this.persons = persons;
+        this.persons = Object.values(persons);
         this.length = this.persons.length;
-        this.chunks = this.splitArr(persons);
+        this.chunks = this.splitArr(Object.values(persons));
       });
   }
 
