@@ -1,6 +1,7 @@
 import {Role} from './role.model';
+import {Deserializable} from './Deserializable';
 
-export class Person {
+export class Person implements Deserializable{
 
   private _id: number | undefined;
 
@@ -11,7 +12,7 @@ export class Person {
   private _parentId: Person | undefined;
   private _email: string | undefined;
   private _birthDay: Date | undefined;
-  private _roles: Role[] | undefined;
+  private _userRoles!: Role[] ;
   private _password: string;
   private _username: string;
   private _degree: string | undefined;
@@ -97,12 +98,13 @@ export class Person {
   }
 
 
-  get roles(): Role[] | undefined {
-    return this._roles;
+  get userRoles(): Role[]  {
+    return this._userRoles;
   }
 
-  set roles(value: Role[] | undefined) {
-    this._roles = value;
+
+  set userRoles(value: Role[]) {
+    this._userRoles = value;
   }
 
   get password(): string {
@@ -120,5 +122,11 @@ export class Person {
   set username(value: string) {
     this._username = value;
   }
+
+  deserialize(input: any): this {
+    Object.assign(this, input);
+    return this;
+  }
+
 
 }

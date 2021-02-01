@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Role} from "../../models/role.model";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Role} from '../../models/role.model';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class RoleService {
   }
 
   getRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(this.url);
+    return this.http.get(this.url).pipe(map(res =>  new Role().deserialize(res)));
   }
 
 }

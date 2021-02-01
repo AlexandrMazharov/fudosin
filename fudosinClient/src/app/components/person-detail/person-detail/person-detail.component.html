@@ -20,4 +20,23 @@
   <div class="wrapper_buttons_button" (click)="goBack()">Отмена</div>
   <div class="wrapper_buttons_button" (click)="save()">Подтвердить</div>
 </div>
+  <div *ngFor="let role of person.userRoles; let i = index" [attr.data-index]="i">
+
+    <div>{{role.name}}</div>
+  </div>
+<div class="">
+  <button (click)="addAdminRole()">addAdminRole</button>
+  <button (click)="addInstructorRole()">addInstrRole</button>
+  <button (click)="addStudentRole()">addStudentRole</button>
+  <button (click)="addParentRole()">addParentRole</button>
+</div>
+  <div class="">
+    <button (click)="removeAdminRole()">removeAdminRole</button>
+    <button (click)="removeInstructorRole()">removeInstrRole</button>
+    <button (click)="removeStudentRole()">removeStudentRole</button>
+    <button (click)="removeParentRole()">removeParentRole</button>
+  </div>
+
+  <button (click)="goBack()">go back</button>
+  <button (click)="save()">save</button>
 </div>
