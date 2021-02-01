@@ -9,7 +9,7 @@ import {NavService} from '../nav-bar/nav-bar.service';
 })
 export class PageHeaderComponent implements OnInit {
 
-  public title = 'sssAAS';
+  public title = '';
 
   constructor(private router: Router) {
   }
