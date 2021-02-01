@@ -2,38 +2,27 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {LoginComponent} from './components/login/login.component';
 import {CreateUserComponent} from './components/create-user/create-user.component';
-import {StudentComponent} from './modules/cabinet/cabinet/student/student.component';
 import {CabinetComponent} from './modules/cabinet/cabinet/cabinet.component';
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {RegGuard} from './guards/reg.guard';
-import {ParentComponent} from './modules/cabinet/cabinet/parent/parent.component';
-import {PageHeaderComponent} from './modules/cabinet/cabinet/page-header/page-header.component';
+import {TimetableComponent} from './modules/cabinet/cabinet/pages/timetable/timetable.component';
+import {AttendComponent} from './modules/cabinet/cabinet/pages/attend/attend.component';
+import {MainComponent} from './modules/cabinet/cabinet/pages/main/main.component';
 
 export const appRoutes: Routes = [
   {path: '', component: CabinetComponent, children: [
-      {path: '', component: LoginComponent},
+      {path: 'login', component: LoginComponent},
       {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
-      {path: 'lk', component: PageHeaderComponent},
       {path: 'reset', component: ResetPasswordComponent},
-      {path: 'student', component: StudentComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'},
-      {path: '**', component: PageHeaderComponent},
+      {path: 'lk', children: [
+          {path: '', redirectTo: 'timetable', pathMatch: 'full'},
+          {path: 'timetable', component: TimetableComponent, loadChildren: './modules/cabinet/cabinet/pages/timetable/timetable.module#TimetableModule'},
+          {path: 'attend', component: AttendComponent, loadChildren: './modules/cabinet/cabinet/pages/attend/attend.module#AttendModule'},
+          {path: 'main', component: MainComponent, loadChildren: './modules/cabinet/cabinet/pages/main/main.module#MainModule'},
+        ]},
+      {path: '**', component: LoginComponent},
     ]},
 
-];
-export const superRouting: Routes = [
-  {path: '', component: CabinetComponent},
-  {path: 'login', component: CabinetComponent, children: [
-      {path: '**', component: LoginComponent}
-    ]},
-  {path: 'lk', component: CabinetComponent, children: [
-      {path: 'student', component: StudentComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'},
-      {path: 'parent', component: ParentComponent, loadChildren: './modules/cabinet/cabinet/parent/parent.module#ParentModule'},
-      // {path: 'instructor', component: InstructorComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'},
-      // {path: 'admin', component: AdminComponent, loadChildren: './modules/cabinet/cabinet/student/student.module#StudentModule'}
-    ]},
-  {path: 'reset', component: ResetPasswordComponent},
-  {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
-  // {path: '**', component: CabinetComponent},
 ];
 
 @NgModule({

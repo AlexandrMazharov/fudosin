@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 import {NavService} from '../nav-bar/nav-bar.service';
 
 @Component({
@@ -9,15 +9,15 @@ import {NavService} from '../nav-bar/nav-bar.service';
 })
 export class PageHeaderComponent implements OnInit {
 
-  public title= 'Личный кабинет';
+  public title = '';
 
-  constructor() {
-    // this.title = NavService.getTitle(document.location.toString());
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
-    // this.title = this.title.toLowerCase();
-    // this.title = this.title[0].toUpperCase() + this.title.slice(1);
+    this.title = NavService.getTitle(this.router.url);
+    this.title = this.title.toLowerCase();
+    this.title = this.title[0].toUpperCase() + this.title.slice(1);
   }
 
 }

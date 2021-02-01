@@ -1,0 +1,8 @@
+<div class="timeline-body">
+  <div class="timeline-body__part"
+       *ngFor="let timePart of timeLine">
+    <p class="timeline-body__part-time" [ngClass]="timePart.minutes === 30 ? 'small' : 'big'">
+      {{timePart.hours + ':' + (timePart.minutes === 0 ? '00' : timePart.minutes)}}</p>
+    <div class="timeline-body__part-line" [ngClass]="timePart.minutes === 30 ? 'small' : 'big'"></div>
+  </div>
+</div>
