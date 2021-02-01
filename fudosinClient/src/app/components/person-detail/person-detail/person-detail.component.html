@@ -1,27 +1,23 @@
 <div *ngIf="person" class="wrapper">
-  <h2>Пользователь {{person.username | uppercase}}</h2>
-  <div><span>id: </span>{{person.id}}</div>
-  <div>
-    <label>Фамилия:
-      <input [(ngModel)]="person.lastName"/>
-    </label>
+  <div class="wrapper_title">Изменить данные</div>
+  <div class="wrapper_field">
+    <div class="wrapper_field_label">Фамилия</div>
+      <div class="wrapper_field_input"><input [(ngModel)]="person.lastName"/></div>
   </div>
-  <div>
-    <label>Имя:
-      <input [(ngModel)]="person.firstName"/>
-    </label>
+  <div class="wrapper_field">
+    <div class="wrapper_field_label">Имя</div>
+      <div class="wrapper_field_input"><input [(ngModel)]="person.firstName"/></div>
   </div>
-  <div>
-    <label>Отчество:
-      <input [(ngModel)]="person.secondName"/>
-    </label>
+  <div class="wrapper_field">
+    <div class="wrapper_field_label">Отчество</div>
+      <div class="wrapper_field_input"><input [(ngModel)]="person.secondName"/></div>
   </div>
-  <div>
-    <label>Ранг:
-      <input [(ngModel)]="person.degree"/>
-    </label>
+  <div class="wrapper_field">
+    <div class="wrapper_field_label">Ранг</div>
+      <div class="wrapper_field_input"><input [(ngModel)]="person.degree"/></div>
   </div>
-
-  <button (click)="goBack()">go back</button>
-  <button (click)="save()">save</button>
+<div class="wrapper_buttons">
+  <div class="wrapper_buttons_button" (click)="goBack()">Отмена</div>
+  <div class="wrapper_buttons_button" (click)="save()">Подтвердить</div>
+</div>
 </div>

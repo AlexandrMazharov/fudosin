@@ -1,22 +1,64 @@
-.wrapper{
-  color: white;
-  padding-left: 100px;
-  padding-top: 90px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-.item{
-  list-style-type: none;
-}
+.wrapper {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 150%;
+  width: 720px;
+  height: 694px;
+  margin: 0 auto;
+  color: #EEEEF7;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+  background: #172755;
 
-a {
-  color: white;
-  text-decoration: none;
-}
+  &_title {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 47px;
+    text-align: center;
+    padding-top: 30px;
 
-.title{
-  color: #EF2A82;
-}
+    &_arrow {
+      cursor: pointer;
+      padding-left: 55px;
+      padding-right: 55px;
+    }
+  }
 
-.item{
-text-decoration: none;
+  &_divider {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  &_persons {
+    padding: 0 90px;
+
+    &_item {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &_lastname {
+        width: 200px;
+      }
+
+      &_degree {
+        width: 80px;
+      }
+
+      &_icons {
+        width: 100px;
+        display: flex;
+        justify-content: space-between;
+
+        &_icon {
+          width: 22px;
+          height: 22px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
