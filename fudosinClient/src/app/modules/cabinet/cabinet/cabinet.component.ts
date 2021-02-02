@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from '../../../service/token-storage/token-storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-cabinet',
@@ -17,8 +18,7 @@ export class CabinetComponent implements OnInit {
   showInstructorBoard = false;
   username: string | undefined;
 
-  constructor(private tokenStorageService: TokenStorageService,
-  ) {
+  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
     this.roles = [];
   }
 
@@ -34,6 +34,8 @@ export class CabinetComponent implements OnInit {
       this.showInstructorBoard = this.roles.includes('ROLE_MODERATOR');
       this.username = user.username;
       // this.router.navigate(['/lk']);
+    } else {
+      // this.router.navigate(['/login']);
     }
   }
 }

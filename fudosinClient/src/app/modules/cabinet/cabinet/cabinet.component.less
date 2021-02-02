@@ -1,26 +1,28 @@
 @import "src/assets/style/master";
+
 .cabinet {
-  background: @bg-color;
-min-height: 100vh;
+  //background: @bg-color;
+  background-color: white;
+  background: url("src/assets/images/background.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+
   &__wrapper {
     margin: 0 auto;
     max-width: @max-width;
   }
-  &__header{}
-  &__main{
+
+  &__header {
+  }
+
+  &__main {
     box-sizing: border-box;
     width: 100%;
 
   }
 
 }
-
-//.main {
-//  margin: 0 auto;
-//  padding: 10px;
-//  display: flex;
-//  background: #EEEEF6;
-//}
 
 
 

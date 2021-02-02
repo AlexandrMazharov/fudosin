@@ -1,0 +1,32 @@
+<div class="year">
+
+  <div class="year-header">
+    <div class="year-header__arrow">
+      <img class="year-header__arrow_img" src="../../assets/images/elements/left-arrow.svg" (click)="turnPrevYear()">
+    </div>
+    <div class="year-header__number">
+      <h3 class="year-header__number_inner">{{year}}</h3>
+    </div>
+    <div class="year-header__arrow">
+      <img class="year-header__arrow_img" src="../../assets/images/elements/right-arrow.svg" (click)="turnNextYear()">
+    </div>
+  </div>
+
+  <div class="year-calendar">
+    <div class="year-calendar__row" *ngFor="let i of rows">
+      <div class="year-calendar__month">
+        <a class="year-calendar__month link"
+            [routerLink]="year + '/'+(i + i * 2)">{{getMonthString(i + i * 2)}}</a>
+      </div>
+      <div class="year-calendar__month">
+        <a class="year-calendar__month link"
+            [routerLink]="year + '/'+(i + 1 + i * 2)">{{getMonthString(i + 1 + i * 2)}}</a>
+      </div>
+      <div class="year-calendar__month">
+        <a class="year-calendar__month link"
+            [routerLink]="year + '/'+(i + 2 + i * 2)">{{getMonthString(i + 2 + i * 2)}}</a>
+      </div>
+    </div>
+  </div>
+
+</div>
