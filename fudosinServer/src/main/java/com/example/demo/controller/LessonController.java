@@ -53,6 +53,7 @@ public class LessonController {
 
         Calendar finish = (Calendar) start.clone();
         finish.add(Calendar.MONTH, 1);
+        finish.add(Calendar.DATE, -1);
         finish.set(Calendar.HOUR_OF_DAY, 23);
         finish.set(Calendar.MINUTE, 59);
         finish.set(Calendar.SECOND, 59);
@@ -81,6 +82,7 @@ public class LessonController {
 
         Calendar finish = (Calendar) start.clone();
         finish.add(Calendar.MONTH, 1);
+        finish.add(Calendar.DATE, -1);
         finish.set(Calendar.HOUR_OF_DAY, 23);
         finish.set(Calendar.MINUTE, 59);
         finish.set(Calendar.SECOND, 59);
