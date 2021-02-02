@@ -31,7 +31,7 @@ public class LessonController {
     }
 
 
-    @GetMapping("/group")
+    @GetMapping("/group-id-date")
     public ResponseEntity<List<Lesson>> getLessonByGroupAndDate(@RequestParam Long id,
                                                                 @RequestParam int year,
                                                                 @RequestParam int month) {
@@ -63,7 +63,7 @@ public class LessonController {
         return ResponseEntity.ok(lessons);
     }
 
-    @GetMapping
+    @GetMapping("/date")
     public ResponseEntity<List<Lesson>> getLessonByDate(@RequestParam int year,
                                                         @RequestParam int month
     ) {
