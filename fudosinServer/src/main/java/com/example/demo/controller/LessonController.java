@@ -31,10 +31,10 @@ public class LessonController {
     }
 
 
-    @GetMapping("/group/{gr-id}/{year}/{month}")
-    public ResponseEntity<List<Lesson>> getLessonByGroupAndDate(@PathVariable("gr-id") Long id,
-                                                                @PathVariable("year") int year,
-                                                                @PathVariable("month") int month) {
+    @GetMapping("/group")
+    public ResponseEntity<List<Lesson>> getLessonByGroupAndDate(@RequestParam Long id,
+                                                                @RequestParam int year,
+                                                                @RequestParam int month) {
         // get all lesson  in the selected month and group
         if (!trainingGroupRepository.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
@@ -63,9 +63,9 @@ public class LessonController {
         return ResponseEntity.ok(lessons);
     }
 
-    @GetMapping("/{year}/{month}")
-    public ResponseEntity<List<Lesson>> getLessonByDate(@PathVariable("year") int year,
-                                                        @PathVariable("month") int month
+    @GetMapping
+    public ResponseEntity<List<Lesson>> getLessonByDate(@RequestParam int year,
+                                                        @RequestParam int month
     ) {
         // get all lesson classes in the selected month
         List<TrainingGroup> trainingGroups = trainingGroupRepository.findAll();
