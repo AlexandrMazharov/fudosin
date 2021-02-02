@@ -4,7 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {StudentParentService} from '../../../../service/personalities/studentParent.service';
-import {MonthLesson} from '../../../../models/MonthLessons.model';
+import {MonthLesson} from '../../../../models/month-lessons.model';
+import {PdfCreateService} from '../../../../service/pdfDoc/pdf-create.service';
 
 @Component({
   selector: 'app-calendar-month',
@@ -156,7 +157,7 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   createDocumentAttend(): void {
-
+    new PdfCreateService('ИМЯ ФАМИЛИЯ', this.lessons, this.year, this.month).create();
   }
 
   getMonth(): string {

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CalendarService} from '../../services/calendar.service';
+import {PdfCreateService} from '../../../../service/pdfDoc/pdf-create.service';
+import {Lesson} from "../../../../models/lesson.model";
 
 @Component({
   selector: 'app-calendar-year',

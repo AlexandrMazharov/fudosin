@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {TimeService} from '../../services/time.service';
+import {CalendarTimeService} from '../../services/calendar-time.service';
 import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 import {StudentParentService} from '../../../../service/personalities/studentParent.service';
-import {MonthLesson} from '../../../../models/MonthLessons.model';
+import {MonthLesson} from '../../../../models/month-lessons.model';
 
 @Component({
   selector: 'app-calendar-day',
@@ -138,12 +138,12 @@ export class CalendarDayComponent implements OnInit {
     return result;
   }
 
-  getTimeBegin(): TimeService {
-    return new TimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute);
+  getTimeBegin(): CalendarTimeService {
+    return new CalendarTimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute);
   }
 
-  getTimeEnd(): TimeService {
-    return new TimeService(this.lessons[this.lessons.length - 1].timeEnd.hour, this.lessons[this.lessons.length - 1].timeEnd.minute);
+  getTimeEnd(): CalendarTimeService {
+    return new CalendarTimeService(this.lessons[this.lessons.length - 1].timeEnd.hour, this.lessons[this.lessons.length - 1].timeEnd.minute);
   }
 
   getStyle(id: number): string {
@@ -153,7 +153,7 @@ export class CalendarDayComponent implements OnInit {
     } else {
       top = (this.lessons[0].timeBegin.minute - 30) * (4 / 3);
     }
-    top += TimeService.getHeight(new TimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute), new TimeService(this.lessons[id].timeBegin.hour, this.lessons[id].timeBegin.minute));
+    top += CalendarTimeService.getHeight(new CalendarTimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute), new CalendarTimeService(this.lessons[id].timeBegin.hour, this.lessons[id].timeBegin.minute));
     return `top: ${top + 13}px`;
   }
 

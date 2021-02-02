@@ -50,6 +50,21 @@ export class CalendarService {
     return this.date.getDate();
   }
 
+  getFullDate(): string {
+    const d = this.getDay();
+    let zeroD = '';
+    if (d < 10) {
+      zeroD = '0';
+    }
+    const m = this.getMonth() + 1;
+    let zeroM = '';
+    if (m < 10) {
+      zeroM = '0';
+    }
+    const y = this.getYear();
+    return `${zeroD}${d}.${zeroM}${m}.${y} г.`;
+  }
+
   getWeekDay(year: number, month: number, day: number): number {
     return new Date(year, month, day).getDay();
   }

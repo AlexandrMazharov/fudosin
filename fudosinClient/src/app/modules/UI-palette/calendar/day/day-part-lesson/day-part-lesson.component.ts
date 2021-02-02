@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TimeService} from '../../../services/time.service';
+import {CalendarTimeService} from '../../../services/calendar-time.service';
 import {Lesson} from '../../../../../models/lesson.model';
 
 @Component({
@@ -47,7 +47,7 @@ export class DayPartLessonComponent implements OnInit {
   }
 
   getHeight(): string {
-    const height = Math.floor(TimeService.getHeight(new TimeService(this.lesson.timeBegin.hour, this.lesson.timeBegin.minute), new TimeService(this.lesson.timeEnd.hour, this.lesson.timeEnd.minute)));
+    const height = Math.floor(CalendarTimeService.getHeight(new CalendarTimeService(this.lesson.timeBegin.hour, this.lesson.timeBegin.minute), new CalendarTimeService(this.lesson.timeEnd.hour, this.lesson.timeEnd.minute)));
     return `height: ${height - 5}px`;
   }
 
