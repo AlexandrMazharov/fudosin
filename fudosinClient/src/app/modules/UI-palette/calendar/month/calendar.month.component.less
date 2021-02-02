@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap');
+@import "src/assets/style/master";
+
+.month {
+  width: @max-width;
+  background: #172755;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+  margin: 51px auto;
+
+  &-header {
+    height: 117px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &__left-arrow, &__right-arrow {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &__back_inner, &__document_inner {
+      .text-style;
+      text-decoration: none;
+      margin: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &__back {
+      position: absolute;
+      left: 86px;
+    }
+
+    &__document {
+      position: absolute;
+      right: 50px;
+    }
+
+    &__title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &__number {
+      margin: 0 55px;
+      width: 290px;
+
+      &_inner {
+        margin: 0;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 47px;
+        text-align: center;
+        color: #FFFFFF;
+      }
+    }
+  }
+
+  &-calendar {
+    display: flex;
+    flex-direction: column;
+    padding: 0 35px;
+
+    &__row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__day {
+      width: 180px;
+      height: 95px;
+      margin: 0 10px 20px;
+    }
+
+    &__sunday {
+      display: none;
+    }
+  }
+
+  &-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 50px;
+  }
+}
+
+.active-tab {
+  box-shadow: 0px 0px 10px #FFFFFF;
+}
+
+.tab {
+  padding: 0 20px;
+  margin: 0 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__inner {
+    margin: 0;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 150%;
+    color: #EEEEF7
+  }
+}
+
+.text-style {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #EEEEF7;
+}
+
+

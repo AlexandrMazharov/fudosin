@@ -1,0 +1,43 @@
+<div class="month">
+
+  <div class="month-header">
+    <div class="month-header__back">
+      <a class="month-header__back_inner" [routerLink]="getBack()">Назад</a>
+    </div>
+    <div class="month-header__title">
+      <div class="month-header__left-arrow">
+        <img class="month-header__left-arrow_img" src="../assets/images/elements/left-arrow.svg" (click)="turn()"
+             [routerLink]="getMonthLink(-1)">
+      </div>
+      <div class="month-header__number">
+        <h3 class="month-header__number_inner">{{getMonth()}} {{year}}</h3>
+      </div>
+      <div class="month-header__right-arrow">
+        <img class="month-header__right-arrow_img" src="../assets/images/elements/right-arrow.svg" (click)="turn()"
+             [routerLink]="getMonthLink(1)">
+      </div>
+    </div>
+    <div class="month-header__document" *ngIf="type !== 'timetable'">
+      <h3 class="month-header__document_inner" (click)="createDocumentAttend()">Создать справку</h3>
+    </div>
+  </div>
+
+  <div class="month-tabs" *ngIf="role === 'parent'">
+    <div class="tab" [ngClass]="firstActivated(i)" [routerLink]="getChildLink(i)" routerLinkActive="active-tab" *ngFor="let child of childs; let i = index">
+      <p class="tab__inner">{{child}}</p>
+    </div>
+  </div>
+
+  <div class="month-calendar">
+    <div class="month-calendar__row" *ngFor="let row of dayRows; let i = index">
+      <div class="month-calendar__day" *ngFor="let day of dayRows[i]; let j = index"
+           [ngClass]="j === 6 ? 'month-calendar__sunday' : ''">
+        <app-month-part-day *ngIf="dayRows[i][j] !== 0"
+                            [title]="dayRows[i][j]"
+                            [lessons]="lessons.getLessonsByDay(dayRows[i][j] - 1)" [type]="type"
+                            [role]="role"></app-month-part-day>
+      </div>
+    </div>
+  </div>
+
+</div>

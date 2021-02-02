@@ -17,7 +17,6 @@ public class Lesson {
     private Date timeFinish;
     private String place;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private TrainingGroup trainingGroup;

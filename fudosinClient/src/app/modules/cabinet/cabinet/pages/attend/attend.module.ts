@@ -1,16 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {AttendMonthComponent} from './attend-month/attend-month.component';
-import {AttendYearComponent} from './attend-year/attend-year.component';
-import {RouterModule} from '@angular/router';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AttendRouting} from './attend.routing';
+import {AttendComponent} from './attend.component';
+import {AttendTimetableModule} from '../../../../UI-palette/calendar/attend-timetable.module';
+import {PageHeaderModule} from '../../page-header/page-header.module';
 
 
 @NgModule({
-  declarations: [AttendMonthComponent, AttendYearComponent],
+  declarations: [AttendComponent],
   imports: [
     CommonModule,
-    RouterModule
+    AttendRouting,
+    AttendTimetableModule,
+    PageHeaderModule,
   ]
 })
-export class AttendModule { }
+export class AttendModule {
+}

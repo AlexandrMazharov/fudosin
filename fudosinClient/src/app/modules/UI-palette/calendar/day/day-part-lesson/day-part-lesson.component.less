@@ -1,0 +1,72 @@
+.lesson {
+  width: 236px;
+  margin-right: 128px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #8794BA;
+  border-radius: 10px;
+
+  &__left-border {
+    border-radius: 10px 0px 0px 10px;
+    width: 10px;
+
+    &.aikido {
+      background: #E29E1A;
+    }
+
+    &.kobudo {
+      background: #E3331B;
+    }
+
+    &.jiu-jitsu {
+      background: #1BE383;
+    }
+  }
+
+  &-body {
+    width: 100%;
+
+    &__title {
+      .text-design;
+      font-size: 18px;
+      line-height: 150%;
+      color: #FFFFFF;
+      margin-left: 15px;
+    }
+
+    &__text {
+      .text-design;
+      font-size: 14px;
+      line-height: 150%;
+      color: #172755;
+      text-align: center;
+      padding-bottom: 11px;
+      margin: 0 5px;
+      white-space: pre-wrap;
+    }
+  }
+
+  &__right-border {
+    border-radius: 0px 10px 10px 0px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.money {
+      background: #C6BF1B;
+    }
+
+    &.no-money {
+      display: none;
+    }
+  }
+}
+
+.text-design {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  margin: 0;
+}
