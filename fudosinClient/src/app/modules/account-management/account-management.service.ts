@@ -34,8 +34,25 @@ export class AccountManagementService {
 
   }
 
+  private personToObject(p: Person): any {
+    return {
+      id: p.id,
+      firstName: p.firstName,
+      secondName: p.secondName,
+      lastName: p.lastName,
+      telephone: p.telephone,
+      parentId: p.parentId,
+      email: p.email,
+      birthDay: p.birthDay,
+      userRoles: p.userRoles,
+      password: p.password,
+      username: p.username,
+      degree: p.degree,
+    };
+  }
+
   updatePerson(person: Person): Observable<any> {
-    return this.http.put(this.url + '/upd/' + person.id, person, this.httpOptions);
+    return this.http.put(this.url + '/upd/' + person.id, this.personToObject(person), this.httpOptions);
   }
 
   setRole(person: Person, role: string): Observable<any> {
@@ -45,7 +62,7 @@ export class AccountManagementService {
 
   }
 
-  removeRole(person: Person, role: string): Observable<any>{
-    return this.http.post( this.url + '/remove/' + person.id + '/' + role , this.httpOptions);
+  removeRole(person: Person, role: string): Observable<any> {
+    return this.http.post(this.url + '/remove/' + person.id + '/' + role, this.httpOptions);
   }
 }

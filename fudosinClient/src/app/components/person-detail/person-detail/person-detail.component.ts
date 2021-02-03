@@ -115,6 +115,8 @@ export class PersonDetailComponent implements OnInit {
   }
 
   addStudentRole(): void {
+    console.log('Add role');
+    console.log('Student check: ' + this.studentChecked);
     this.accountService.setRole(this.person, 'STUDENT').subscribe(data => console.log(data));
   }
 
@@ -123,6 +125,8 @@ export class PersonDetailComponent implements OnInit {
   }
 
   removeAdminRole(): void {
+    console.log('Remove role');
+    console.log('Student check: ' + this.studentChecked);
     this.accountService.removeRole(this.person, 'ADMIN').subscribe(data => console.log(data));
   }
 

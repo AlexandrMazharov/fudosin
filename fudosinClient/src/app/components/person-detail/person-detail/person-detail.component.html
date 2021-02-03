@@ -15,7 +15,7 @@
   <div class="wrapper_field">
     <div class="wrapper_field_label">Роль</div>
     <div class="wrapper_field_input">
-      <mat-checkbox (click)="addRoles()" [(ngModel)]="studentChecked">Ребёнок</mat-checkbox>
+      <mat-checkbox (click)="!studentChecked ? addStudentRole() : removeStudentRole()" [(ngModel)]="studentChecked">Ребёнок</mat-checkbox>
       <mat-checkbox (click)="addRoles()" [(ngModel)]="parentChecked">Родитель</mat-checkbox>
       <mat-checkbox (click)="addRoles()" [(ngModel)]="trainerChecked">Тренер</mat-checkbox>
       <mat-checkbox (click)="addRoles()" [(ngModel)]="adminChecked">Администратор</mat-checkbox>

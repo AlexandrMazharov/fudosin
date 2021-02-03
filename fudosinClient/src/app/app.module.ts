@@ -11,7 +11,8 @@ import {CreateUserComponent} from './components/create-user/create-user.componen
 import {CabinetModule} from './modules/cabinet/cabinet.module';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import {AccountManagementModule} from './modules/account-management/account-management.module';
-import { PersonDetailComponent } from './components/person-detail/person-detail/person-detail.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {PersonDetailComponent} from './components/person-detail/person-detail/person-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PersonDetailComponent } from './components/person-detail/person-detail/
     CommonModule,
     HttpClientModule,
     CabinetModule,
-    AccountManagementModule
+    AccountManagementModule,
+    MatCheckboxModule
   ],
   providers: [],
   exports: [
