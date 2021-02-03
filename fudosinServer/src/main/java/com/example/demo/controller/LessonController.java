@@ -31,10 +31,10 @@ public class LessonController {
     }
 
 
-    @GetMapping("/group/{gr-id}/{year}/{month}")
-    public ResponseEntity<List<Lesson>> getLessonByGroupAndDate(@PathVariable("gr-id") Long id,
-                                                                @PathVariable("year") int year,
-                                                                @PathVariable("month") int month) {
+    @GetMapping("/group-id-date")
+    public ResponseEntity<List<Lesson>> getLessonByGroupAndDate(@RequestParam Long id,
+                                                                @RequestParam int year,
+                                                                @RequestParam int month) {
         // get all lesson  in the selected month and group
         if (!trainingGroupRepository.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
@@ -53,6 +53,7 @@ public class LessonController {
 
         Calendar finish = (Calendar) start.clone();
         finish.add(Calendar.MONTH, 1);
+        finish.add(Calendar.DATE, -1);
         finish.set(Calendar.HOUR_OF_DAY, 23);
         finish.set(Calendar.MINUTE, 59);
         finish.set(Calendar.SECOND, 59);
@@ -62,9 +63,9 @@ public class LessonController {
         return ResponseEntity.ok(lessons);
     }
 
-    @GetMapping("/{year}/{month}")
-    public ResponseEntity<List<Lesson>> getLessonByDate(@PathVariable("year") int year,
-                                                        @PathVariable("month") int month
+    @GetMapping("/date")
+    public ResponseEntity<List<Lesson>> getLessonByDate(@RequestParam int year,
+                                                        @RequestParam int month
     ) {
         // get all lesson classes in the selected month
         List<TrainingGroup> trainingGroups = trainingGroupRepository.findAll();
@@ -81,6 +82,7 @@ public class LessonController {
 
         Calendar finish = (Calendar) start.clone();
         finish.add(Calendar.MONTH, 1);
+        finish.add(Calendar.DATE, -1);
         finish.set(Calendar.HOUR_OF_DAY, 23);
         finish.set(Calendar.MINUTE, 59);
         finish.set(Calendar.SECOND, 59);
