@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CalendarTimeService} from '../../../services/calendar-time.service';
 import {Lesson} from '../../../../../models/lesson.model';
+import {StudentParentDictionary} from '../../../services/student-parent.dictionary';
 
 @Component({
   selector: 'app-day-part-lesson',
@@ -8,6 +9,8 @@ import {Lesson} from '../../../../../models/lesson.model';
   styleUrls: ['./day-part-lesson.component.less']
 })
 export class DayPartLessonComponent implements OnInit {
+
+  private d = new StudentParentDictionary();
 
   // @ts-ignore
   @Input() lesson: Lesson; // checked in parent component
@@ -19,12 +22,12 @@ export class DayPartLessonComponent implements OnInit {
   }
 
   getLesson(): string {
-    if (this.lesson.title.toLowerCase() === 'айкидо') {
-      return 'aikido';
-    } else if (this.lesson.title.toLowerCase() === 'кобудо') {
-      return 'kobudo';
+    if (this.lesson.title.toLowerCase() === this.d.schools.aikido) {
+      return this.d.CSSnamespace.school.aikido;
+    } else if (this.lesson.title.toLowerCase() === this.d.schools.kobudo) {
+      return this.d.CSSnamespace.school.kobudo;
     } else {
-      return 'jiu-jitsu';
+      return this.d.CSSnamespace.school.jiu_jitsu;
     }
   }
 
@@ -40,9 +43,9 @@ export class DayPartLessonComponent implements OnInit {
 
   getPaid(): string {
     if (!this.lesson.paymentStatus) {
-      return 'no-money';
+      return this.d.CSSnamespace.paid.no;
     } else {
-      return 'money';
+      return this.d.CSSnamespace.paid.yes;
     }
   }
 

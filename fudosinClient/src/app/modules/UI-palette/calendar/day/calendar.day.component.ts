@@ -6,6 +6,7 @@ import {Lesson} from '../../../../models/lesson.model';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 import {StudentParentService} from '../../../../service/personalities/studentParent.service';
 import {MonthLesson} from '../../../../models/month-lessons.model';
+import {StudentParentDictionary} from '../../services/student-parent.dictionary';
 
 @Component({
   selector: 'app-calendar-day',
@@ -14,10 +15,11 @@ import {MonthLesson} from '../../../../models/month-lessons.model';
 })
 export class CalendarDayComponent implements OnInit {
 
+  private d = new StudentParentDictionary();
   public year: number;
   public month: number;
   public day: number;
-  private role = 'student'; // student or parent
+  private role = this.d.userRoles.student; // student or parent
   private childsId: number[] = [];
 
   public lessons: Lesson[] = [];
@@ -29,11 +31,11 @@ export class CalendarDayComponent implements OnInit {
       this.day = 1;
     } else {
       // @ts-ignore
-      this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+      this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
       // @ts-ignore
-      this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+      this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
       // @ts-ignore
-      this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
+      this.day = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.day);
       if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11 || this.day < 1 || this.day > 31) {
         this.year = this.calendar.getYear();
         this.month = this.calendar.getMonth();
@@ -56,19 +58,19 @@ export class CalendarDayComponent implements OnInit {
 
   ngDoCheck(): void {
     // @ts-ignore
-    this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+    this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
     // @ts-ignore
-    this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+    this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
     // @ts-ignore
-    this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
+    this.day = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.day);
   }
 
   private getLessonsDay(): Promise<Lesson[]> {
     return new Promise<Lesson[]>(resolve => {
-      if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
-        this.role = 'parent';
+      if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
+        this.role = this.d.userRoles.parent;
         // @ts-ignore
-        const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
+        const studId = this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
 
         if (studId === null) {
           this.getChilds().then(data => {
@@ -85,7 +87,7 @@ export class CalendarDayComponent implements OnInit {
           });
         }
       } else {
-        this.role = 'student';
+        this.role = this.d.userRoles.student;
         this.studentParentService.getLessonsMonth(this.tokenStorageService.getPerson().id, this.year, this.month).then(allMonth => {
           resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
         });

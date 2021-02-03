@@ -4,6 +4,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from './assets/fonts/vfs_fonts.js';
 import {header} from './assets/inner-header';
 import {footer} from './assets/inner-footer';
+import {img} from './assets/img';
 import {TimetableCreatorService} from './assets/timetable-creator.service';
 import {CalendarService} from '../../modules/UI-palette/services/calendar.service';
 import {MonthLesson} from '../../models/month-lessons.model';
@@ -73,6 +74,10 @@ export class PdfCreateService {
 
     content: [
       {
+        image: img,
+        width: 64
+      },
+      {
         text: header,
         style: 'header'
       },
@@ -115,7 +120,7 @@ export class PdfCreateService {
       this.timetable = TimetableCreatorService.create(timetable, year, month);
       ;
     }
-    this.doc.content[1] =
+    this.doc.content[2] =
       {
         text: `${this.fullName} действительно посещает занятия по следующему расписанию:`,
         style: 'content'
@@ -136,7 +141,7 @@ export class PdfCreateService {
           }
         }
         // @ts-ignore
-        this.doc.content[2].table.body.push([{text: first, bold: true}, second, third]);
+        this.doc.content[3].table.body.push([{text: first, bold: true}, second, third]);
       }
     }
   }

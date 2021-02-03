@@ -6,6 +6,7 @@ import {Lesson} from '../../../../models/lesson.model';
 import {StudentParentService} from '../../../../service/personalities/studentParent.service';
 import {MonthLesson} from '../../../../models/month-lessons.model';
 import {PdfCreateService} from '../../../../service/pdfDoc/pdf-create.service';
+import {StudentParentDictionary} from '../../services/student-parent.dictionary';
 
 @Component({
   selector: 'app-calendar-month',
@@ -14,12 +15,14 @@ import {PdfCreateService} from '../../../../service/pdfDoc/pdf-create.service';
 })
 export class CalendarMonthComponent implements OnInit {
 
+  private d = new StudentParentDictionary();
   public year: number;
   public month: number; // January is 0, etc.
   public dayRows: number[][];
   public type: string; // attend or timetable
-  public role = 'student'; // student or parent
+  public role = this.d.userRoles.student; // student or parent
   public childs: string[] = [];
+  public monthName = '';
   private childsId: number[] = [];
 
   public lessons: MonthLesson = new MonthLesson([], 0, 0);
@@ -30,24 +33,24 @@ export class CalendarMonthComponent implements OnInit {
     if (this.activatedRoute == null) {
       this.year = calendar.getYear();
       this.month = calendar.getMonth();
-      this.type = 'attend';
+      this.type = this.d.calendarTypeWork.attend;
     } else {
       // @ts-ignore
-      this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+      this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
       // @ts-ignore
-      this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+      this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
       if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11) {
         this.year = calendar.getYear();
         this.month = calendar.getMonth();
       }
-      if (this.route.url.includes('/attend/')) {
-        this.type = 'attend';
+      if (this.route.url.includes(this.d.URLmarks.ifAsAttend)) {
+        this.type = this.d.calendarTypeWork.attend;
       } else {
-        this.type = 'timetable';
+        this.type = this.d.calendarTypeWork.timetable;
       }
     }
     this.dayRows = this.fillMonth(calendar.getWeekDay(this.year, this.month, 0));
-
+    this.monthName = this.getMonth();
     this.httpInit();
   }
 
@@ -95,8 +98,8 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   httpInit(): void {
-    if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
-      this.role = 'parent';
+    if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
+      this.role = this.d.userRoles.parent;
       this.getChilds().then(data => {
         this.childsId = data;
       }).then(() => {
@@ -104,7 +107,7 @@ export class CalendarMonthComponent implements OnInit {
           this.childs = names;
         });
       }).then(() => {
-        const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
+        const studId = this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
         if (studId !== null) {
           this.getLessons(+studId).then(data => {
             this.lessons = new MonthLesson(data, this.year, this.month);
@@ -116,7 +119,7 @@ export class CalendarMonthComponent implements OnInit {
         }
       });
     } else {
-      this.role = 'student';
+      this.role = this.d.userRoles.student;
       this.childs = [];
       this.childsId = [];
       this.getLessons(this.tokenStorageService.getPerson().id).then(lessons => {
@@ -134,14 +137,14 @@ export class CalendarMonthComponent implements OnInit {
 
   ngDoCheck() {
     // @ts-ignore
-    this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+    this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
     // @ts-ignore
-    this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+    this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
     this.dayRows = this.fillMonth(this.calendar.getWeekDay(this.year, this.month, 0));
   }
 
   getChildLink(id: number): string {
-    if (this.route.url.includes('/s/')) {
+    if (this.route.url.includes(this.d.URLmarks.ifAsParent)) {
       return `../../../../s/${this.childsId[id]}/${this.year}/${this.month}`;
     } else {
       return `../../s/${this.childsId[id]}/${this.year}/${this.month}`;
@@ -189,10 +192,10 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   firstActivated(i: number): string {
-    if (!this.route.url.includes('/s/') && this.role === 'parent' && i === 0) {
+    if (this.role === this.d.userRoles.parent && i === 0) {
       return `active-tab`;
     } else {
-      return `active-tab`;
+      return '';
     }
   }
 }
