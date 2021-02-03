@@ -2,41 +2,28 @@
   <div class="wrapper_title">Изменить данные</div>
   <div class="wrapper_field">
     <div class="wrapper_field_label">Фамилия</div>
-      <div class="wrapper_field_input"><input [(ngModel)]="person.lastName"/></div>
+    <div class="wrapper_field_input"><input [(ngModel)]="person.lastName"/></div>
   </div>
   <div class="wrapper_field">
     <div class="wrapper_field_label">Имя</div>
-      <div class="wrapper_field_input"><input [(ngModel)]="person.firstName"/></div>
+    <div class="wrapper_field_input"><input [(ngModel)]="person.firstName"/></div>
   </div>
   <div class="wrapper_field">
     <div class="wrapper_field_label">Отчество</div>
-      <div class="wrapper_field_input"><input [(ngModel)]="person.secondName"/></div>
+    <div class="wrapper_field_input"><input [(ngModel)]="person.secondName"/></div>
   </div>
   <div class="wrapper_field">
-    <div class="wrapper_field_label">Ранг</div>
-      <div class="wrapper_field_input"><input [(ngModel)]="person.degree"/></div>
+    <div class="wrapper_field_label">Роль</div>
+    <div class="wrapper_field_input">
+      <mat-checkbox (click)="addRoles()" [(ngModel)]="studentChecked">Ребёнок</mat-checkbox>
+      <mat-checkbox (click)="addRoles()" [(ngModel)]="parentChecked">Родитель</mat-checkbox>
+      <mat-checkbox (click)="addRoles()" [(ngModel)]="trainerChecked">Тренер</mat-checkbox>
+      <mat-checkbox (click)="addRoles()" [(ngModel)]="adminChecked">Администратор</mat-checkbox>
+    </div>
   </div>
-<div class="wrapper_buttons">
-  <div class="wrapper_buttons_button" (click)="goBack()">Отмена</div>
-  <div class="wrapper_buttons_button" (click)="save()">Подтвердить</div>
+  <div class="wrapper_buttons">
+    <div class="wrapper_buttons_button" (click)="goBack()">Отмена</div>
+    <div class="wrapper_buttons_button" (click)="save()">Подтвердить</div>
+  </div>
 </div>
-  <div *ngFor="let role of person.userRoles; let i = index" [attr.data-index]="i">
 
-    <div>{{role.name}}</div>
-  </div>
-<div class="">
-  <button (click)="addAdminRole()">addAdminRole</button>
-  <button (click)="addInstructorRole()">addInstrRole</button>
-  <button (click)="addStudentRole()">addStudentRole</button>
-  <button (click)="addParentRole()">addParentRole</button>
-</div>
-  <div class="">
-    <button (click)="removeAdminRole()">removeAdminRole</button>
-    <button (click)="removeInstructorRole()">removeInstrRole</button>
-    <button (click)="removeStudentRole()">removeStudentRole</button>
-    <button (click)="removeParentRole()">removeParentRole</button>
-  </div>
-
-  <button (click)="goBack()">go back</button>
-  <button (click)="save()">save</button>
-</div>

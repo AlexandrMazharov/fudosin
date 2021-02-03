@@ -6,6 +6,7 @@ import {Location} from '@angular/common';
 import {RoleService} from '../../../modules/account-management/role.service';
 import {Role} from '../../../models/role.model';
 
+
 @Component({
   selector: 'app-person-detail',
   templateUrl: './person-detail.component.html',
@@ -15,6 +16,12 @@ export class PersonDetailComponent implements OnInit {
 
   person!: Person;
   allRoles: Role [] = [];
+  studentChecked = false;
+  parentChecked = false;
+  trainerChecked = false;
+  adminChecked = false;
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +31,7 @@ export class PersonDetailComponent implements OnInit {
   ) {
   }
 
+
   ngOnInit(): void {
     this.getRoles();
     this.getPerson();
@@ -32,8 +40,51 @@ export class PersonDetailComponent implements OnInit {
   getRoles(): void {
     this.roleService.getRoles().subscribe(res => {
       this.allRoles = Object.values(res);
-      console.log(Array.isArray(this.allRoles));
+      console.log();
     });
+  }
+
+  renderRoles(person: Person): void {
+    for (let i in person.userRoles) {
+      console.log(person.userRoles[i]);
+      if (person.userRoles[i].name === 'ROLE_STUDENT') {
+        this.studentChecked = true;
+      }
+      if (person.userRoles[i].name === 'ROLE_PARENT') {
+        this.parentChecked = true;
+      }
+      if (person.userRoles[i].name === 'ROLE_INSTRUCTOR') {
+        this.trainerChecked = true;
+      }
+      if (person.userRoles[i].name === 'ROLE_ADMIN') {
+        this.adminChecked = true;
+      }
+    }
+  }
+
+  addRoles(): void {
+    if (this.studentChecked) {
+      this.addStudentRole();
+    } else {
+      this.removeStudentRole();
+    }
+    if (this.parentChecked) {
+      this.addParentRole();
+    } else {
+      this.removeParentRole();
+    }
+    if (this.trainerChecked) {
+      this.addInstructorRole();
+    } else {
+      this.removeInstructorRole();
+    }
+    if (this.adminChecked) {
+      this.addAdminRole();
+    } else {
+      this.removeAdminRole();
+    }
+    console.log(this.person)
+    this.renderRoles(this.person);
   }
 
   getPerson(): void {
@@ -41,7 +92,7 @@ export class PersonDetailComponent implements OnInit {
     this.accountService.getPerson(id)
       .subscribe(person => {
         this.person = person;
-        console.log(person);
+        this.renderRoles(person);
       });
   }
 
