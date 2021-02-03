@@ -62,31 +62,6 @@ export class PersonDetailComponent implements OnInit {
     }
   }
 
-  addRoles(): void {
-    if (this.studentChecked) {
-      this.addStudentRole();
-    } else {
-      this.removeStudentRole();
-    }
-    if (this.parentChecked) {
-      this.addParentRole();
-    } else {
-      this.removeParentRole();
-    }
-    if (this.trainerChecked) {
-      this.addInstructorRole();
-    } else {
-      this.removeInstructorRole();
-    }
-    if (this.adminChecked) {
-      this.addAdminRole();
-    } else {
-      this.removeAdminRole();
-    }
-    console.log(this.person)
-    this.renderRoles(this.person);
-  }
-
   getPerson(): void {
     const id = +this.route.snapshot.paramMap.get('id')!;
     this.accountService.getPerson(id)
