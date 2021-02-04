@@ -1,19 +1,21 @@
 <header class="header">
-    <div class="header__nav">
-        <app-logo></app-logo>
+  <div [ngClass]="isLoggedIn ? 'header__nav-shadow' : 'header__nav'">
+    <app-logo></app-logo>
 
-        <app-nav-bar *ngIf="isLoggedIn" class="nav"></app-nav-bar>
+    <app-nav-bar *ngIf="isLoggedIn" class="nav"></app-nav-bar>
 
+  </div>
+  <div class="header__main">
+    <div class="entry-block">
+      <div *ngIf="isLoggedIn" class="entry-block__title">
+        {{username}}
+        {{publicRoles}}
+      </div>
+        <app-secondary-btn *ngIf="isLoggedIn" [title]="'Выйти'" (click)="signOut()"></app-secondary-btn>
+        <app-secondary-btn *ngIf="!isLoggedIn && !isShowBtnLogin" [title]="'Забыли пароль?'"
+                           (click)="forgotPass()"></app-secondary-btn>
+        <app-secondary-btn *ngIf="!isLoggedIn && isShowBtnLogin" [title]="'Войти'"
+                           (click)="navigateToLogin()"></app-secondary-btn>
     </div>
-    <div class="header__main">
-        <div class="entry-block">
-            <div *ngIf="isLoggedIn" class="entry-block__title">
-                <p>{{username}}</p>
-                <p>{{publicRoles}}</p>
-            </div>
-            <app-secondary-btn *ngIf="isLoggedIn" [title]="'Выйти'" (click)="signOut()"></app-secondary-btn>
-            <app-secondary-btn *ngIf="!isLoggedIn && !isShowBtnLogin" [title]="'Забыли пароль?'" (click)="forgotPass()"></app-secondary-btn>
-            <app-secondary-btn *ngIf="!isLoggedIn && isShowBtnLogin" [title]="'Войти'" (click)="navigateToLogin()"></app-secondary-btn>
-        </div>
-    </div>
+  </div>
 </header>
