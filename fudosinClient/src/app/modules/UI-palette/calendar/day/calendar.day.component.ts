@@ -4,9 +4,12 @@ import {CalendarTimeService} from '../../services/calendar-time.service';
 import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {StudentParentService} from '../../../../service/personalities/studentParent.service';
 import {MonthLesson} from '../../../../models/month-lessons.model';
 import {StudentParentDictionary} from '../../services/student-parent.dictionary';
+import {StudentParentService} from "../../../../service/personalities/student-parent-http.service";
+import {Observable} from "rxjs";
+import {PdfCreateService} from "../../../../service/pdfDoc/pdf-create.service";
+
 
 @Component({
   selector: 'app-calendar-day',
@@ -43,14 +46,37 @@ export class CalendarDayComponent implements OnInit {
       }
     }
 
-    this.getLessonsDay().then(lessons => {
-      this.lessons = lessons;
-    });
+    this.httpLessons();
 
   }
 
-  private getChilds(): Promise<number[]> {
+  private httpLessons(): void {
+    new Promise((resolve) => {
+      if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
+        this.role = this.d.userRoles.parent;
+        this.getChilds().subscribe(childsId => {
+          this.childsId = childsId;
+          resolve();
+        });
+      } else {
+        this.role = this.d.userRoles.student;
+        resolve();
+      }
+    }).then(() => {
+      this.getLessonsDay().subscribe(lessons => {
+        this.lessons = lessons;
+      });
+    });
+  }
+
+  private getChilds(): Observable<number[]> {
     return this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id);
+  }
+
+  turn(): void {
+    const t = setTimeout(() => {
+      this.httpLessons();
+    }, 100);
   }
 
   ngOnInit(): void {
@@ -65,34 +91,19 @@ export class CalendarDayComponent implements OnInit {
     this.day = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.day);
   }
 
-  private getLessonsDay(): Promise<Lesson[]> {
-    return new Promise<Lesson[]>(resolve => {
-      if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
-        this.role = this.d.userRoles.parent;
-        // @ts-ignore
-        const studId = this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
-
-        if (studId === null) {
-          this.getChilds().then(data => {
-            this.childsId = data;
-          }).then(() => {
-            this.studentParentService.getLessonsMonth(this.childsId[0], this.year, this.month).then(allMonth => {
-              resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
-            });
-          });
-
-        } else {
-          this.studentParentService.getLessonsMonth(+studId, this.year, this.month).then(allMonth => {
-            resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
-          });
-        }
+  private getLessonsDay(): Observable<Lesson[]> {
+    let id = 0;
+    if (this.role === this.d.userRoles.student) {
+      id = this.tokenStorageService.getPerson().id;
+    } else {
+      if (this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student) === null) {
+        id = this.childsId[0];
       } else {
-        this.role = this.d.userRoles.student;
-        this.studentParentService.getLessonsMonth(this.tokenStorageService.getPerson().id, this.year, this.month).then(allMonth => {
-          resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
-        });
+        // @ts-ignore
+        id = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
       }
-    });
+    }
+    return this.studentParentService.getDayLessons(id, this.year, this.month, this.day);
   }
 
   getLink(direction: number): string {

@@ -8,7 +8,7 @@ import {TimelineComponent} from './day/timeline/timeline.component';
 import {MonthPartDayComponent} from './month/month-part-day/month-part-day.component';
 import {DayPartLessonComponent} from './day/day-part-lesson/day-part-lesson.component';
 import {CalendarService} from '../services/calendar.service';
-import {StudentParentService} from '../../../service/personalities/studentParent.service';
+import {StudentParentService} from '../../../service/personalities/student-parent-http.service';
 
 
 @NgModule({

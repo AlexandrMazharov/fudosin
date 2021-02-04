@@ -2,11 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {CalendarService} from '../../services/calendar.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {Lesson} from '../../../../models/lesson.model';
-import {StudentParentService} from '../../../../service/personalities/studentParent.service';
 import {MonthLesson} from '../../../../models/month-lessons.model';
 import {PdfCreateService} from '../../../../service/pdfDoc/pdf-create.service';
 import {StudentParentDictionary} from '../../services/student-parent.dictionary';
+import {StudentParentService} from '../../../../service/personalities/student-parent-http.service';
 
 @Component({
   selector: 'app-calendar-month',
@@ -95,36 +94,18 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // console.log(this.childsId);
   }
 
   httpInit(): void {
     if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
       this.role = this.d.userRoles.parent;
-      this.getChilds().then(data => {
-        this.childsId = data;
-      }).then(() => {
-        this.studentParentService.getFullNames(this.childsId, 0, []).then(names => {
-          this.childs = names;
-        });
-      }).then(() => {
-        const studId = this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
-        if (studId !== null) {
-          this.getLessons(+studId).then(data => {
-            this.lessons = new MonthLesson(data, this.year, this.month);
-          });
-        } else {
-          this.getLessons(this.childsId[0]).then(lessons => {
-            this.lessons = new MonthLesson(lessons, this.year, this.month);
-          });
-        }
-      });
+      this.getChilds();
     } else {
       this.role = this.d.userRoles.student;
       this.childs = [];
       this.childsId = [];
-      this.getLessons(this.tokenStorageService.getPerson().id).then(lessons => {
-        this.lessons = new MonthLesson(lessons, this.year, this.month);
-      });
+      this.getLessons(this.tokenStorageService.getPerson().id);
     }
   }
 
@@ -141,6 +122,7 @@ export class CalendarMonthComponent implements OnInit {
     // @ts-ignore
     this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
     this.dayRows = this.fillMonth(this.calendar.getWeekDay(this.year, this.month, 0));
+    this.monthName = this.getMonth();
   }
 
   getChildLink(id: number): string {
@@ -151,16 +133,43 @@ export class CalendarMonthComponent implements OnInit {
     }
   }
 
-  private getChilds(): Promise<number[]> {
-    return this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id);
+  private getChilds(): void {
+    this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id)
+      .subscribe(arr => {
+        this.childsId = arr;
+        this.studentParentService.getFullNames(this.childsId).subscribe(names => {
+          this.childs = names;
+          this.getLessons(this.childsId[0]);
+        });
+      });
   }
 
-  getLessons(id: number): Promise<Lesson[]> {
-    return this.studentParentService.getLessonsMonth(id, this.year, this.month);
+  private getLessons(idPerson: number): void {
+    const studId = this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
+    if (studId !== null) {
+      this.studentParentService.getMonthLessons(+studId, this.year, this.month)
+        .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
+    } else {
+      this.studentParentService.getMonthLessons(idPerson, this.year, this.month)
+        .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
+    }
   }
 
   createDocumentAttend(): void {
-    new PdfCreateService('ИМЯ ФАМИЛИЯ', this.lessons, this.year, this.month).create();
+    let id = 0;
+    if (this.role === this.d.userRoles.student) {
+      id = this.tokenStorageService.getPerson().id;
+    } else {
+      if (this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student) === null) {
+        id = this.childsId[0];
+      } else {
+        // @ts-ignore
+        id = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
+      }
+    }
+    this.studentParentService.getFullName(id).subscribe(fullName => {
+      new PdfCreateService(`${fullName}`, this.lessons, this.year, this.month).create();
+    });
   }
 
   getMonth(): string {

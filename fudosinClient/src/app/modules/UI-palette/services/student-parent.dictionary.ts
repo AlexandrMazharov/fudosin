@@ -52,4 +52,43 @@ export class StudentParentDictionary {
     }
   };
 
+  readonly URL = {
+    server: 'http://localhost:8080/',
+    visit: {
+      url: 'visit/stud/?',
+      id: 'id=',
+      from: '&dateStart=',
+      to: '&dateFinish=',
+      full_id_from_to: ''
+    },
+    person: {
+      url: 'person/',
+      role: '/roles'
+    },
+    parent: {
+      urlFirst: 'parent/',
+      urlSecond: '/students'
+    }
+  };
+
+  readonly visitResponse = {
+    presence: 'isPresent',
+    pay: 'paymentStatus',
+    begin: 'lesson.timeStart',
+    end: 'lesson.timeFinish',
+    place: 'lesson.place',
+    title: 'lesson.trainingGroup.domain.name'
+  };
+
+  readonly parentResponse = {
+    childId: 'person.id'
+  };
+
+  readonly personResponse = {
+    name: 'firstName',
+    surname: 'lastName'
+  };
+
+  readonly locale = 4;
+
 }

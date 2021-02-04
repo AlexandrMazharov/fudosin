@@ -7,7 +7,7 @@ const URL = 'http://localhost:8080/';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentParentService {
+export class StudentParentServiceOLD {
 
   private lesson = 'lesson/';
   private student = 'student/';

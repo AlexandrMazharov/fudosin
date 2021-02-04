@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {StudentParentDictionary} from './student-parent.dictionary';
 
 @Injectable()
 export class CalendarService {
@@ -67,6 +68,14 @@ export class CalendarService {
 
   getWeekDay(year: number, month: number, day: number): number {
     return new Date(year, month, day).getDay();
+  }
+
+  setDateInMillsLeft(year: number, month: number, day: number): number {
+    return new Date(year, month, day, 0, 0, 0, 1).getTime();
+  }
+
+  setDateInMillsRight(year: number, month: number, day: number): number {
+    return new Date(year, month, day, 23, 59, 59, 999).getTime();
   }
 
   getCountOfDaysInMonth(year: number, month: number): number {
