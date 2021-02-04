@@ -1,4 +1,4 @@
-import {Time} from './Time.fudoshin.model';
+import {Time} from './Time.model';
 
 class Words {
   static isPresentTypes = [
