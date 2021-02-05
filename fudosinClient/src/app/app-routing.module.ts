@@ -12,13 +12,13 @@ import {MainComponent} from './modules/cabinet/cabinet/pages/main/main.component
 export const appRoutes: Routes = [
   {path: '', component: CabinetComponent, children: [
       {path: 'login', component: LoginComponent},
+      {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
       {path: 'reset', component: ResetPasswordComponent},
       {path: 'lk', children: [
           {path: '', redirectTo: 'timetable', pathMatch: 'full'},
           {path: 'timetable', component: TimetableComponent, loadChildren: './modules/cabinet/cabinet/pages/timetable/timetable.module#TimetableModule'},
           {path: 'attend', component: AttendComponent, loadChildren: './modules/cabinet/cabinet/pages/attend/attend.module#AttendModule'},
           {path: 'main', component: MainComponent, loadChildren: './modules/cabinet/cabinet/pages/main/main.module#MainModule'},
-          {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
         ]},
       {path: '**', component: LoginComponent},
     ]},

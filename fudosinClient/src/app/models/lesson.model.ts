@@ -1,4 +1,4 @@
-import {Time} from './Time.model';
+import {Time} from './time.model';
 
 class Words {
   static isPresentTypes = [

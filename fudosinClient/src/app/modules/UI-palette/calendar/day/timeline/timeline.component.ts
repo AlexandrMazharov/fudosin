@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TimeService} from '../../../services/time.service';
+import {CalendarTimeService} from '../../../services/calendar-time.service';
 
 @Component({
   selector: 'app-timeline',
@@ -8,18 +8,18 @@ import {TimeService} from '../../../services/time.service';
 })
 export class TimelineComponent implements OnInit {
 
-  @Input() timeBegin: TimeService;
-  @Input() timeEnd: TimeService;
-  public timeLine: TimeService[];
+  @Input() timeBegin: CalendarTimeService;
+  @Input() timeEnd: CalendarTimeService;
+  public timeLine: CalendarTimeService[];
 
   constructor() {
-    this.timeBegin = new TimeService(0, 0);
-    this.timeEnd = new TimeService(0, 0);
+    this.timeBegin = new CalendarTimeService(0, 0);
+    this.timeEnd = new CalendarTimeService(0, 0);
     this.timeLine = [];
   }
 
   ngOnInit(): void {
-    this.timeLine = TimeService.createTimelineTo(this.timeBegin, this.timeEnd);
+    this.timeLine = CalendarTimeService.createTimelineTo(this.timeBegin, this.timeEnd);
   }
 
 }
