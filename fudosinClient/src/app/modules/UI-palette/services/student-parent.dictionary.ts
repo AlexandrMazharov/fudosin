@@ -59,7 +59,7 @@ export class StudentParentDictionary {
       id: 'id=',
       from: '&dateStart=',
       to: '&dateFinish=',
-      full_id_from_to: ''
+      full_url_id_from_to: ''
     },
     person: {
       url: 'person/',
@@ -68,7 +68,25 @@ export class StudentParentDictionary {
     parent: {
       urlFirst: 'parent/',
       urlSecond: '/students'
+    },
+    lesson: {
+      url: 'lesson/group-id-date/?',
+      id: 'id=',
+      year: '&year=',
+      month: '&month=',
+      full_url_id_year_month: ''
+    },
+    student: {
+      student: 'student/',
+      group: '/group'
     }
+  };
+
+  readonly lessonResponse = {
+    begin: 'timeStart',
+    end: 'timeFinish',
+    place: 'place',
+    title: 'trainingGroup.domain.name',
   };
 
   readonly visitResponse = {

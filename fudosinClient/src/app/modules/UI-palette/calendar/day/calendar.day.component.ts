@@ -4,11 +4,9 @@ import {CalendarTimeService} from '../../services/calendar-time.service';
 import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {MonthLesson} from '../../../../models/month-lessons.model';
 import {StudentParentDictionary} from '../../services/student-parent.dictionary';
-import {StudentParentService} from "../../../../service/personalities/student-parent-http.service";
-import {Observable} from "rxjs";
-import {PdfCreateService} from "../../../../service/pdfDoc/pdf-create.service";
+import {StudentParentService} from '../../../../service/personalities/student-parent-http.service';
+import {forkJoin, Observable} from 'rxjs';
 
 
 @Component({
@@ -24,6 +22,8 @@ export class CalendarDayComponent implements OnInit {
   public day: number;
   private role = this.d.userRoles.student; // student or parent
   private childsId: number[] = [];
+  public timeBegin: CalendarTimeService = new CalendarTimeService(0, 0);
+  public timeEnd: CalendarTimeService = new CalendarTimeService(0, 0);
 
   public lessons: Lesson[] = [];
 
@@ -67,6 +67,7 @@ export class CalendarDayComponent implements OnInit {
         this.lessons = lessons;
       });
     });
+    // forkJoin()
   }
 
   private getChilds(): Observable<number[]> {
@@ -89,6 +90,10 @@ export class CalendarDayComponent implements OnInit {
     this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
     // @ts-ignore
     this.day = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.day);
+    if (this.lessons.length > 0) {
+      this.timeBegin = this.getTimeBegin();
+      this.timeEnd = this.getTimeEnd();
+    }
   }
 
   private getLessonsDay(): Observable<Lesson[]> {
@@ -103,7 +108,7 @@ export class CalendarDayComponent implements OnInit {
         id = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
       }
     }
-    return this.studentParentService.getDayLessons(id, this.year, this.month, this.day);
+    return this.studentParentService.getDayLessonsTimetable(id, this.year, this.month, this.day);
   }
 
   getLink(direction: number): string {

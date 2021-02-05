@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Lesson} from '../../models/lesson.model';
 import {Observable, range} from 'rxjs';
 import {StudentParentDictionary} from '../../modules/UI-palette/services/student-parent.dictionary';
-import {map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {CalendarService} from '../../modules/UI-palette/services/calendar.service';
 
 
@@ -30,33 +30,54 @@ export class StudentParentService {
     return result;
   }
 
-  getDayLessons(idPerson: number, year: number, month: number, day: number): Observable<Lesson[]> {
+  private getGroupsId(idStudent: number): Observable<number[]> {
+    return this.http.get<number[]>(this.d.URL.server + this.d.URL.student.student + idStudent + this.d.URL.student.group);
+  }
+
+  // do not delete, maybe it will help someday
+  // getDayLessonsAttend(idPerson: number, year: number, month: number, day: number): Observable<Lesson[]> {
+  //   return new Observable<Lesson[]>(subscriber => {
+  //     this.getRoleId(idPerson, this.d.userRoles.student).subscribe(idStudent => {
+  //       this.http.get<any>(this.d.URL.server + this.d.URL.visit.url +
+  //         this.d.URL.visit.id + idStudent +
+  //         this.d.URL.visit.from + this.calendar.setDateInMillsLeft(year, month, day) +
+  //         this.d.URL.visit.to + this.calendar.setDateInMillsRight(year, month, day))
+  //         .subscribe(visits => {
+  //           const lessons = [];
+  //           for (let i = 0; i < visits.length; ++i) {
+  //             lessons.push(new Lesson(
+  //               this.getByPath(visits[i], this.d.visitResponse.presence),
+  //               this.getByPath(visits[i], this.d.visitResponse.pay),
+  //               this.getByPath(visits[i], this.d.visitResponse.begin),
+  //               this.getByPath(visits[i], this.d.visitResponse.end),
+  //               this.getByPath(visits[i], this.d.visitResponse.place),
+  //               this.getByPath(visits[i], this.d.visitResponse.title),
+  //               idStudent
+  //             ));
+  //           }
+  //           subscriber.next(lessons);
+  //         });
+  //     });
+  //   });
+  // }
+
+  getDayLessonsTimetable(idPerson: number, year: number, month: number, day: number): Observable<Lesson[]> {
     return new Observable<Lesson[]>(subscriber => {
-      this.getRoleId(idPerson, this.d.userRoles.student).subscribe(idStudent => {
-        this.http.get<any>(this.d.URL.server + this.d.URL.visit.url +
-          this.d.URL.visit.id + idStudent +
-          this.d.URL.visit.from + this.calendar.setDateInMillsLeft(year, month, day) +
-          this.d.URL.visit.to + this.calendar.setDateInMillsRight(year, month, day))
-          .subscribe(visits => {
-            const lessons = [];
-            for (let i = 0; i < visits.length; ++i) {
-              lessons.push(new Lesson(
-                this.getByPath(visits[i], this.d.visitResponse.presence),
-                this.getByPath(visits[i], this.d.visitResponse.pay),
-                this.getByPath(visits[i], this.d.visitResponse.begin),
-                this.getByPath(visits[i], this.d.visitResponse.end),
-                this.getByPath(visits[i], this.d.visitResponse.place),
-                this.getByPath(visits[i], this.d.visitResponse.title),
-                idStudent
-              ));
-            }
-            subscriber.next(lessons);
-          });
+      this.getMonthLessonsTimetable(idPerson, year, month).pipe(map(lessons => {
+        const res = [];
+        for (const lesson of lessons) {
+          if (lesson.timeBegin.day === day) {
+            res.push(lesson);
+          }
+        }
+        return res;
+      })).subscribe(resultedLessons => {
+        subscriber.next(resultedLessons);
       });
     });
   }
 
-  getMonthLessons(idPerson: number, year: number, month: number): Observable<Lesson[]> {
+  getMonthLessonsAttend(idPerson: number, year: number, month: number): Observable<Lesson[]> {
     return new Observable<Lesson[]>(subscriber => {
       this.getRoleId(idPerson, this.d.userRoles.student).subscribe(idStudent => {
         this.http.get<any>(this.d.URL.server + this.d.URL.visit.url +
@@ -78,6 +99,39 @@ export class StudentParentService {
             }
             subscriber.next(lessons);
           });
+      });
+    });
+
+  }
+
+  getMonthLessonsTimetable(idPerson: number, year: number, month: number): Observable<Lesson[]> {
+    return new Observable<Lesson[]>(subscriber => {
+      this.getRoleId(idPerson, this.d.userRoles.student).subscribe(idStudent => {
+        this.getGroupsId(idStudent).subscribe(groupsId => {
+          let result: Lesson[] = [];
+          const stream$ = range(0, groupsId.length).subscribe(groupId => {
+            this.http.get<any>(this.d.URL.server + this.d.URL.lesson.url +
+              this.d.URL.lesson.id + groupsId[groupId] +
+              this.d.URL.lesson.year + year +
+              this.d.URL.lesson.month + month, {observe: 'body'}).pipe(map(lessons => {
+              const res = [];
+              for (const lesson of lessons) {
+                res.push(new Lesson(
+                  true,
+                  true,
+                  this.getByPath(lesson, this.d.lessonResponse.begin),
+                  this.getByPath(lesson, this.d.lessonResponse.end),
+                  this.getByPath(lesson, this.d.lessonResponse.place),
+                  this.getByPath(lesson, this.d.lessonResponse.title),
+                  idStudent));
+              }
+              return res;
+            })).subscribe(resultedLessons => {
+              result = result.concat(resultedLessons);
+              subscriber.next(result);
+            });
+          });
+        });
       });
     });
   }

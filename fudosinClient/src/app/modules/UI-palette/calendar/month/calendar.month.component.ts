@@ -94,7 +94,6 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.childsId);
   }
 
   httpInit(): void {
@@ -145,12 +144,18 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   private getLessons(idPerson: number): void {
-    const studId = this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
-    if (studId !== null) {
-      this.studentParentService.getMonthLessons(+studId, this.year, this.month)
+    let studId;
+    if (this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student) !== null) {
+      // @ts-ignore
+      studId = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
+    } else {
+      studId = idPerson;
+    }
+    if (this.type === this.d.calendarTypeWork.attend) {
+      this.studentParentService.getMonthLessonsAttend(studId, this.year, this.month)
         .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
     } else {
-      this.studentParentService.getMonthLessons(idPerson, this.year, this.month)
+      this.studentParentService.getMonthLessonsTimetable(studId, this.year, this.month)
         .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
     }
   }
