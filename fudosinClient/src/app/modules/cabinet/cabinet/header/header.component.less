@@ -9,8 +9,16 @@
     background: @bg-color;
     position: fixed;
     width: 210px;
-    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.25);
   }
+  &__nav-shadow{
+       padding-top: @padding-top;
+       padding-left: 10px;
+       background: @bg-color;
+       position: fixed;
+       width: 210px;
+       box-shadow: 10px 0 20px rgba(0, 0, 0, 0.25);
+       z-index: 10;
+     }
 
   &__main {
     margin-top: @padding-top;
@@ -20,23 +28,18 @@
     align-items: flex-end;
     justify-content: flex-end;
     margin-left: 210px;
-
-
   }
 }
 .entry-block {
   display: flex;
+  flex-direction: row;
   justify-content: right;
-  padding: 10px;
-  align-items: center;
+  padding-right: 10px;
 
   &__title {
     display: flex;
     margin-right: 40px;
     color: white;
-  }
-
-  &__btn {
-
+    align-items: center;
   }
 }
