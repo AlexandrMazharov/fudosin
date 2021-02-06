@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Lesson} from '../../models/lesson.model';
-import {Observable, range} from 'rxjs';
+import {forkJoin, Observable, range} from 'rxjs';
 import {StudentParentDictionary} from '../../modules/UI-palette/services/student-parent.dictionary';
-import {filter, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {CalendarService} from '../../modules/UI-palette/services/calendar.service';
 
 
@@ -109,6 +109,7 @@ export class StudentParentService {
       this.getRoleId(idPerson, this.d.userRoles.student).subscribe(idStudent => {
         this.getGroupsId(idStudent).subscribe(groupsId => {
           let result: Lesson[] = [];
+          let count = 0; // not very nice fix :(
           const stream$ = range(0, groupsId.length).subscribe(groupId => {
             this.http.get<any>(this.d.URL.server + this.d.URL.lesson.url +
               this.d.URL.lesson.id + groupsId[groupId] +
@@ -128,7 +129,10 @@ export class StudentParentService {
               return res;
             })).subscribe(resultedLessons => {
               result = result.concat(resultedLessons);
-              subscriber.next(result);
+              ++count;
+              if (count === groupsId.length) { // not very nice fix :(
+                subscriber.next(result);
+              }
             });
           });
         });

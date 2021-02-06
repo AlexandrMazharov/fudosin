@@ -6,7 +6,8 @@ import {Lesson} from '../../../../models/lesson.model';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
 import {StudentParentDictionary} from '../../services/student-parent.dictionary';
 import {StudentParentService} from '../../../../service/personalities/student-parent-http.service';
-import {forkJoin, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
+import {MonthLesson} from "../../../../models/month-lessons.model";
 
 
 @Component({
@@ -64,10 +65,9 @@ export class CalendarDayComponent implements OnInit {
       }
     }).then(() => {
       this.getLessonsDay().subscribe(lessons => {
-        this.lessons = lessons;
+        this.lessons = new MonthLesson(lessons, this.year, this.month).getLessonsByDay(this.day - 1);
       });
     });
-    // forkJoin()
   }
 
   private getChilds(): Observable<number[]> {
