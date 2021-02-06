@@ -8,9 +8,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+@Transactional
 @Component
 public class DataLoader implements ApplicationRunner {
 
@@ -98,7 +99,7 @@ public class DataLoader implements ApplicationRunner {
         while (start.before(end)) {
 
             String place = "Орбита";
-            if (start.get(Calendar.DAY_OF_WEEK) == 2 || start.get(Calendar.DAY_OF_WEEK) == 4 || start.get(Calendar.DAY_OF_WEEK) == 6  ) {
+            if (start.get(Calendar.DAY_OF_WEEK) == 2 || start.get(Calendar.DAY_OF_WEEK) == 4 || start.get(Calendar.DAY_OF_WEEK) == 6) {
                 // Monday and Wednesday and Friday
                 start.set(Calendar.HOUR_OF_DAY, 18);
                 start.set(Calendar.MINUTE, 30);
@@ -345,13 +346,42 @@ public class DataLoader implements ApplicationRunner {
                 userRepository.save(newParent);
 
                 // добавляем нового студента во все группы
-                List<TrainingGroup> trainingGroups = trainingGroupRepository.findAll();
-                for (TrainingGroup trainingGroup : trainingGroups) {
-                    trainingGroup.addStudent(newStudent.getStudent());
-                    trainingGroupRepository.save(trainingGroup);
-                }
+//                List<TrainingGroup> trainingGroups = trainingGroupRepository.findAll();
+//                for (TrainingGroup trainingGroup : trainingGroups) {
+//                    trainingGroup.addStudent(newStudent.getStudent());
+//                    trainingGroupRepository.save(trainingGroup);
+//                }
             }
         }
+            TrainingGroup trainingGroup = trainingGroupRepository.findById(Long.valueOf(1)).get();
+            TrainingGroup trainingGroup2 = trainingGroupRepository.findById(Long.valueOf(2)).get();
+
+            Student student = studentRepository.findById(Long.valueOf(3)).get();
+            Student student2 = studentRepository.findById(Long.valueOf(4)).get();
+
+            trainingGroup.addStudent(student);
+            trainingGroup2.addStudent(student2);
+            trainingGroupRepository.save(trainingGroup);
+            trainingGroupRepository.save(trainingGroup2);
+//
+
+
+            studentUsername = studentEmail = studentPassword = "student5@email.ru";
+
+            Person person5 = new Person(studentUsername, studentEmail, encoder.encode(studentPassword));
+            Set<Role> rolesStudent = new HashSet<>();
+            addStudentRole(rolesStudent);
+            person5.setUserRoles(rolesStudent);
+
+            Student student5 = new Student();
+            student5.setPerson(person5);
+
+            person5.setStudent(student5);
+
+            Parent parent1 = parentRepository.findById(Long.valueOf(1)).get() ;
+            parent1.addStudent(person5.getStudent());
+            userRepository.save(person5);
+
     }
 
     private void insertVisits() {
