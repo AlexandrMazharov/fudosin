@@ -14,7 +14,7 @@ import {StudentParentService} from '../../../../service/personalities/student-pa
 })
 export class CalendarMonthComponent implements OnInit {
 
-  private d = new StudentParentDictionary();
+  public d = new StudentParentDictionary();
   public year: number;
   public month: number; // January is 0, etc.
   public dayRows: number[][];
