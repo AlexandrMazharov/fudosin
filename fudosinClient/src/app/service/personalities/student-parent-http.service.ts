@@ -34,33 +34,6 @@ export class StudentParentService {
     return this.http.get<number[]>(this.d.URL.server + this.d.URL.student.student + idStudent + this.d.URL.student.group);
   }
 
-  // do not delete, maybe it will help someday
-  // getDayLessonsAttend(idPerson: number, year: number, month: number, day: number): Observable<Lesson[]> {
-  //   return new Observable<Lesson[]>(subscriber => {
-  //     this.getRoleId(idPerson, this.d.userRoles.student).subscribe(idStudent => {
-  //       this.http.get<any>(this.d.URL.server + this.d.URL.visit.url +
-  //         this.d.URL.visit.id + idStudent +
-  //         this.d.URL.visit.from + this.calendar.setDateInMillsLeft(year, month, day) +
-  //         this.d.URL.visit.to + this.calendar.setDateInMillsRight(year, month, day))
-  //         .subscribe(visits => {
-  //           const lessons = [];
-  //           for (let i = 0; i < visits.length; ++i) {
-  //             lessons.push(new Lesson(
-  //               this.getByPath(visits[i], this.d.visitResponse.presence),
-  //               this.getByPath(visits[i], this.d.visitResponse.pay),
-  //               this.getByPath(visits[i], this.d.visitResponse.begin),
-  //               this.getByPath(visits[i], this.d.visitResponse.end),
-  //               this.getByPath(visits[i], this.d.visitResponse.place),
-  //               this.getByPath(visits[i], this.d.visitResponse.title),
-  //               idStudent
-  //             ));
-  //           }
-  //           subscriber.next(lessons);
-  //         });
-  //     });
-  //   });
-  // }
-
   getDayLessonsTimetable(idPerson: number, year: number, month: number, day: number): Observable<Lesson[]> {
     return new Observable<Lesson[]>(subscriber => {
       this.getMonthLessonsTimetable(idPerson, year, month).pipe(map(lessons => {

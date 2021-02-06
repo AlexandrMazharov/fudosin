@@ -15,6 +15,7 @@ export class MonthPartDayComponent implements OnInit {
   @Input() lessons: Lesson[] | undefined;
   @Input() type: string; // attend or timetable
   @Input() role: string; // student or parent
+  @Input() now = false;
 
   constructor() {
     this.title = 0;
@@ -60,6 +61,14 @@ export class MonthPartDayComponent implements OnInit {
       return this.title + '';
     } else {
       return './';
+    }
+  }
+
+  nowDays(): string {
+    if (this.now) {
+      return `box-shadow: 8px 8px 10px #ff9ac6;`;
+    } else {
+      return '';
     }
   }
 

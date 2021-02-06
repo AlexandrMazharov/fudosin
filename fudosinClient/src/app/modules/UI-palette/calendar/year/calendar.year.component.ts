@@ -31,5 +31,12 @@ export class CalendarYearComponent implements OnInit {
     ++this.year;
   }
 
+  now(num: number): string {
+    if (num === this.calendar.getMonth()) {
+      return 'now';
+    } else {
+      return '';
+    }
+  }
 
 }

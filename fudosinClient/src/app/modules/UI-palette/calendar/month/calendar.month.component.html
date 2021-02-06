@@ -17,12 +17,12 @@
              [routerLink]="getMonthLink(1)">
       </div>
     </div>
-    <div class="month-header__document" *ngIf="type !== 'timetable'">
+    <div class="month-header__document" *ngIf="type !== d.calendarTypeWork.timetable">
       <h3 class="month-header__document_inner" (click)="createDocumentAttend()">Создать справку</h3>
     </div>
   </div>
 
-  <div class="month-tabs" *ngIf="role === 'parent'">
+  <div class="month-tabs" *ngIf="role === d.userRoles.parent">
     <div class="tab" [ngClass]="firstActivated(i)" [routerLink]="getChildLink(i)" routerLinkActive="active-tab" *ngFor="let child of childs; let i = index">
       <p class="tab__inner">{{child}}</p>
     </div>
@@ -35,7 +35,7 @@
         <app-month-part-day *ngIf="dayRows[i][j] !== 0"
                             [title]="dayRows[i][j]"
                             [lessons]="lessons.getLessonsByDay(dayRows[i][j] - 1)" [type]="type"
-                            [role]="role"></app-month-part-day>
+                            [role]="role" [now]="now(dayRows[i][j])"></app-month-part-day>
       </div>
     </div>
   </div>

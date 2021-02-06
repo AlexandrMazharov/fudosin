@@ -212,4 +212,8 @@ export class CalendarMonthComponent implements OnInit {
       return '';
     }
   }
+
+  now(day: number): boolean {
+    return (day === this.calendar.getDay() && this.month === this.calendar.getMonth())
+  }
 }
