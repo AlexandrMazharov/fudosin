@@ -1,0 +1,98 @@
+.main-inner {
+  width: 720px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #172755;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+  margin: 51px auto;
+}
+
+.main {
+  &-tabs {
+    display: flex;
+    flex-direction: row;
+    padding: 45px 30px 0;
+
+    &__tab {
+      width: 180px;
+      height: 34px;
+      margin: 0 20px;
+      text-align: center;
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 10px #ff9ac6;
+      }
+
+      &_text {
+        .text;
+      }
+    }
+  }
+
+  &-groups {
+    display: flex;
+    flex-direction: column;
+
+    &__row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__column {
+      .text;
+      width: 180px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 0 20px;
+    }
+  }
+
+  &-buttons {
+    display: flex;
+    flex-direction: row;
+    margin: 0 0 34px;
+  }
+
+  &-style-line {
+    width: 620px;
+    height: 2px;
+    background: #FFFFFF;
+    margin: 30px 0;
+  }
+}
+
+.button {
+  margin: 0 28px;
+
+  &-click {
+    &__button {
+      .text;
+      width: 180px;
+      background: none;
+      border: none;
+      margin: 0 20px;
+      padding: 0;
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 4px #ff9ac6;
+        background: #EF2A82;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+.text {
+  margin: 0;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 150%;
+  text-align: center;
+  color: #EEEEF7;
+}

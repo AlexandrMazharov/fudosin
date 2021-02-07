@@ -10,6 +10,7 @@ import {NavBarModule} from './cabinet/nav-bar/nav-bar.module';
 import {TimetableModule} from './cabinet/pages/timetable/timetable.module';
 import {AttendModule} from './cabinet/pages/attend/attend.module';
 import {MainModule} from './cabinet/pages/main/main.module';
+import {InstructorGroupModule} from './cabinet/pages/instructor-group/instructor-group.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {MainModule} from './cabinet/pages/main/main.module';
     UiElementsModule,
     TimetableModule,
     AttendModule,
-    MainModule
+    MainModule,
+    InstructorGroupModule
   ],
   exports: [
     CabinetComponent

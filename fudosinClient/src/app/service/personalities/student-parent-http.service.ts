@@ -113,7 +113,7 @@ export class StudentParentService {
     });
   }
 
-  getRoleId(idPerson: number, role: string): Observable<number> {
+  private getRoleId(idPerson: number, role: string): Observable<number> {
     return this.http.get<any>(this.d.URL.server + this.d.URL.person.url + idPerson + this.d.URL.person.role, {observe: 'body'}).pipe(
       map(roles => roles[`${role}`])
     );

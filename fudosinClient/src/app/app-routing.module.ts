@@ -8,6 +8,7 @@ import {RegGuard} from './guards/reg.guard';
 import {TimetableComponent} from './modules/cabinet/cabinet/pages/timetable/timetable.component';
 import {AttendComponent} from './modules/cabinet/cabinet/pages/attend/attend.component';
 import {MainComponent} from './modules/cabinet/cabinet/pages/main/main.component';
+import {InstructorGroupComponent} from './modules/cabinet/cabinet/pages/instructor-group/instructor-group.component';
 
 export const appRoutes: Routes = [
   {path: '', component: CabinetComponent, children: [
@@ -19,6 +20,7 @@ export const appRoutes: Routes = [
           {path: 'timetable', component: TimetableComponent, loadChildren: './modules/cabinet/cabinet/pages/timetable/timetable.module#TimetableModule'},
           {path: 'attend', component: AttendComponent, loadChildren: './modules/cabinet/cabinet/pages/attend/attend.module#AttendModule'},
           {path: 'main', component: MainComponent, loadChildren: './modules/cabinet/cabinet/pages/main/main.module#MainModule'},
+          {path: 'groups', component: InstructorGroupComponent, loadChildren: './modules/cabinet/cabinet/pages/instructor-group/instructor-group.module#InstructorGroupModule'},
         ]},
       {path: '**', component: LoginComponent},
     ]},
