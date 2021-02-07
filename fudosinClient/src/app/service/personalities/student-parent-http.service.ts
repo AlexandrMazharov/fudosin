@@ -127,7 +127,9 @@ export class StudentParentService {
           for (let i = 0; i < massive.length; ++i) {
             childs.push(this.getByPath(massive[i], this.d.parentResponse.childId));
           }
-          subscriber.next(childs);
+          subscriber.next(childs.sort((a, b) => {
+            return a - b;
+          }));
         });
       });
     });

@@ -51,6 +51,8 @@ export class CalendarMonthComponent implements OnInit {
     this.dayRows = this.fillMonth(calendar.getWeekDay(this.year, this.month, 0));
     this.monthName = this.getMonth();
     this.httpInit();
+
+    this.activatedRoute.params.subscribe(val => this.load()); // checking url updating
   }
 
   private fillMonth(firstDay: number): number[][] {
@@ -115,6 +117,25 @@ export class CalendarMonthComponent implements OnInit {
     }, 100);
   }
 
+  load(): void {
+    this.lessons = new MonthLesson([], 0, 0);
+    if (this.activatedRoute == null) {
+      this.year = this.calendar.getYear();
+      this.month = this.calendar.getMonth();
+      this.type = this.d.calendarTypeWork.attend;
+    } else {
+      // @ts-ignore
+      this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
+      // @ts-ignore
+      this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
+      if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11) {
+        this.year = this.calendar.getYear();
+        this.month = this.calendar.getMonth();
+      }
+    }
+    this.getLessons(this.tokenStorageService.getPerson().id);
+  }
+
   ngDoCheck() {
     // @ts-ignore
     this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
@@ -156,7 +177,9 @@ export class CalendarMonthComponent implements OnInit {
         .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
     } else {
       this.studentParentService.getMonthLessonsTimetable(studId, this.year, this.month)
-        .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
+        .subscribe(lessons => {
+          this.lessons = new MonthLesson(lessons, this.year, this.month);
+        });
     }
   }
 
@@ -205,13 +228,13 @@ export class CalendarMonthComponent implements OnInit {
     }
   }
 
-  firstActivated(i: number): string {
-    if (this.role === this.d.userRoles.parent && i === 0) {
-      return `active-tab`;
-    } else {
-      return '';
-    }
-  }
+  // firstActivated(i: number): string {
+  //   if (this.role === this.d.userRoles.parent && i === 0) {
+  //     return `active-tab`;
+  //   } else {
+  //     return '';
+  //   }
+  // }
 
   now(day: number): boolean {
     return (day === this.calendar.getDay() && this.month === this.calendar.getMonth())

@@ -23,7 +23,7 @@
   </div>
 
   <div class="month-tabs" *ngIf="role === d.userRoles.parent">
-    <div class="tab" [ngClass]="firstActivated(i)" [routerLink]="getChildLink(i)" routerLinkActive="active-tab" *ngFor="let child of childs; let i = index">
+    <div class="tab" [routerLink]="getChildLink(i)" routerLinkActive="active-tab" *ngFor="let child of childs; let i = index">
       <p class="tab__inner">{{child}}</p>
     </div>
   </div>
