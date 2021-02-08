@@ -17,6 +17,12 @@ export class Person implements Deserializable{
   private _username: string;
   private _degree: string | undefined;
 
+  addRole(role: Role): void{
+     this.userRoles.push(role);
+  }
+  removeRole(role: Role): void {
+    this.userRoles.filter(r => r !== role);
+  }
 
   constructor() {
     this._password = '1234';

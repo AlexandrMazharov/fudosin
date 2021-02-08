@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Person} from '../../models/person.model';
 import {map} from 'rxjs/operators';
+import {Role} from "../../models/role.model";
 
 
 @Injectable({
@@ -59,8 +60,8 @@ export class AccountManagementService {
     return this.http.post(this.url + '/upd/' + person.id + '/' + role,
       this.httpOptions
     );
-
   }
+
 
   removeRole(person: Person, role: string): Observable<any> {
     return this.http.post(this.url + '/remove/' + person.id + '/' + role, this.httpOptions);

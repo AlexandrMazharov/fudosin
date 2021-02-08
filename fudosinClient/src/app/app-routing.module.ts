@@ -8,13 +8,18 @@ import {AccountManagementComponent} from './modules/account-management/account-m
 import {PersonDetailComponent} from './components/person-detail/person-detail/person-detail.component';
 
 export const appRoutes: Routes = [
-  {path: 'account_management', component: AccountManagementComponent},
+  {
+    path: 'account_management',
+    component: AccountManagementComponent,
+    children: [
+      {path: 'detail/:id', component: PersonDetailComponent}
+    ]
+  },
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'lk', component: CabinetLogoComponent},
   {path: 'reset', component: ResetPasswordComponent},
-  {path: 'reg', component: CreateUserComponent},
-  {path: 'detail/:id', component: PersonDetailComponent}
+  {path: 'reg', component: CreateUserComponent}
   // {path: '**', component: CabinetComponent},
 ];
 

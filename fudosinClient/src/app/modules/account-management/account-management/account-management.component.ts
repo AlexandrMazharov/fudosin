@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountManagementService} from '../account-management.service';
 import {Person} from '../../../models/person.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-account-management',
@@ -15,7 +17,7 @@ export class AccountManagementComponent implements OnInit {
   private person: Person |  undefined;
   public length: number | undefined;
 
-  constructor(private accountService: AccountManagementService) {
+  constructor(private accountService: AccountManagementService, public router: Router) {
   }
 
   currentPageRender(): string {

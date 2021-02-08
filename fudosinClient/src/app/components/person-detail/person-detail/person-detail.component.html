@@ -15,15 +15,15 @@
   <div class="wrapper_field">
     <div class="wrapper_field_label">Роль</div>
     <div class="wrapper_field_input">
-      <div (click)="!studentChecked ? addStudentRole() : removeStudentRole()"><mat-checkbox [(ngModel)]="studentChecked">Ребёнок</mat-checkbox></div>
-      <div (click)="!parentChecked ? addParentRole() : removeParentRole()"><mat-checkbox [(ngModel)]="parentChecked">Родитель</mat-checkbox></div>
-      <div (click)="!trainerChecked ? addInstructorRole() : removeInstructorRole()"><mat-checkbox [(ngModel)]="trainerChecked">Тренер</mat-checkbox></div>
-      <div (click)="!adminChecked ? addAdminRole() : removeAdminRole()"><mat-checkbox [(ngModel)]="adminChecked">Администратор</mat-checkbox></div>
+      <mat-checkbox [(ngModel)]="studentChecked" (change)="studentChecked ? addStudentRole() : removeStudentRole()">Ребёнок</mat-checkbox>
+      <mat-checkbox [(ngModel)]="parentChecked" (change)="parentChecked ? addParentRole() : removeParentRole()">Родитель</mat-checkbox>
+      <mat-checkbox [(ngModel)]="trainerChecked" (change)="trainerChecked ? addInstructorRole() : removeInstructorRole()">Тренер</mat-checkbox>
+      <mat-checkbox [(ngModel)]="adminChecked" (change)="adminChecked ? addAdminRole() : removeAdminRole()">Администратор</mat-checkbox>
     </div>
   </div>
   <div class="wrapper_buttons">
     <div class="wrapper_buttons_button" (click)="goBack()">Отмена</div>
-    <div class="wrapper_buttons_button" (click)="save()">Подтвердить</div>
+    <div class="wrapper_buttons_button" (click)="veryVeryVeryVeryVeryTotalSave()">Подтвердить</div>
   </div>
 </div>
 
