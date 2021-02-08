@@ -329,11 +329,14 @@ public class DataLoader implements ApplicationRunner {
                 newParent.setUserRoles(rolesParent);
 
                 // заводим новое после в таблице student и связываем с Person
+                Parent parent = new Parent();
                 Student student = new Student();
+
+                student.setParent(parent);
                 student.setPerson(newStudent);
 
                 // заводим новое после в таблице parent и связываем с student
-                Parent parent = new Parent();
+
                 parent.setPerson(newParent);
                 parent.addStudent(student);
 

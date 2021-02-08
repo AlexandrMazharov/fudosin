@@ -11,6 +11,9 @@ import {CreateUserComponent} from './components/create-user/create-user.componen
 import {CabinetModule} from './modules/cabinet/cabinet.module';
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {PageFooterModule} from './modules/cabinet/cabinet/page-footer/page-footer.module';
+import {AccountManagementModule} from './modules/account-management/account-management.module';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {PersonDetailComponent} from './components/person-detail/person-detail/person-detail.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,7 @@ import {PageFooterModule} from './modules/cabinet/cabinet/page-footer/page-foote
     LoginComponent,
     CreateUserComponent,
     ResetPasswordComponent,
+    PersonDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,10 @@ import {PageFooterModule} from './modules/cabinet/cabinet/page-footer/page-foote
     CommonModule,
     HttpClientModule,
     CabinetModule,
-    PageFooterModule
+    PageFooterModule,
+    CabinetModule,
+    AccountManagementModule,
+    MatCheckboxModule
   ],
   providers: [],
   exports: [],

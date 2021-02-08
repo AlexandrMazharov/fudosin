@@ -1,25 +1,30 @@
-export class Role {
-  private _id: number;
-  private _name: string;
+import {Deserializable} from './Deserializable';
 
-  constructor(i: number, n: string) {
-    this._id = i;
-    this._name = n;
+export class Role implements Deserializable {
+  private _id: number | undefined;
+  private _name: string | undefined;
+
+  constructor() {
   }
 
-  get id(): number {
+  get id(): number | undefined {
     return this._id;
   }
 
-  set id(value: number) {
+  set id(value: number | undefined) {
     this._id = value;
   }
 
-  get name(): string {
+  get name(): string | undefined {
     return this._name;
   }
 
-  set name(value: string) {
+  set name(value: string | undefined) {
     this._name = value;
+  }
+
+  deserialize(input: any): any {
+    Object.assign(this, input);
+    return this;
   }
 }

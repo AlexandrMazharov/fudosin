@@ -1,6 +1,9 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,17 +16,25 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}
+    )
     @JoinColumn
     private Person person;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private Set<TrainingGroup> groups = new HashSet<>();
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Visit> visits = new HashSet<>();
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private Parent parent;
 
     public Student() {
     }
@@ -37,6 +48,15 @@ public class Student {
     }
 
     // getters and setters
+
+
+    public Parent getParent() {
+        return parent;
+    }
+
+    public void setParent(Parent parent) {
+        this.parent = parent;
+    }
 
     public Long getId() {
         return id;

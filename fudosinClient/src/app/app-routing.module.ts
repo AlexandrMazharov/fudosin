@@ -4,12 +4,21 @@ import {LoginComponent} from './components/login/login.component';
 import {CreateUserComponent} from './components/create-user/create-user.component';
 import {CabinetComponent} from './modules/cabinet/cabinet/cabinet.component';
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {AccountManagementComponent} from './modules/account-management/account-management/account-management.component';
+import {PersonDetailComponent} from './components/person-detail/person-detail/person-detail.component';
 import {RegGuard} from './guards/reg.guard';
 import {TimetableComponent} from './modules/cabinet/cabinet/pages/timetable/timetable.component';
 import {AttendComponent} from './modules/cabinet/cabinet/pages/attend/attend.component';
 import {MainComponent} from './modules/cabinet/cabinet/pages/main/main.component';
 
 export const appRoutes: Routes = [
+  {
+    path: 'account_management',
+    component: AccountManagementComponent,
+    children: [
+      {path: 'detail/:id', component: PersonDetailComponent}
+    ]
+  },
   {path: '', component: CabinetComponent, children: [
       {path: 'login', component: LoginComponent},
       {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
