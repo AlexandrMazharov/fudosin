@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {TimeService} from '../../services/time.service';
+import {CalendarTimeService} from '../../services/calendar-time.service';
 import {CalendarService} from '../../services/calendar.service';
 import {Lesson} from '../../../../models/lesson.model';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {StudentParentService} from '../../../../service/personalities/studentParent.service';
-import {MonthLesson} from '../../../../models/MonthLessons.model';
+import {StudentParentDictionary} from '../../services/student-parent.dictionary';
+import {StudentParentService} from '../../../../service/personalities/student-parent-http.service';
+import {Observable} from 'rxjs';
+import {MonthLesson} from "../../../../models/month-lessons.model";
+
 
 @Component({
   selector: 'app-calendar-day',
@@ -14,11 +17,14 @@ import {MonthLesson} from '../../../../models/MonthLessons.model';
 })
 export class CalendarDayComponent implements OnInit {
 
+  private d = new StudentParentDictionary();
   public year: number;
   public month: number;
   public day: number;
-  private role = 'student'; // student or parent
+  private role = this.d.userRoles.student; // student or parent
   private childsId: number[] = [];
+  public timeBegin: CalendarTimeService = new CalendarTimeService(0, 0);
+  public timeEnd: CalendarTimeService = new CalendarTimeService(0, 0);
 
   public lessons: Lesson[] = [];
 
@@ -29,11 +35,11 @@ export class CalendarDayComponent implements OnInit {
       this.day = 1;
     } else {
       // @ts-ignore
-      this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+      this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
       // @ts-ignore
-      this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+      this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
       // @ts-ignore
-      this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
+      this.day = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.day);
       if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11 || this.day < 1 || this.day > 31) {
         this.year = this.calendar.getYear();
         this.month = this.calendar.getMonth();
@@ -41,14 +47,37 @@ export class CalendarDayComponent implements OnInit {
       }
     }
 
-    this.getLessonsDay().then(lessons => {
-      this.lessons = lessons;
-    });
+    this.httpLessons();
 
   }
 
-  private getChilds(): Promise<number[]> {
+  private httpLessons(): void {
+    new Promise((resolve) => {
+      if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
+        this.role = this.d.userRoles.parent;
+        this.getChilds().subscribe(childsId => {
+          this.childsId = childsId;
+          resolve();
+        });
+      } else {
+        this.role = this.d.userRoles.student;
+        resolve();
+      }
+    }).then(() => {
+      this.getLessonsDay().subscribe(lessons => {
+        this.lessons = new MonthLesson(lessons, this.year, this.month).getLessonsByDay(this.day - 1);
+      });
+    });
+  }
+
+  private getChilds(): Observable<number[]> {
     return this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id);
+  }
+
+  turn(): void {
+    const t = setTimeout(() => {
+      this.httpLessons();
+    }, 100);
   }
 
   ngOnInit(): void {
@@ -56,41 +85,30 @@ export class CalendarDayComponent implements OnInit {
 
   ngDoCheck(): void {
     // @ts-ignore
-    this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+    this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
     // @ts-ignore
-    this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+    this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
     // @ts-ignore
-    this.day = +this.activatedRoute.snapshot.paramMap.get('day_id');
+    this.day = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.day);
+    if (this.lessons.length > 0) {
+      this.timeBegin = this.getTimeBegin();
+      this.timeEnd = this.getTimeEnd();
+    }
   }
 
-  private getLessonsDay(): Promise<Lesson[]> {
-    return new Promise<Lesson[]>(resolve => {
-      if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
-        this.role = 'parent';
-        // @ts-ignore
-        const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
-
-        if (studId === null) {
-          this.getChilds().then(data => {
-            this.childsId = data;
-          }).then(() => {
-            this.studentParentService.getLessonsMonth(this.childsId[0], this.year, this.month).then(allMonth => {
-              resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
-            });
-          });
-
-        } else {
-          this.studentParentService.getLessonsMonth(+studId, this.year, this.month).then(allMonth => {
-            resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
-          });
-        }
+  private getLessonsDay(): Observable<Lesson[]> {
+    let id = 0;
+    if (this.role === this.d.userRoles.student) {
+      id = this.tokenStorageService.getPerson().id;
+    } else {
+      if (this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student) === null) {
+        id = this.childsId[0];
       } else {
-        this.role = 'student';
-        this.studentParentService.getLessonsMonth(this.tokenStorageService.getPerson().id, this.year, this.month).then(allMonth => {
-          resolve(new MonthLesson(allMonth, this.year, this.month).getLessonsByDay(this.day - 1));
-        });
+        // @ts-ignore
+        id = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
       }
-    });
+    }
+    return this.studentParentService.getDayLessonsTimetable(id, this.year, this.month, this.day);
   }
 
   getLink(direction: number): string {
@@ -138,12 +156,12 @@ export class CalendarDayComponent implements OnInit {
     return result;
   }
 
-  getTimeBegin(): TimeService {
-    return new TimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute);
+  getTimeBegin(): CalendarTimeService {
+    return new CalendarTimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute);
   }
 
-  getTimeEnd(): TimeService {
-    return new TimeService(this.lessons[this.lessons.length - 1].timeEnd.hour, this.lessons[this.lessons.length - 1].timeEnd.minute);
+  getTimeEnd(): CalendarTimeService {
+    return new CalendarTimeService(this.lessons[this.lessons.length - 1].timeEnd.hour, this.lessons[this.lessons.length - 1].timeEnd.minute);
   }
 
   getStyle(id: number): string {
@@ -153,7 +171,7 @@ export class CalendarDayComponent implements OnInit {
     } else {
       top = (this.lessons[0].timeBegin.minute - 30) * (4 / 3);
     }
-    top += TimeService.getHeight(new TimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute), new TimeService(this.lessons[id].timeBegin.hour, this.lessons[id].timeBegin.minute));
+    top += CalendarTimeService.getHeight(new CalendarTimeService(this.lessons[0].timeBegin.hour, this.lessons[0].timeBegin.minute), new CalendarTimeService(this.lessons[id].timeBegin.hour, this.lessons[id].timeBegin.minute));
     return `top: ${top + 13}px`;
   }
 

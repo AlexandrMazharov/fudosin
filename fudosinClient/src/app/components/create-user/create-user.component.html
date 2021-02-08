@@ -1,5 +1,5 @@
   <div class="registration">
-    <h1 class="registration__header">Будем знакомы!</h1>
+    <h1 class="registration__header">Новый пользователь</h1>
     <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
       <div>
         <label for="username">Username</label>
@@ -21,9 +21,9 @@
         <input type="email" name="email" id="email" [(ngModel)]="form.email" required email
                #email="ngModel" placeholder="E-Mail"/>
         <div *ngIf="f.submitted && email.invalid">
-          <div *ngIf="email.errors?.required">Email is required</div>
+          <div *ngIf="email.errors?.required">* Введите e-mail</div>
           <div *ngIf="email.errors?.email">
-            Email must be a valid email address
+            * Введите действительный e-mail адрес
           </div>
         </div>
       </div>
@@ -38,22 +38,19 @@
           </div>
         </div>
       </div>
-      <div class="registration__label">
-        Роль :
-      </div>
       <div>
-        <select [(ngModel)]="form.roles" name="role" id="role" >
-          <option value="STUDENT">STUDENT</option>
-          <option value="PARENT">PARENT</option>
-          <option value="STUDENT, PARENT">STUDENT+PARENT</option>
-          <option value="INSTRUCTOR">INSTRUCTOR</option>
-          <option value="INSTRUCTOR, ADMIN">ADMIN</option>
+        <select required [(ngModel)]="form.roles" name="role" id="role">
+          <option [ngValue]="undefined" selected hidden>Выберите роль</option>
+          <option value="STUDENT">Ученик</option>
+          <option value="PARENT">Родитель</option>
+          <option value="STUDENT, PARENT">Ученик-родитель</option>
+          <option value="INSTRUCTOR">Преподаватель</option>
+          <option value="INSTRUCTOR, ADMIN">Администратор</option>
         </select>
       </div>
       <div>
         <button>Зарегистрировать</button>
       </div>
-
       <div *ngIf="f.submitted && isSignUpFailed">
         Signup failed!<br/>{{ errorMessage }}
       </div>

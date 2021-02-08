@@ -2,30 +2,36 @@
 
 .logo {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  margin: -3px -5px;
 
   &__img {
     background: @bg-logo;
-    width: 39px;
-    height: 39px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     line-height: 39px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
 
     img {
-      margin: 0 auto;
+      width: 41px;
+      height: 41px;
     }
   }
 
   &__title {
-    h1 {
-      font-style: normal;
-      font-weight: bold;
       font-size: 22px;
       line-height: 26px;
       color: white;
+      font-style: normal;
+      font-weight: bold;
       text-transform: uppercase;
-      margin-right: 40px;
-    }
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 10px;
   }
 }

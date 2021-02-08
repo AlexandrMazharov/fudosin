@@ -14,17 +14,17 @@
 
   <div class="year-calendar">
     <div class="year-calendar__row" *ngFor="let i of rows">
-      <div class="year-calendar__month">
+      <div class="year-calendar__month" [ngClass]="now(i + i * 2)">
         <a class="year-calendar__month link"
-            [routerLink]="year + '/'+(i + i * 2)">{{getMonthString(i + i * 2)}}</a>
+           [routerLink]="year + '/'+(i + i * 2)">{{getMonthString(i + i * 2)}}</a>
       </div>
-      <div class="year-calendar__month">
+      <div class="year-calendar__month" [ngClass]="now(i + 1 + i * 2)">
         <a class="year-calendar__month link"
-            [routerLink]="year + '/'+(i + 1 + i * 2)">{{getMonthString(i + 1 + i * 2)}}</a>
+           [routerLink]="year + '/'+(i + 1 + i * 2)">{{getMonthString(i + 1 + i * 2)}}</a>
       </div>
-      <div class="year-calendar__month">
+      <div class="year-calendar__month" [ngClass]="now(i + 2 + i * 2)">
         <a class="year-calendar__month link"
-            [routerLink]="year + '/'+(i + 2 + i * 2)">{{getMonthString(i + 2 + i * 2)}}</a>
+           [routerLink]="year + '/'+(i + 2 + i * 2)">{{getMonthString(i + 2 + i * 2)}}</a>
       </div>
     </div>
   </div>

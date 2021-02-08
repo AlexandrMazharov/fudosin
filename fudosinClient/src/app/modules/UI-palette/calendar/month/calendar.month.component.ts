@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {CalendarService} from '../../services/calendar.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TokenStorageService} from '../../../../service/token-storage/token-storage.service';
-import {Lesson} from '../../../../models/lesson.model';
-import {StudentParentService} from '../../../../service/personalities/studentParent.service';
-import {MonthLesson} from '../../../../models/MonthLessons.model';
+import {MonthLesson} from '../../../../models/month-lessons.model';
+import {PdfCreateService} from '../../../../service/pdfDoc/pdf-create.service';
+import {StudentParentDictionary} from '../../services/student-parent.dictionary';
+import {StudentParentService} from '../../../../service/personalities/student-parent-http.service';
 
 @Component({
   selector: 'app-calendar-month',
@@ -13,12 +14,14 @@ import {MonthLesson} from '../../../../models/MonthLessons.model';
 })
 export class CalendarMonthComponent implements OnInit {
 
+  public d = new StudentParentDictionary();
   public year: number;
   public month: number; // January is 0, etc.
   public dayRows: number[][];
   public type: string; // attend or timetable
-  public role = 'student'; // student or parent
+  public role = this.d.userRoles.student; // student or parent
   public childs: string[] = [];
+  public monthName = '';
   private childsId: number[] = [];
 
   public lessons: MonthLesson = new MonthLesson([], 0, 0);
@@ -29,24 +32,24 @@ export class CalendarMonthComponent implements OnInit {
     if (this.activatedRoute == null) {
       this.year = calendar.getYear();
       this.month = calendar.getMonth();
-      this.type = 'attend';
+      this.type = this.d.calendarTypeWork.attend;
     } else {
       // @ts-ignore
-      this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+      this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
       // @ts-ignore
-      this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+      this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
       if (this.year < 1970 || this.year > 2100 || this.month < 0 || this.month > 11) {
         this.year = calendar.getYear();
         this.month = calendar.getMonth();
       }
-      if (this.route.url.includes('/attend/')) {
-        this.type = 'attend';
+      if (this.route.url.includes(this.d.URLmarks.ifAsAttend)) {
+        this.type = this.d.calendarTypeWork.attend;
       } else {
-        this.type = 'timetable';
+        this.type = this.d.calendarTypeWork.timetable;
       }
     }
     this.dayRows = this.fillMonth(calendar.getWeekDay(this.year, this.month, 0));
-
+    this.monthName = this.getMonth();
     this.httpInit();
   }
 
@@ -94,33 +97,14 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   httpInit(): void {
-    if (this.tokenStorageService.getPerson().roles.includes('ROLE_PARENT')) {
-      this.role = 'parent';
-      this.getChilds().then(data => {
-        this.childsId = data;
-      }).then(() => {
-        this.studentParentService.getFullNames(this.childsId, 0, []).then(names => {
-          this.childs = names;
-        });
-      }).then(() => {
-        const studId = this.activatedRoute.snapshot.paramMap.get('stud_id');
-        if (studId !== null) {
-          this.getLessons(+studId).then(data => {
-            this.lessons = new MonthLesson(data, this.year, this.month);
-          });
-        } else {
-          this.getLessons(this.childsId[0]).then(lessons => {
-            this.lessons = new MonthLesson(lessons, this.year, this.month);
-          });
-        }
-      });
+    if (this.tokenStorageService.getPerson().roles.includes(this.d.ERoles.parent)) {
+      this.role = this.d.userRoles.parent;
+      this.getChilds();
     } else {
-      this.role = 'student';
+      this.role = this.d.userRoles.student;
       this.childs = [];
       this.childsId = [];
-      this.getLessons(this.tokenStorageService.getPerson().id).then(lessons => {
-        this.lessons = new MonthLesson(lessons, this.year, this.month);
-      });
+      this.getLessons(this.tokenStorageService.getPerson().id);
     }
   }
 
@@ -133,30 +117,64 @@ export class CalendarMonthComponent implements OnInit {
 
   ngDoCheck() {
     // @ts-ignore
-    this.year = +this.activatedRoute.snapshot.paramMap.get('year_id');
+    this.year = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.year);
     // @ts-ignore
-    this.month = +this.activatedRoute.snapshot.paramMap.get('month_id');
+    this.month = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.month);
     this.dayRows = this.fillMonth(this.calendar.getWeekDay(this.year, this.month, 0));
+    this.monthName = this.getMonth();
   }
 
   getChildLink(id: number): string {
-    if (this.route.url.includes('/s/')) {
+    if (this.route.url.includes(this.d.URLmarks.ifAsParent)) {
       return `../../../../s/${this.childsId[id]}/${this.year}/${this.month}`;
     } else {
       return `../../s/${this.childsId[id]}/${this.year}/${this.month}`;
     }
   }
 
-  private getChilds(): Promise<number[]> {
-    return this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id);
+  private getChilds(): void {
+    this.studentParentService.getChildsId(this.tokenStorageService.getPerson().id)
+      .subscribe(arr => {
+        this.childsId = arr;
+        this.studentParentService.getFullNames(this.childsId).subscribe(names => {
+          this.childs = names;
+          this.getLessons(this.childsId[0]);
+        });
+      });
   }
 
-  getLessons(id: number): Promise<Lesson[]> {
-    return this.studentParentService.getLessonsMonth(id, this.year, this.month);
+  private getLessons(idPerson: number): void {
+    let studId;
+    if (this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student) !== null) {
+      // @ts-ignore
+      studId = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
+    } else {
+      studId = idPerson;
+    }
+    if (this.type === this.d.calendarTypeWork.attend) {
+      this.studentParentService.getMonthLessonsAttend(studId, this.year, this.month)
+        .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
+    } else {
+      this.studentParentService.getMonthLessonsTimetable(studId, this.year, this.month)
+        .subscribe(lessons => this.lessons = new MonthLesson(lessons, this.year, this.month));
+    }
   }
 
   createDocumentAttend(): void {
-
+    let id = 0;
+    if (this.role === this.d.userRoles.student) {
+      id = this.tokenStorageService.getPerson().id;
+    } else {
+      if (this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student) === null) {
+        id = this.childsId[0];
+      } else {
+        // @ts-ignore
+        id = +this.activatedRoute.snapshot.paramMap.get(this.d.URLparams.student);
+      }
+    }
+    this.studentParentService.getFullName(id).subscribe(fullName => {
+      new PdfCreateService(`${fullName}`, this.lessons, this.year, this.month).create();
+    });
   }
 
   getMonth(): string {
@@ -188,10 +206,14 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   firstActivated(i: number): string {
-    if (!this.route.url.includes('/s/') && this.role === 'parent' && i === 0) {
+    if (this.role === this.d.userRoles.parent && i === 0) {
       return `active-tab`;
     } else {
-      return `active-tab`;
+      return '';
     }
+  }
+
+  now(day: number): boolean {
+    return (day === this.calendar.getDay() && this.month === this.calendar.getMonth())
   }
 }

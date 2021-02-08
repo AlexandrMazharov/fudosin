@@ -3,20 +3,20 @@
 
     <div class="day-header">
       <div class="day-header__left-arrow">
-        <img class="day-header__left-arrow_img" src="../assets/images/elements/left-arrow.svg"
+        <img class="day-header__left-arrow_img" src="../assets/images/elements/left-arrow.svg" (click)="turn()"
              [routerLink]="getLink(-1)">
       </div>
       <div class="day-header__number">
         <h3 class="day-header__number_inner">{{day}} {{getMonth()}} {{year}}</h3>
       </div>
       <div class="day-header__right-arrow">
-        <img class="day-header__right-arrow_img" src="../assets/images/elements/right-arrow.svg"
+        <img class="day-header__right-arrow_img" src="../assets/images/elements/right-arrow.svg" (click)="turn()"
              [routerLink]="getLink(1)">
       </div>
     </div>
 
     <div class="day-body" *ngIf="lessons.length !== 0">
-      <app-timeline [timeBegin]="getTimeBegin()" [timeEnd]="getTimeEnd()"></app-timeline>
+      <app-timeline [timeBegin]="timeBegin" [timeEnd]="timeEnd"></app-timeline>
       <div class="day-lessons">
         <app-day-part-lesson [style]="getStyle(i)" *ngFor="let lesson of lessons; let i = index" [lesson]="lesson"></app-day-part-lesson>
       </div>

@@ -1,12 +1,12 @@
-<div class="day-inner">
-  <div class="day-inner-lessons">
-    <div class="day-inner-lessons__lesson" *ngFor="let lesson of lessons">
-      <div class="lesson__light" [ngClass]="getLight(lesson)"></div>
-      <div class="lesson__title">{{getTitle(lesson)}}</div>
+<div class="day-inner" [routerLink]="getLink()" [style]="nowDays()">
+    <div class="day-inner-lessons">
+      <div class="day-inner-lessons__lesson" *ngFor="let lesson of lessons">
+        <div class="lesson__light" [ngClass]="getLight(lesson)"></div>
+        <div class="lesson__title">{{getTitle(lesson)}}</div>
+      </div>
     </div>
-  </div>
 
-  <div class="day-inner-number">
-    <a class="number__link" [routerLink]="getLink()">{{title}}</a>
-  </div>
+    <div class="day-inner-number">
+      <p class="number__link">{{title}}</p>
+    </div>
 </div>
