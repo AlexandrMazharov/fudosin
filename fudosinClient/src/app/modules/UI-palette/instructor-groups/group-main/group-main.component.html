@@ -15,9 +15,9 @@
   <div class="main-style-line"></div>
 
   <div class="main-groups">
-    <div class="main-groups__row">
-      <p class="main-groups__column name">{{'Группа 1'}}</p>
-      <p class="main-groups__column instructor">{{'Инструктор 1'}}</p>
+    <div class="main-groups__row" *ngFor="let group of groups">
+      <p class="main-groups__column name">{{group[0]}}</p>
+      <p class="main-groups__column instructor">{{group[1]}}</p>
       <div class="main-groups__column buttons">
         <div class="button edit"><img src="assets/images/elements/edit-by-instructor.svg"></div>
         <div class="button delete"><img src="assets/images/elements/delete-by-instructor.svg"></div>

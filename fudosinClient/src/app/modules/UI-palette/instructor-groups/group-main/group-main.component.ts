@@ -19,9 +19,14 @@ export class GroupMainComponent implements OnInit {
     // this.instructorHttp.getGroups(this.token.getPerson().id).subscribe(groups => {
     //   this.groups = groups;
     // });
+    this.groups = this.getGroups();
   }
 
   ngOnInit(): void {
+  }
+
+  getGroups(): string[][] {
+    return [['Группа 1', 'Полежаев И.В.'], ['Группа 2', 'Самсонов К.В.'], ['Группа 3', 'Расторгуев С.А.']];
   }
 
   chooseDomain(domain: string): void {

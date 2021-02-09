@@ -35,8 +35,12 @@ export class InstructorHttpService {
     );
   }
 
-  getGroups(idPerson: number): Observable<string[][]> {
+  // getGroups(idPerson: number): Observable<string[][]> {
+  //
+  // }
 
-  }
+  // getStudentsOfGroup(idGroup: number): Observable<string[]> {
+  //
+  // }
 
 }

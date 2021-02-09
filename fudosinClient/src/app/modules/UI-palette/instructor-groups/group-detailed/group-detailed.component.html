@@ -1,36 +1,31 @@
 <div class="details-inner">
 
-  <p class="details-title text">{{'Группа 1'}}</p>
+  <p class="details-title">{{'Группа 1'}}</p>
 
   <div class="details-style-line"></div>
 
   <div class="details-body">
-    <p class="text title">Инструктор</p>
-    <div class="body details-persons">
-      <p>1</p>
-      <p>2</p>
-      <p>3</p>
-      <p>4</p>
+    <div class="details-body__section">
+      <p class="details-body__section title">Инструктор</p>
+      <app-drop-down-list class="details-body__context instructor" [list]="list" [type]="d.typeOfListWorking.show">
+      </app-drop-down-list>
     </div>
-  </div>
 
-  <div class="details-body">
-    <p class="text title">Ученики</p>
-    <div class="body details-persons">
-      <p>1</p>
-      <p>2</p>
-      <p>3</p>
-      <p>4</p>
+    <div class="details-body__section">
+      <p class="details-body__section title">Ученики</p>
+      <app-drop-down-list class="details-body__context students" [list]="list" [type]="d.typeOfListWorking.addShow"
+                          (add)="addStudent($event)">
+      </app-drop-down-list>
     </div>
-  </div>
 
-  <div class="details-body">
-    <p class="text title">Расписание</p>
-    <div class="body details-timetable">
-      <p>1</p>
-      <p>2</p>
-      <p>3</p>
-      <p>4</p>
+    <div class="details-body__section">
+      <p class="details-body__section title">Расписание</p>
+      <div class="details-body__context timetable">
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+      </div>
     </div>
   </div>
 
@@ -49,3 +44,4 @@
   </div>
 
 </div>
+

@@ -5,6 +5,7 @@ import {GroupDetailedComponent} from './group-detailed/group-detailed.component'
 import {GroupTimeComponent} from './group-time/group-time.component';
 import {RouterModule} from '@angular/router';
 import {InstructorHttpService} from '../../../service/personalities/instructor-http.service';
+import {DropDownListModule} from '../drop-down-list/drop-down-list.module';
 
 
 
@@ -12,7 +13,8 @@ import {InstructorHttpService} from '../../../service/personalities/instructor-h
   declarations: [GroupMainComponent, GroupDetailedComponent, GroupTimeComponent],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    DropDownListModule
   ],
   providers: [InstructorHttpService]
 })
