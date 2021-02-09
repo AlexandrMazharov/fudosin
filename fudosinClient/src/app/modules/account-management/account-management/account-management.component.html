@@ -1,3 +1,4 @@
+<app-page-header></app-page-header>
 <router-outlet *ngIf="this.router.url.includes('detail')"></router-outlet>
 <div class="wrapper" *ngIf="!this.router.url.includes('detail')">
   <div class="wrapper_title">
@@ -11,7 +12,7 @@
     <div class="wrapper_persons_item_lastname">{{person.lastName + ' ' +  person.firstName?.slice(0, 1) + '.' + ' ' + person.secondName?.slice(0, 1) + '.'}}</div>
     <div class="wrapper_persons_item_degree">{{person.degree}}</div>
     <div class="wrapper_persons_item_icons">
-      <img class="wrapper_persons_item_icons_icon" src="assets/images/icons/update.svg" alt="" routerLink="/account_management/detail/{{person.id}}">
+      <img class="wrapper_persons_item_icons_icon" src="assets/images/icons/update.svg" alt="" routerLink="./detail/{{person.id}}">
       <img class="wrapper_persons_item_icons_icon" src="assets/images/icons/bucket.svg" alt="" (click)="delete(person)">
     </div>
   </li>

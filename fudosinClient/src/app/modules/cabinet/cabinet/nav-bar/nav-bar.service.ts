@@ -18,6 +18,7 @@ export class NavService {
     'bills',
     'reg',
     'groups',
+    'account_management'
   ];
 
   private static items: string[] = [
@@ -28,13 +29,14 @@ export class NavService {
     'Оплата обучения',
     'Пользователи',
     'Учебные группы',
+    'Учетные записи'
   ];
 
   private static roleKeys = {
     student: [0, 1, 2],
     parent: [0, 1, 2, 3],
     trainer: [0, 1, 2, 4, 7],
-    admin: [0, 1, 2, 3, 4, 5, 6]
+    admin: [0, 1, 2, 3, 4, 5, 6, 7]
   };
 
   private static sumBoth(mas1: number[], mas2: number[]): number[] {

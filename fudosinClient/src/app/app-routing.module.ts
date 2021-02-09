@@ -12,13 +12,6 @@ import {AttendComponent} from './modules/cabinet/cabinet/pages/attend/attend.com
 import {MainComponent} from './modules/cabinet/cabinet/pages/main/main.component';
 
 export const appRoutes: Routes = [
-  {
-    path: 'account_management',
-    component: AccountManagementComponent,
-    children: [
-      {path: 'detail/:id', component: PersonDetailComponent}
-    ]
-  },
   {path: '', component: CabinetComponent, children: [
       {path: 'login', component: LoginComponent},
       {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
@@ -28,6 +21,7 @@ export const appRoutes: Routes = [
           {path: 'timetable', component: TimetableComponent, loadChildren: './modules/cabinet/cabinet/pages/timetable/timetable.module#TimetableModule'},
           {path: 'attend', component: AttendComponent, loadChildren: './modules/cabinet/cabinet/pages/attend/attend.module#AttendModule'},
           {path: 'main', component: MainComponent, loadChildren: './modules/cabinet/cabinet/pages/main/main.module#MainModule'},
+          {path: 'account_management', component: AccountManagementComponent, children: [{path: 'detail/:id', component: PersonDetailComponent}]},
         ]},
       {path: '**', component: LoginComponent},
     ]},
