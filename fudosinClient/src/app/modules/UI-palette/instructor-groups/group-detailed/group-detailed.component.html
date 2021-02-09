@@ -7,24 +7,28 @@
   <div class="details-body">
     <div class="details-body__section">
       <p class="details-body__section title">Инструктор</p>
-      <app-drop-down-list class="details-body__context instructor" [list]="list" [type]="d.typeOfListWorking.show">
+      <app-drop-down-list class="details-body__context instructor" [list]="listCopy" [type]="d.typeOfListWorking.show">
       </app-drop-down-list>
     </div>
 
     <div class="details-body__section">
       <p class="details-body__section title">Ученики</p>
-      <app-drop-down-list class="details-body__context students" [list]="list" [type]="d.typeOfListWorking.addShow"
-                          (add)="addStudent($event)">
-      </app-drop-down-list>
+      <div class="details-body__context">
+        <div class="details-body__context_added" *ngIf="addedStudents.length !== 0">
+          <div class="details-body__item" *ngFor="let student of addedStudents">
+            <p class="item-student">{{student}}</p>
+            <img src="assets/images/elements/delete.svg" (click)="deleteStudent(student)">
+          </div>
+        </div>
+        <app-drop-down-list class="details-body__context_students" [list]="list" [type]="d.typeOfListWorking.addShow"
+                            (add)="addStudent($event)">
+        </app-drop-down-list>
+      </div>
     </div>
 
     <div class="details-body__section">
       <p class="details-body__section title">Расписание</p>
       <div class="details-body__context timetable">
-        <p>1</p>
-        <p>2</p>
-        <p>3</p>
-        <p>4</p>
       </div>
     </div>
   </div>

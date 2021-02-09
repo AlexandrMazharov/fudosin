@@ -24,6 +24,18 @@
     flex-direction: column;
     margin: 0 50px;
 
+    &__context_students{
+      margin: 0 0 20px;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: row;
+      width: 400px;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
     &__section {
       display: flex;
       flex-direction: row;
@@ -52,14 +64,19 @@
   }
 }
 
+.item-student {
+  .text;
+}
+
 .button-click {
   &__button {
-    width: 110px;
     .text;
     background: none;
     border: none;
 
-
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 

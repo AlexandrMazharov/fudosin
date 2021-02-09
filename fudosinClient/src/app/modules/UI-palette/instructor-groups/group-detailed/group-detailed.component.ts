@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {InstructorHttpService} from '../../../../service/personalities/instructor-http.service';
 import {InstructorDictionary} from '../../services/instructor.dictionary';
@@ -11,7 +11,7 @@ import {InstructorDictionary} from '../../services/instructor.dictionary';
 export class GroupDetailedComponent implements OnInit {
 
   public d = new InstructorDictionary();
-  private listCopy: string[] = [];
+  public listCopy: string[] = [];
   public list: string[] = [];
   public addedStudents: string[] = [];
 
@@ -34,6 +34,18 @@ export class GroupDetailedComponent implements OnInit {
 
   addStudent($event: string): void {
     this.addedStudents.push($event);
+  }
+
+  deleteStudent(student: string): void {
+    this.list.push(student);
+    let id = 0;
+    for (let i = 0; i < this.addedStudents.length; ++i) {
+      if (student === this.addedStudents[i]) {
+        break;
+      }
+      ++id;
+    }
+    this.addedStudents.splice(id, 1);
   }
 
   reject(): void {
