@@ -1,4 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterContentInit, AfterViewChecked, AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  OnChanges,
+  OnInit
+} from '@angular/core';
 import {AccountManagementService} from '../account-management.service';
 import {Person} from '../../../models/person.model';
 import { Router } from '@angular/router';
@@ -19,6 +27,10 @@ export class AccountManagementComponent implements OnInit {
 
   constructor(private accountService: AccountManagementService, public router: Router) {
   }
+
+  /*public onActivate(event: any): void {
+    event.person;
+  }*/
 
   currentPageRender(): string {
     let firstPos: string = this.currentChunk  + '1';
@@ -73,7 +85,9 @@ export class AccountManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPersons();
+    console.log('ngOnInit');
   }
+
 
 
   delete(person: Person): void {

@@ -1,6 +1,5 @@
 <app-page-header></app-page-header>
-<router-outlet *ngIf="this.router.url.includes('detail')"></router-outlet>
-<div class="wrapper" *ngIf="!this.router.url.includes('detail')">
+<div class="wrapper">
   <div class="wrapper_title">
     <span class="wrapper_title_arrow" (click)="decrease()"><img src="assets/images/icons/arrow.svg" alt=""></span>
     {{currentPageRender()}} из {{length}}

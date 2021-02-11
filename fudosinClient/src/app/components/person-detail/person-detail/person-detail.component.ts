@@ -26,12 +26,11 @@ export class PersonDetailComponent implements OnInit {
   trainerChecked = false;
   adminChecked = false;
 
-
   constructor(
     private route: ActivatedRoute,
     private accountService: AccountManagementService,
     private roleService: RoleService,
-    private location: Location
+    private location: Location,
   ) {
   }
 
@@ -90,6 +89,7 @@ export class PersonDetailComponent implements OnInit {
 
   veryVeryVeryVeryVeryTotalSave(): void {
     this.save().subscribe(() => {
+
       this.goBack();
     });
   }

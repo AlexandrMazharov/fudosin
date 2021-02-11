@@ -16,16 +16,17 @@ export const appRoutes: Routes = [
       {path: 'login', component: LoginComponent},
       {path: 'reg', component: CreateUserComponent, canActivate: [RegGuard]},
       {path: 'reset', component: ResetPasswordComponent},
+      // tslint:disable-next-line:max-line-length
       {path: 'lk', children: [
           {path: '', redirectTo: 'timetable', pathMatch: 'full'},
+          {path: 'account_management', component: AccountManagementComponent},
+          {path: 'account_management/detail/:id', component: PersonDetailComponent},
           {path: 'timetable', component: TimetableComponent, loadChildren: './modules/cabinet/cabinet/pages/timetable/timetable.module#TimetableModule'},
           {path: 'attend', component: AttendComponent, loadChildren: './modules/cabinet/cabinet/pages/attend/attend.module#AttendModule'},
           {path: 'main', component: MainComponent, loadChildren: './modules/cabinet/cabinet/pages/main/main.module#MainModule'},
-          {path: 'account_management', component: AccountManagementComponent, children: [{path: 'detail/:id', component: PersonDetailComponent}]},
         ]},
       {path: '**', component: LoginComponent},
     ]},
-
 ];
 
 @NgModule({
