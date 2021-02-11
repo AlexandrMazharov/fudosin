@@ -1,19 +1,28 @@
 import {Role} from './role.model';
+import {Deserializable} from './Deserializable';
 
-export class Person {
+export class Person implements Deserializable{
+
   private _id: number | undefined;
 
   private _firstName: string | undefined;
   private _secondName: string | undefined;
-  private _LastName: string | undefined;
+  private _lastName: string | undefined;
   private _telephone: number | undefined;
   private _parentId: Person | undefined;
   private _email: string | undefined;
   private _birthDay: Date | undefined;
-  private _roles: Role[] | undefined;
+  private _userRoles!: Role[] ;
   private _password: string;
   private _username: string;
+  private _degree: string | undefined;
 
+  addRole(role: Role): void{
+     this.userRoles.push(role);
+  }
+  removeRole(role: Role): void {
+    this.userRoles.filter(r => r !== role);
+  }
 
   constructor() {
     this._password = '1234';
@@ -45,12 +54,12 @@ export class Person {
     this._secondName = value;
   }
 
-  get LastName(): string | undefined {
-    return this._LastName;
+  get lastName(): string | undefined {
+    return this._lastName;
   }
 
-  set LastName(value: string | undefined) {
-    this._LastName = value;
+  set lastName(value: string | undefined) {
+    this._lastName = value;
   }
 
   get telephone(): number | undefined {
@@ -59,6 +68,15 @@ export class Person {
 
   set telephone(value: number | undefined) {
     this._telephone = value;
+  }
+
+
+  get degree(): string | undefined {
+    return this._degree;
+  }
+
+  set degree(value: string | undefined) {
+    this._degree = value;
   }
 
   get parentId(): Person | undefined {
@@ -86,12 +104,13 @@ export class Person {
   }
 
 
-  get roles(): Role[] | undefined {
-    return this._roles;
+  get userRoles(): Role[]  {
+    return this._userRoles;
   }
 
-  set roles(value: Role[] | undefined) {
-    this._roles = value;
+
+  set userRoles(value: Role[]) {
+    this._userRoles = value;
   }
 
   get password(): string {
@@ -109,4 +128,11 @@ export class Person {
   set username(value: string) {
     this._username = value;
   }
+
+  deserialize(input: any): this {
+    Object.assign(this, input);
+    return this;
+  }
+
+
 }
